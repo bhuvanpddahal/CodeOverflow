@@ -1,12 +1,20 @@
+"use client";
+
 import Link from "next/link";
-import { buttonVariants } from "./ui/Button";
+
 import { cn } from "@/lib/utils";
-import { getAuthSession } from "@/lib/auth";
+import { logOut } from "@/actions/logOut";
+import { Button, buttonVariants } from "./ui/Button";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
-const Navbar = async () => {
-    const session = await getAuthSession();
-    console.log(session);
+const Navbar = () => {
+    const user = useCurrentUser();
+    console.log('Inside navbar, user: ', user);
 
+    const logout = () => {
+        logOut();
+    };
+    
     return (
         <nav className="bg-white sticky top-0 py-2 border-b border-zinc-300">
             <div className="container flex items-center justify-between">
@@ -21,8 +29,10 @@ const Navbar = async () => {
                 </div>
 
                 <div className="flex gap-2">
-                    {session ? (
-                        <p>You're logged in</p>
+                    {!!user ? (
+                        <Button onClick={logout}>
+                            Log out
+                        </Button>
                     ) : (
                         <>
                             <Link href='/log-in' className={cn(buttonVariants({ variant: 'outline' }))}>

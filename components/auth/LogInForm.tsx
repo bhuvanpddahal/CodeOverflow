@@ -20,7 +20,7 @@ import {
     FormMessage
 } from "../ui/Form";
 import { Input } from "../ui/Input";
-import { logIn } from "@/actions/auth";
+import { logIn } from "@/actions/logIn";
 
 const LogInForm = () => {
     const [error, setError] = useState('');
@@ -44,10 +44,10 @@ const LogInForm = () => {
                 if (data?.error) {
                     setError(data.error);
                 }
-                if (data?.success) {
-                    form.reset();
-                    setSuccess(data.success);
-                }
+                // if (data?.success) {
+                //     form.reset();
+                //     setSuccess(data.success);
+                // }
             }).catch(() => {
                 setError("Something went wrong");
             });

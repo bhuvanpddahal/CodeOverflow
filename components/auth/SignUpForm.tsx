@@ -20,7 +20,7 @@ import {
     FormMessage
 } from "../ui/Form";
 import { Input } from "../ui/Input";
-import { signUp } from "@/actions/auth";
+import { signUp } from "@/actions/signUp";
 
 const SignUpForm = () => {
     const [error, setError] = useState('');
@@ -110,6 +110,7 @@ const SignUpForm = () => {
                                             {...field}
                                             placeholder='******'
                                             type='password'
+                                            autoComplete="on"
                                             disabled={isLoading}
                                         />
                                     </FormControl>

@@ -1,9 +1,11 @@
 "use client";
 
+import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
 import { Button } from "../ui/Button";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 interface SocialButtonsProp {
     auth: string;
@@ -12,10 +14,10 @@ interface SocialButtonsProp {
 const SocialButtons = ({ auth }: SocialButtonsProp) => {
     const isLoading = false;
     const loginWithSocial = (provider: "google" | "github") => {
-        // signIn(provider, {
-        //     callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT
-        // });
         console.log("Trying to login with ", provider);
+        signIn(provider, {
+            callbackUrl: DEFAULT_LOGIN_REDIRECT
+        });
     };
 
     return (
@@ -30,7 +32,7 @@ const SocialButtons = ({ auth }: SocialButtonsProp) => {
                 {auth} with Google
             </Button>
             <Button
-                onClick={() => loginWithSocial("github")}
+                // onClick={() => loginWithSocial("github")}
                 isLoading={isLoading}
                 className='w-full shadow my-2'
             >
