@@ -32,7 +32,7 @@ const SocialButtons = ({ auth }: SocialButtonsProp) => {
                 {auth} with Google
             </Button>
             <Button
-                // onClick={() => loginWithSocial("github")}
+                onClick={() => loginWithSocial("github")}
                 isLoading={isLoading}
                 className='w-full shadow my-2'
             >
