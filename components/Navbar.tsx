@@ -2,22 +2,19 @@
 
 import Link from "next/link";
 
+import Searchbar from "./Searchbar";
+import UserAccountNav from "./UserAccountNav";
 import { cn } from "@/lib/utils";
 import { logOut } from "@/actions/logOut";
-import { Button, buttonVariants } from "./ui/Button";
+import { buttonVariants } from "./ui/Button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 const Navbar = () => {
     const user = useCurrentUser();
-    console.log('Inside navbar, user: ', user);
-
-    const logout = () => {
-        logOut();
-    };
     
     return (
-        <nav className="bg-white sticky top-0 py-2 border-b border-zinc-300">
-            <div className="container flex items-center justify-between">
+        <nav className="bg-white sticky top-0 py-2 border-b border-zinc-300 z-10">
+            <div className="container flex items-center justify-between gap-3">
                 <div>
                     <Link href='/'>
                         <img
@@ -28,11 +25,13 @@ const Navbar = () => {
                     </Link>
                 </div>
 
+                <Searchbar />
+
                 <div className="flex gap-2">
                     {!!user ? (
-                        <Button onClick={logout}>
-                            Log out
-                        </Button>
+                        <UserAccountNav
+                            user={user}
+                        />
                     ) : (
                         <>
                             <Link href='/log-in' className={cn(buttonVariants({ variant: 'outline' }))}>

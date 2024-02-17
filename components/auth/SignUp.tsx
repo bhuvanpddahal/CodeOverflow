@@ -16,9 +16,7 @@ const SignUp = () => {
 
             <SignUpForm />
 
-            <SocialButtons
-                auth="Sign up"
-            />
+            <SocialButtons />
 
             <p className='px-8 text-center text-sm text-zinc-700'>
                 Already have an account?{' '}

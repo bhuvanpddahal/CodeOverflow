@@ -15,9 +15,12 @@ const config = {
       padding: "2rem",
       screens: {
         "2xl": "1400px",
-      },
+      }
     },
     extend: {
+      spacing: {
+        rem: "calc(100vh - 57px)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

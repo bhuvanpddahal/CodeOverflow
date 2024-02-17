@@ -16,9 +16,7 @@ const LogIn = () => {
 
             <LogInForm />
 
-            <SocialButtons
-                auth="Log in"
-            />
+            <SocialButtons />
 
             <p className='px-8 text-center text-sm text-zinc-700'>
                 Don't have an account?{' '}

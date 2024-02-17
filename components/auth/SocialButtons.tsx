@@ -7,11 +7,7 @@ import { FaGithub } from "react-icons/fa";
 import { Button } from "../ui/Button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
-interface SocialButtonsProp {
-    auth: string;
-}
-
-const SocialButtons = ({ auth }: SocialButtonsProp) => {
+const SocialButtons = () => {
     const isLoading = false;
     const loginWithSocial = (provider: "google" | "github") => {
         console.log("Trying to login with ", provider);
@@ -29,7 +25,7 @@ const SocialButtons = ({ auth }: SocialButtonsProp) => {
                 variant="outline"
             >
                 {!isLoading && <FcGoogle className='h-4 w-4 mr-2' />}
-                {auth} with Google
+                Continue with Google
             </Button>
             <Button
                 onClick={() => loginWithSocial("github")}
@@ -37,7 +33,7 @@ const SocialButtons = ({ auth }: SocialButtonsProp) => {
                 className='w-full shadow my-2'
             >
                 {!isLoading && <FaGithub className='h-4 w-4 mr-2' />}
-                {auth} with GitHub
+                Continue with GitHub
             </Button>
         </div>
     )
