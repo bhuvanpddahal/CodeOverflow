@@ -11,16 +11,18 @@ datasource db {
 }
 
 model User {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
+    id            String     @id @default(auto()) @map("_id") @db.ObjectId
     name          String
-    email         String    @unique
-    username      String    @unique @default(uuid())
+    email         String     @unique
+    username      String     @unique @default(uuid())
     image         String?
     password      String?
     emailVerified DateTime?
-    createdAt     DateTime  @default(now())
-    updatedAt     DateTime  @updatedAt
+    createdAt     DateTime   @default(now())
+    updatedAt     DateTime   @updatedAt
     accounts      Account[]
+    Question      Question[]
+    Vote          Vote[]
 }
 
 model Account {
@@ -40,4 +42,32 @@ model Account {
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+}
+
+enum VoteType {
+    UP
+    DOWN
+}
+
+model Vote {
+    id         String @id @default(auto()) @map("_id") @db.ObjectId
+    voterId    String @db.ObjectId
+    questionId String @db.ObjectId
+
+    voter    User     @relation(fields: [voterId], references: [id], onDelete: Cascade)
+    Question Question @relation(fields: [questionId], references: [id])
+}
+
+model Question {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    askerId     String   @db.ObjectId
+    title       String
+    details     String
+    expectation String
+    tags        String
+    views       String[] @default([])
+    votesIds    String[]
+
+    asker User   @relation(fields: [askerId], references: [id], onDelete: Cascade)
+    votes Vote[]
 }

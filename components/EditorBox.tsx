@@ -1,8 +1,9 @@
 "use client";
 
+import { useRef, useState } from "react";
+import JoditEditor from "jodit-react";
 import { UseFormReturn } from "react-hook-form";
 
-import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import {
     FormControl,
@@ -13,23 +14,24 @@ import {
 } from "./ui/Form";
 import { QuestionPayload } from "@/lib/validators/question";
 
-interface InputBoxProps {
+interface EditorBoxProps {
     title: string;
     description: string;
-    placeholder: string;
     name: "title" | "details" | "expectation" | "tags";
     form: UseFormReturn<QuestionPayload, any, QuestionPayload>;
     isLoading: boolean;
 }
 
-const InputBox = ({
+const EditorBox = ({
     title,
     description,
-    placeholder,
     name,
     form,
     isLoading
-}: InputBoxProps) => {
+}: EditorBoxProps) => {
+    const editor = useRef(null);
+    const [content, setContent] = useState('');
+
     return (
         <div className="border border-zinc-200 bg-white p-6 rounded-sm max-w-4xl">
             <FormField
@@ -44,15 +46,14 @@ const InputBox = ({
                             </>
                         } />
                         <FormControl>
-                            <Input
+                            <JoditEditor
                                 {...field}
-                                placeholder={placeholder}
-                                type='text'
-                                disabled={isLoading}
+                                ref={editor}
                             />
                         </FormControl>
                         <FormMessage />
                         <Button className="mt-4">Next</Button>
+                        {content}
                     </FormItem>
                 )}
             />
@@ -60,4 +61,4 @@ const InputBox = ({
     )
 };
 
-export default InputBox;
+export default EditorBox;
