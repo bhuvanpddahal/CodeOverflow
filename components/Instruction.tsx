@@ -8,7 +8,7 @@ interface InstructionProps {
 
 const Instruction = ({ instruction }: InstructionProps) => {
     return (
-        <div className="border border-blue-700/80 rounded-sm w-full max-w-3xl p-5 md:p-8 bg-blue-50">
+        <div className="border border-blue-700/80 rounded-sm w-full max-w-4xl p-5 md:p-7 bg-blue-50">
             <h2 className="text-xl text-slate-600">{instruction.title}</h2>
             <p className="text-zinc-700 mt-2 mb-3">{instruction.description}</p>
             <h3 className="text-sm font-bold text-zinc-800">Steps:</h3>

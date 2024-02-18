@@ -1,13 +1,21 @@
+"use client";
+
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import TabsBox from "./TabsBox";
+import Questions from "./Questions";
 import { buttonVariants } from "./ui/Button";
 import { homeTabs } from "@/constants";
-import Questions from "./Questions";
 
 const Home = () => {
+    const searchParams = useSearchParams();
+    const tab = searchParams.get("tab");
+    console.log(tab);
+    
+
     return (
-        <div className="flex-1 flex gap-4 py-4 pr-4">
+        <div className="flex-1 flex flex-col lg:flex-row gap-4 py-4 pr-4">
             <section className="flex-1">
                 <div className="pl-4">
                     <header className="flex items-enter justify-between">
@@ -25,8 +33,8 @@ const Home = () => {
                 <Questions />
             </section>
 
-            <section className="w-[300px] bg-red-400">
-
+            <section className="w-full lg:w-[300px] border border-zinc-300 rounded-sm">
+                Hello world
             </section>
         </div>
     )
