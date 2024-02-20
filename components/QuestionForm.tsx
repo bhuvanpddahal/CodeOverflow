@@ -19,8 +19,10 @@ import {
     QuestionValidator
 } from "@/lib/validators/question";
 import { createQuestion } from "@/actions/createQuestion";
+import { useRouter } from "next/navigation";
 
 const QuestionForm = () => {
+    const router = useRouter();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [isLoading, startTransition] = useTransition();
@@ -43,6 +45,7 @@ const QuestionForm = () => {
             createQuestion(payload).then((data) => {
                 if (data.success) {
                     setSuccess(data.success);
+                    router.push('/home?tab=interesting');
                 }
             }).catch(() => {
                 setError("Something went wrong");

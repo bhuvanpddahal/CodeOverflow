@@ -67,6 +67,8 @@ model Question {
     tags        String
     views       String[] @default([])
     votesIds    String[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 
     asker User   @relation(fields: [askerId], references: [id], onDelete: Cascade)
     votes Vote[]
