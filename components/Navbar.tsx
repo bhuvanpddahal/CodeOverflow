@@ -20,12 +20,12 @@ const Navbar = () => {
                         <img
                             src="/images/logos/main-logo.svg"
                             alt="code-overflow-logo"
-                            className="h-[40px] hidden md:block"
+                            className="h-[40px] hidden lg:block"
                         />
                         <img
                             src="/images/logos/favicon.png"
                             alt="code-overflow-logo"
-                            className="h-[40px] md:hidden"
+                            className="h-[40px] lg:hidden"
                         />
                     </Link>
                 </div>

@@ -10,9 +10,10 @@ import {
 
 interface UserAvatarProps extends AvatarProps {
     user: Pick<User, 'name' | 'image'>;
+    size?: "sm" | "default";
 }
 
-const UserAvatar = ({ user, ...props }: UserAvatarProps) => {
+const UserAvatar = ({ user, size, ...props }: UserAvatarProps) => {
     return (
         <Avatar {...props}>
             {user?.image ? (

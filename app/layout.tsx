@@ -1,13 +1,9 @@
 import "./globals.css";
 import { Figtree } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
-import {
-    QueryClient,
-    QueryClientProvider
-} from "@tanstack/react-query";
 import type { Metadata } from "next";
 
 import Navbar from "@/components/Navbar";
+import Providers from "@/components/Providers";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/Toaster";
 
@@ -27,18 +23,15 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const session = await auth();
-    // const queryClient = new QueryClient();
 
     return (
         <html lang="en">
             <body className={figtree.className}>
-                {/* <QueryClientProvider client={queryClient}> */}
-                    <SessionProvider session={session}>
-                        <Navbar />
-                        {children}
-                        <Toaster />
-                    </SessionProvider>
-                {/* </QueryClientProvider> */}
+                <Providers session={session}>
+                    <Navbar />
+                    {children}
+                    <Toaster />
+                </Providers>
             </body>
         </html>
     );
