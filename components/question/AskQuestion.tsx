@@ -1,4 +1,4 @@
-import Instruction from "./Instruction";
+import Instruction from "../Instruction";
 import { askQuestionInstruction } from "@/constants";
 import QuestionForm from "./QuestionForm";
 

@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction, useRef } from "react";
 import Link from "next/link";
 import { BiSolidHome } from "react-icons/bi";
 import { RiQuestionnaireFill } from "react-icons/ri";
@@ -6,9 +7,21 @@ import { IoBookmark } from "react-icons/io5";
 import { ImUsers } from "react-icons/im";
 import { PiBagSimpleFill } from "react-icons/pi";
 
-const Sidebar = () => {
+import { useOnClickOutside } from "@/hooks/use-on-click-outside";
+
+interface MobileSidebarProps {
+    setShowSidebar: Dispatch<SetStateAction<boolean>>;
+}
+
+const MobileSidebar = ({ setShowSidebar }: MobileSidebarProps) => {
+    const sidebarRef = useRef<HTMLDivElement>(null);
+
+    useOnClickOutside(sidebarRef, () => {
+        setShowSidebar(false);
+    });
+    
     return (
-        <div className="sticky top-[57px] h-rem w-[180px] sm:w-[210px] border-r border-zinc-300 p-3 overflow-y-auto hidden sm:block">
+        <div className="bg-white fixed left-0 bottom-0 h-rem max-w-[210px] w-full p-3 overflow-y-auto shadow-lg sm:hidden">
             <ul className="text-[15px]">
                 <li>
                     <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
@@ -54,4 +67,4 @@ const Sidebar = () => {
     )
 };
 
-export default Sidebar;
+export default MobileSidebar;

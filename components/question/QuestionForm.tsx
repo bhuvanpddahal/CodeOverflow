@@ -4,10 +4,10 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import InputBox from "./InputBox";
-import EditorBox from "./EditorBox";
-import { Form } from "./ui/Form";
-import { Button } from "./ui/Button";
+import InputBox from "../InputBox";
+import EditorBox from "../EditorBox";
+import { Form } from "../ui/Form";
+import { Button } from "../ui/Button";
 import {
     questionTitle,
     questionDetails,

@@ -43,7 +43,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem asChild>
-                    <Link href='/' className='flex items-center gap-2'>
+                    <Link href='/questions/ask' className='flex items-center gap-2'>
                         <RiQuestionLine className='h-4 w-4 text-zinc-600' />
                         Ask question
                     </Link>

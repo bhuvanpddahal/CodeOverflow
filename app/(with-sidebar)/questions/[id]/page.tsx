@@ -1,8 +1,14 @@
-import QuestionDetails from "@/components/QuestionDetails";
+import QuestionDetails from "@/components/question/QuestionDetails";
 
-const Page = () => {
+interface PageProps {
+    params: {
+        id: string;
+    }
+}
+
+const Page = ({ params: { id } }: PageProps) => {
     return (
-        <QuestionDetails />
+        <QuestionDetails id={id} />
     )
 };
 

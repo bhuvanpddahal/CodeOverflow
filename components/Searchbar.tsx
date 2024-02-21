@@ -21,7 +21,7 @@ const Searchbar = () => {
     });
 
     return (
-        <Command ref={commandRef} className="relative rounded-lg border max-w-xl z-50 overflow-visible">
+        <Command ref={commandRef} className="relative shrink rounded-lg border max-w-xl z-50 overflow-visible">
             <CommandInput
                 className="outline-none border-none focus:border-none focus:outline-none ring-0 py-2"
                 placeholder="Search..."

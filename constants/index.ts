@@ -83,3 +83,18 @@ export const questionReview = {
     description: "Clicking on these questions will open them in a new tab for you to review. Your progress here will be saved so you can come back and continue.",
     placeholder: "Do any of these posts answer your question?"
 };
+
+export const answersSortOptions = [
+    {
+        name: "Highest score (default)",
+        value: "highest-score"
+    },
+    {
+        name: "Date modified (newest first)",
+        value: "newest-first"
+    },
+    {
+        name: "Date created (oldest first)",
+        value: "oldest-first"
+    }
+];

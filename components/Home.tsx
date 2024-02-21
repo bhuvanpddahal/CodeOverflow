@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import TabsBox from "./TabsBox";
-import Questions from "./Questions";
+import Questions from "./question/Questions";
 import { buttonVariants } from "./ui/Button";
 import { homeTabs } from "@/constants";
 import { getQuestions } from "@/actions/getQuestions";

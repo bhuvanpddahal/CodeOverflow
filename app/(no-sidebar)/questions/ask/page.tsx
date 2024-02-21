@@ -1,5 +1,5 @@
 import Footer from "@/components/Footer";
-import AskQuestion from "@/components/AskQuestion";
+import AskQuestion from "@/components/question/AskQuestion";
 
 const Page = () => {
     return (

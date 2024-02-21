@@ -3,9 +3,9 @@
 import moment from "moment";
 import Link from "next/link";
 
+import UserAvatar from "@/components/UserAvatar";
 import { User } from "@prisma/client";
 import { Badge } from "@/components/ui/Badge";
-import UserAvatar from "./UserAvatar";
 
 interface QuestionProps {
     id: string;
@@ -35,7 +35,7 @@ const Question = ({
             </div>
             <div className="flex-1">
                 <Link href={`/questions/${id}`} className="text-lg text-blue-700 line-clamp-2 leading-snug hover:text-blue-800">{title}</Link>
-                <div className="flex items-center justify-between mt-2">
+                <div className="flex items-center justify-between gap-3 flex-wrap mt-2">
                     <Badge variant="secondary">{tags}</Badge>
                     <div className="flex items-center gap-2">
                         <Link
@@ -50,7 +50,7 @@ const Question = ({
                         </Link>
                         <p className="text-xs text-zinc-700">
                             {updatedAt === createdAt
-                                ? `asked ${moment(createdAt).startOf('hour').fromNow()}`
+                                ? `asked ${moment(createdAt).startOf('minute').fromNow()}`
                                 : `updated ${moment(updatedAt).startOf('minute').fromNow()}`
                             }
                         </p>
