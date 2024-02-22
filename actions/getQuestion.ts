@@ -8,15 +8,11 @@ export const getQuestion = async (id: string) => {
             where: { id },
             include: {
                 asker: true,
-                votes: {
-                    select: {
-                        id: true
-                    }
-                }
+                votes: true
             }
         });
         return question;
     } catch (error) {
-        return { error: "Something went wrong" };
+        throw new Error("Something went wrong");
     }
 };

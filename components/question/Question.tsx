@@ -12,7 +12,7 @@ interface QuestionProps {
     title: string;
     tags: string;
     asker: User;
-    createdAt: Date;
+    askedAt: Date;
     updatedAt: Date;
     lastQuestionRef?: (node?: Element | null | undefined) => void;
 }
@@ -22,7 +22,7 @@ const Question = ({
     title,
     tags,
     asker,
-    createdAt,
+    askedAt,
     updatedAt,
     lastQuestionRef
 }: QuestionProps) => {
@@ -49,8 +49,8 @@ const Question = ({
                             <p className="text-xs text-blue-700 hover:text-blue-800">{asker.name}</p>
                         </Link>
                         <p className="text-xs text-zinc-700">
-                            {updatedAt === createdAt
-                                ? `asked ${moment(createdAt).startOf('minute').fromNow()}`
+                            {updatedAt === askedAt
+                                ? `asked ${moment(askedAt).startOf('minute').fromNow()}`
                                 : `updated ${moment(updatedAt).startOf('minute').fromNow()}`
                             }
                         </p>

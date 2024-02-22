@@ -5,14 +5,14 @@ import moment from "moment";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
-import Answers from "./Answers";
-import YourAnswer from "./YourAnswer";
+import Answers from "../answer/Answers";
+import YourAnswer from "../answer/YourAnswer";
 import SelectOptions from "../SelectOptions";
 import DetailedQuestion from "./DetailedQuestion";
 import { buttonVariants } from "../ui/Button";
 import { answersSortOptions } from "@/constants";
 import { getQuestion } from "@/actions/getQuestion";
-import { ExtendedQuestion } from "@/types/question";
+import { DetailedQuestion as QuestionType } from "@/types/question";
 
 interface QuestionDetailsProps {
     id: string;
@@ -22,12 +22,8 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
     const [sortBy, setSortBy] = useState(answersSortOptions[0].value);
 
     const fetchQuestion = async () => {
-        try {
-            const question = await getQuestion(id);
-            return question as ExtendedQuestion;
-        } catch (error) {
-            throw new Error("An error occurred");
-        }
+        const question = await getQuestion(id);
+        return question as QuestionType;
     };
 
     const {
@@ -37,8 +33,6 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
         queryKey: ["questions", id],
         queryFn: fetchQuestion
     });
-
-    console.log(question);
 
     if(status === "pending") return <div>Loading...</div>
     if(status === "error") return <div>Something went wrong!</div>
@@ -53,19 +47,20 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
                 </div>
 
                 <div className="text-[15px] flex gap-4 my-3">
-                    <p className="text-zinc-500">Asked <span className="text-zinc-800">{moment(question.createdAt).calendar()}</span></p>
+                    <p className="text-zinc-500">Asked <span className="text-zinc-800">{moment(question.askedAt).calendar()}</span></p>
                     <p className="text-zinc-500">Modified <span className="text-zinc-800">{moment(question.updatedAt).calendar()}</span></p>
-                    <p className="text-zinc-500">Viewed <span className="text-zinc-800">{question.views.length} times</span></p>
+                    <p className="text-zinc-500">Viewed <span className="text-zinc-800">{question.views?.length} times</span></p>
                 </div>
             </header>
             <div className="flex flex-col lg:flex-row gap-4 py-4">
                 <section className="flex-1">
                     <DetailedQuestion
-                        votes={question.votesIds}
+                        questionId={id}
+                        votes={question.votes}
                         details={question.details}
                         expectation={question.expectation}
                         tags={question.tags}
-                        createdAt={question.createdAt}
+                        askedAt={question.askedAt}
                         askerName={question.asker.name}
                         askerUsername={question.asker.username}
                         askerImage={question.asker.image}

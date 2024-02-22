@@ -5,7 +5,6 @@ import { auth } from "@/auth";
 import { QuestionPayload, QuestionValidator } from "@/lib/validators/question";
 
 export const createQuestion = async (payload: QuestionPayload) => {
-    console.log("inside create question: ", payload);
 
     const validatedFields = QuestionValidator.safeParse(payload);
     if(!validatedFields.success) return { error: "Invalid fields" };

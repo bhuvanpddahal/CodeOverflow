@@ -1,45 +1,100 @@
+"use client";
+
+import { useState } from "react";
 import moment from "moment";
 import Link from "next/link";
+import DOMPurify from "isomorphic-dompurify";
 import {
     IoMdArrowDropdown,
     IoMdArrowDropup
 } from "react-icons/io";
-import DOMPurify from "isomorphic-dompurify";
+import { usePrevious } from "@mantine/hooks";
+import { Vote, VoteType } from "@prisma/client";
 
 import UserAvatar from "../UserAvatar";
 import { Badge } from "../ui/Badge";
+import { useMutation } from "@tanstack/react-query";
+import { voteQuestion } from "@/actions/voteQuestion";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { QuestionVotePayload } from "@/lib/validators/vote";
 
 interface DetailedQuestionProps {
-    votes: string[];
+    questionId: string;
+    votes: Vote[];
     details: string;
     expectation: string;
     tags: string;
-    createdAt: Date;
+    askedAt: Date;
     askerName: string;
     askerUsername: string;
     askerImage: string | null;
 }
 
 const DetailedQuestion = ({
+    questionId,
     votes,
     details,
     expectation,
     tags,
-    createdAt,
+    askedAt,
     askerName,
     askerUsername,
     askerImage
 }: DetailedQuestionProps) => {
+    const user = useCurrentUser();
+    const initialVotesAmt = votes.reduce((acc, vote) => {
+        if (vote.type === 'UP') return acc + 1;
+        if (vote.type === 'DOWN') return acc - 1;
+        return acc;
+    }, 0);
+    const initialUserVote = votes.find((vote) => vote.voterId === user?.id);
+    const [votesAmt, setVotesAmt] = useState<number>(initialVotesAmt);
+    const [currentVote, setCurrentVote] = useState(initialUserVote?.type);
+    const prevVote = usePrevious(currentVote);
+
+    const { mutate: vote } = useMutation({
+        mutationFn: async (type: VoteType) => {
+            const payload: QuestionVotePayload = {
+                voteType: type,
+                questionId
+            };
+            await voteQuestion(payload);
+        },
+        onError: (error, type) => {
+            console.log(error);
+            if(prevVote === type) {
+                if(type === 'UP') setVotesAmt((prev) => prev + 1);
+                else if(type === 'DOWN') setVotesAmt((prev) => prev - 1);
+            } else {
+                if(type === 'UP') setVotesAmt((prev) => prev - (prevVote ? 2 : 1));
+                else if(type === 'DOWN') setVotesAmt((prev) => prev + (prevVote ? 2 : 1));
+            }
+            setCurrentVote(prevVote); // Reset the current vote
+        },
+        onMutate: (type: VoteType) => {
+            if(currentVote === type) {
+                setCurrentVote(undefined);
+                if(type === 'UP') setVotesAmt((prev) => prev - 1);
+                else if(type === 'DOWN') setVotesAmt((prev) => prev + 1);
+            } else {
+                setCurrentVote(type);
+                if(type === 'UP') setVotesAmt((prev) => prev + (currentVote ? 2 : 1));
+                else if(type === 'DOWN') setVotesAmt((prev) => prev - (currentVote ? 2 : 1));
+            }
+        }
+    });
+
     return (
         <div className="flex gap-4">
             <div className="flex flex-col items-center gap-3">
                 <IoMdArrowDropup
-                    className="h-4 w-4 border border-zinc-200 rounded-full"
-                    size="16px"
+                    className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
+                    onClick={() => vote('UP')}
                 />
-                <p className="text-xl font-bold text-zinc-900">{votes.length}</p>
+                <p className="text-xl font-bold text-zinc-900">{votesAmt}</p>
                 <IoMdArrowDropdown
-                    className="h-4 w-4"
+                    className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
+                    onClick={() => vote('DOWN')}
                 />
             </div>
             <div className="flex-1">
@@ -48,14 +103,14 @@ const DetailedQuestion = ({
                     className="text-zinc-800"
                 />
                 <div
-                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }}
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(expectation) }}
                     className="text-zinc-800"
                 />
                 <div className="flex gap-2 my-5">
                     <Badge variant="secondary">{tags}</Badge>
                 </div>
                 <div className="bg-blue-50 max-w-[200px] p-3 rounded-sm ml-auto">
-                    <p className="text-xs text-zinc-700 mb-1">asked {moment(createdAt).startOf('minute').fromNow()}</p>
+                    <p className="text-xs text-zinc-700 mb-1">asked {moment(askedAt).startOf('minute').fromNow()}</p>
                     <Link
                         href={`/users/${askerUsername}`}
                         className="flex items-center gap-1"

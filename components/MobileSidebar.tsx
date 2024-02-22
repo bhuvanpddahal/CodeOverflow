@@ -21,7 +21,7 @@ const MobileSidebar = ({ setShowSidebar }: MobileSidebarProps) => {
     });
     
     return (
-        <div className="bg-white fixed left-0 bottom-0 h-rem max-w-[210px] w-full p-3 overflow-y-auto shadow-lg sm:hidden">
+        <div className="bg-white fixed left-0 bottom-0 h-rem max-w-[210px] w-full p-3 border-r border-zinc-100 overflow-y-auto shadow-lg sm:hidden">
             <ul className="text-[15px]">
                 <li>
                     <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">

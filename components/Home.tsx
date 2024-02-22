@@ -68,7 +68,7 @@ const Home = () => {
                 </div>
 
                 <Questions
-                    questions={questions || []}
+                    questions={questions}
                     fetchNextPage={fetchNextPage}
                     hasNextPage={hasNextPage}
                 />

@@ -10,12 +10,11 @@ const Answer = () => (
     <li className="flex-1 flex gap-4">
         <div className="flex flex-col items-center gap-3">
             <IoMdArrowDropup
-                className="h-4 w-4 border border-zinc-200 rounded-full"
-                size="16px"
+                className="h-9 w-9 border border-zinc-200 text-zinc-800 rounded-full cursor-pointer hover:bg-blue-100"
             />
-            <p className="text-xl font-bold text-zinc-900">24</p>
+            <p className="text-xl font-bold text-zinc-900">57K</p>
             <IoMdArrowDropdown
-                className="h-4 w-4"
+                className="h-9 w-9 border border-zinc-200 text-zinc-800 rounded-full cursor-pointer hover:bg-red-100"
             />
         </div>
         <div className="flex-1">

@@ -23,6 +23,7 @@ model User {
     accounts      Account[]
     Question      Question[]
     Vote          Vote[]
+    Answer        Answer[]
 }
 
 model Account {
@@ -50,12 +51,17 @@ enum VoteType {
 }
 
 model Vote {
-    id         String @id @default(auto()) @map("_id") @db.ObjectId
-    voterId    String @db.ObjectId
-    questionId String @db.ObjectId
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    type       VoteType
+    voterId    String   @db.ObjectId
+    questionId String   @db.ObjectId
 
     voter    User     @relation(fields: [voterId], references: [id], onDelete: Cascade)
     Question Question @relation(fields: [questionId], references: [id])
+    Answer   Answer?  @relation(fields: [answerId], references: [id])
+    answerId String?  @db.ObjectId
+
+    @@unique([voterId, questionId])
 }
 
 model Question {
@@ -67,9 +73,21 @@ model Question {
     tags        String
     views       String[] @default([])
     votesIds    String[]
-    createdAt   DateTime @default(now())
+    askedAt     DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
     asker User   @relation(fields: [askerId], references: [id], onDelete: Cascade)
     votes Vote[]
+}
+
+model Answer {
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    answererId String   @db.ObjectId
+    content    String
+    votesIds   String[]
+    answeredAt DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    answerer User   @relation(fields: [answererId], references: [id], onDelete: Cascade)
+    votes    Vote[]
 }
