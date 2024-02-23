@@ -9,7 +9,7 @@ import {
     IoMdArrowDropup
 } from "react-icons/io";
 import { usePrevious } from "@mantine/hooks";
-import { Vote, VoteType } from "@prisma/client";
+import { QuestionVote, VoteType } from "@prisma/client";
 
 import UserAvatar from "../UserAvatar";
 import { Badge } from "../ui/Badge";
@@ -20,11 +20,12 @@ import { QuestionVotePayload } from "@/lib/validators/vote";
 
 interface DetailedQuestionProps {
     questionId: string;
-    votes: Vote[];
+    votes: QuestionVote[];
     details: string;
     expectation: string;
     tags: string;
     askedAt: Date;
+    updatedAt: Date;
     askerName: string;
     askerUsername: string;
     askerImage: string | null;
@@ -37,6 +38,7 @@ const DetailedQuestion = ({
     expectation,
     tags,
     askedAt,
+    updatedAt,
     askerName,
     askerUsername,
     askerImage
@@ -62,24 +64,24 @@ const DetailedQuestion = ({
         },
         onError: (error, type) => {
             console.log(error);
-            if(prevVote === type) {
-                if(type === 'UP') setVotesAmt((prev) => prev + 1);
-                else if(type === 'DOWN') setVotesAmt((prev) => prev - 1);
+            if (prevVote === type) {
+                if (type === 'UP') setVotesAmt((prev) => prev + 1);
+                else if (type === 'DOWN') setVotesAmt((prev) => prev - 1);
             } else {
-                if(type === 'UP') setVotesAmt((prev) => prev - (prevVote ? 2 : 1));
-                else if(type === 'DOWN') setVotesAmt((prev) => prev + (prevVote ? 2 : 1));
+                if (type === 'UP') setVotesAmt((prev) => prev - (prevVote ? 2 : 1));
+                else if (type === 'DOWN') setVotesAmt((prev) => prev + (prevVote ? 2 : 1));
             }
             setCurrentVote(prevVote); // Reset the current vote
         },
         onMutate: (type: VoteType) => {
-            if(currentVote === type) {
+            if (currentVote === type) {
                 setCurrentVote(undefined);
-                if(type === 'UP') setVotesAmt((prev) => prev - 1);
-                else if(type === 'DOWN') setVotesAmt((prev) => prev + 1);
+                if (type === 'UP') setVotesAmt((prev) => prev - 1);
+                else if (type === 'DOWN') setVotesAmt((prev) => prev + 1);
             } else {
                 setCurrentVote(type);
-                if(type === 'UP') setVotesAmt((prev) => prev + (currentVote ? 2 : 1));
-                else if(type === 'DOWN') setVotesAmt((prev) => prev - (currentVote ? 2 : 1));
+                if (type === 'UP') setVotesAmt((prev) => prev + (currentVote ? 2 : 1));
+                else if (type === 'DOWN') setVotesAmt((prev) => prev - (currentVote ? 2 : 1));
             }
         }
     });
@@ -110,7 +112,12 @@ const DetailedQuestion = ({
                     <Badge variant="secondary">{tags}</Badge>
                 </div>
                 <div className="bg-blue-50 max-w-[200px] p-3 rounded-sm ml-auto">
-                    <p className="text-xs text-zinc-700 mb-1">asked {moment(askedAt).startOf('minute').fromNow()}</p>
+                    <p className="text-xs text-zinc-700 mb-1">
+                        {new Date(updatedAt) > new Date(askedAt)
+                            ? `updated ${moment(updatedAt).startOf('minute').fromNow()}`
+                            : `asked ${moment(askedAt).startOf('minute').fromNow()}`
+                        }
+                    </p>
                     <Link
                         href={`/users/${askerUsername}`}
                         className="flex items-center gap-1"

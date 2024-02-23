@@ -23,7 +23,7 @@ export const voteQuestion = async (payload: QuestionVotePayload) => {
         });
         if (!question) throw new Error("Question not found");
 
-        const existingVote = await db.vote.findFirst({
+        const existingVote = await db.questionVote.findFirst({
             where: {
                 voterId: session.user.id,
                 questionId
@@ -33,7 +33,7 @@ export const voteQuestion = async (payload: QuestionVotePayload) => {
         if (existingVote) {
             // If the existing vote type is the same as current vote type, delete the vote completely
             if (existingVote.type === voteType) {
-                await db.vote.delete({
+                await db.questionVote.delete({
                     where: {
                         voterId_questionId: {
                             voterId: session.user.id,
@@ -42,7 +42,7 @@ export const voteQuestion = async (payload: QuestionVotePayload) => {
                     }
                 });
             } else { // If the existing vote type is different from current vote type, update the vote
-                await db.vote.update({
+                await db.questionVote.update({
                     where: {
                         voterId_questionId: {
                             voterId: session.user.id,
@@ -56,7 +56,7 @@ export const voteQuestion = async (payload: QuestionVotePayload) => {
             }
         } else {
             // Create a new vote with the current vote type, user id & question id
-            await db.vote.create({
+            await db.questionVote.create({
                 data: {
                     type: voteType,
                     voterId: session.user.id,

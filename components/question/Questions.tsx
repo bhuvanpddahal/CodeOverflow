@@ -35,37 +35,33 @@ const Questions = ({
 
     return (
         <div>
-            {!!questions ? (
-                questions?.length > 0 ? (
-                    questions?.map((question, index) => {
-                        if (index === questions.length - 1) {
-                            return <Question
-                                key={index}
-                                id={question.id}
-                                title={question.title}
-                                tags={question.tags}
-                                asker={question.asker}
-                                askedAt={question.askedAt}
-                                updatedAt={question.updatedAt}
-                                lastQuestionRef={ref}
-                            />
-                        } else {
-                            return <Question
-                                key={index}
-                                id={question.id}
-                                title={question.title}
-                                tags={question.tags}
-                                asker={question.asker}
-                                askedAt={question.askedAt}
-                                updatedAt={question.updatedAt}
-                            />
-                        }
-                    })
-                ) : (
-                    <p className="text-center text-zinc-400 text-[15px]">No questions to show</p>
-                )
+            {questions && questions?.length > 0 ? (
+                questions.map((question, index) => {
+                    if (index === questions.length - 1) {
+                        return <Question
+                            key={index}
+                            id={question.id}
+                            title={question.title}
+                            tags={question.tags}
+                            asker={question.asker}
+                            askedAt={question.askedAt}
+                            updatedAt={question.updatedAt}
+                            lastQuestionRef={ref}
+                        />
+                    } else {
+                        return <Question
+                            key={index}
+                            id={question.id}
+                            title={question.title}
+                            tags={question.tags}
+                            asker={question.asker}
+                            askedAt={question.askedAt}
+                            updatedAt={question.updatedAt}
+                        />
+                    }
+                })
             ) : (
-                <p className="text-center text-zinc-400 text-[15px]">An error occurred while trying to get the questions</p>
+                <p className="text-center text-zinc-400 text-[15px]">No questions to show</p>
             )}
         </div>
     )

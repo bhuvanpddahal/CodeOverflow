@@ -7,10 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 
 import Answers from "../answer/Answers";
 import YourAnswer from "../answer/YourAnswer";
-import SelectOptions from "../SelectOptions";
 import DetailedQuestion from "./DetailedQuestion";
 import { buttonVariants } from "../ui/Button";
-import { answersSortOptions } from "@/constants";
+import { AnswersSortValue } from "@/types/answer";
 import { getQuestion } from "@/actions/getQuestion";
 import { DetailedQuestion as QuestionType } from "@/types/question";
 
@@ -19,10 +18,11 @@ interface QuestionDetailsProps {
 }
 
 const QuestionDetails = ({ id }: QuestionDetailsProps) => {
-    const [sortBy, setSortBy] = useState(answersSortOptions[0].value);
+    const [sortBy, setSortBy] = useState<AnswersSortValue>("highest-score");
 
     const fetchQuestion = async () => {
-        const question = await getQuestion(id);
+        const payload = { questionId: id };
+        const question = await getQuestion(payload);
         return question as QuestionType;
     };
 
@@ -61,27 +61,22 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
                         expectation={question.expectation}
                         tags={question.tags}
                         askedAt={question.askedAt}
+                        updatedAt={question.updatedAt}
                         askerName={question.asker.name}
                         askerUsername={question.asker.username}
                         askerImage={question.asker.image}
                     />
 
-                    <div className="flex items-center justify-between mt-6 mb-7">
-                        <p className="text-xl text-slate-700 font-medium">3 Answers</p>
+                    <Answers
+                        questionId={id}
+                        sortBy={sortBy}
+                        setSortBy={setSortBy}
+                    />
 
-                        <div className="flex items-center gap-2 text-zinc-800">
-                            <span className="whitespace-nowrap text-[13px]">Sorted by:</span>
-                            <SelectOptions
-                                value={sortBy}
-                                setValue={setSortBy}
-                                options={answersSortOptions}
-                            />
-                        </div>
-                    </div>
-
-                    <Answers />
-
-                    <YourAnswer />
+                    <YourAnswer
+                        questionId={id}
+                        sortBy={sortBy}
+                    />
                 </section>
 
                 <section className="w-full lg:w-[300px] border border-zinc-300 rounded-sm text-sm">

@@ -1,9 +1,15 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { GetQuestionsPayload, GetQuestionsValidator } from "@/lib/validators/question";
 
-export const getQuestions = async (tab: string, page: number, limit: number) => {
+export const getQuestions = async (payload: GetQuestionsPayload) => {
     try {
+        const validatedFields = GetQuestionsValidator.safeParse(payload);
+        if (!validatedFields.success) throw new Error("Invalid fields");
+
+        const { tab, page, limit } = validatedFields.data;
+
         const questions = await db.question.findMany({
             where: {},
             orderBy: { askedAt: "desc" },
@@ -19,6 +25,6 @@ export const getQuestions = async (tab: string, page: number, limit: number) => 
 
         return { questions, hasNextPage };
     } catch (error) {
-        return { error: "Something went wrong" };
+        throw new Error("Something went wrong");
     }
 };

@@ -1,3 +1,8 @@
+import { AnswersSortOptions } from "@/types/answer";
+
+export const QUESTIONS_PER_PAGE = 10;
+export const ANSWERS_PER_PAGE = 10;
+
 export const homeTabs = [
     {
         name: "Interseting",
@@ -84,7 +89,7 @@ export const questionReview = {
     placeholder: "Do any of these posts answer your question?"
 };
 
-export const answersSortOptions = [
+export const answersSortOptions: AnswersSortOptions = [
     {
         name: "Highest score (default)",
         value: "highest-score"

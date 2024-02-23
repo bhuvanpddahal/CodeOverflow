@@ -15,11 +15,16 @@ export const QuestionValidator = z.object({
     })
 });
 
-export const AnswerValidator = z.object({
-    answer: z.string().min(10, {
-        message: "This is not an enough long answer"
-    })
+export const GetQuestionValidator = z.object({
+    questionId: z.string()
+});
+
+export const GetQuestionsValidator = z.object({
+    tab: z.string(),
+    page: z.number(),
+    limit: z.number()
 });
 
 export type QuestionPayload = z.infer<typeof QuestionValidator>;
-export type AnswerPayload = z.infer<typeof AnswerValidator>;
+export type GetQuestionPayload = z.infer<typeof GetQuestionValidator>;
+export type GetQuestionsPayload = z.infer<typeof GetQuestionsValidator>;

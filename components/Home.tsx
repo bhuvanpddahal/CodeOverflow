@@ -6,27 +6,21 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import TabsBox from "./TabsBox";
 import Questions from "./question/Questions";
-import { buttonVariants } from "./ui/Button";
 import { homeTabs } from "@/constants";
-import { getQuestions } from "@/actions/getQuestions";
+import { buttonVariants } from "./ui/Button";
 import { QuestionData } from "@/types/question";
-
-interface FetchQuestionsParams {
-    pageParam: number;
-}
+import { InfiniteQueryFnProps } from "@/types/util";
+import { getQuestions } from "@/actions/getQuestions";
 
 const Home = () => {
     const limit = 3;
     const searchParams = useSearchParams();
     const tab = searchParams.get("tab") || "interesting";
 
-    const fetchQuestions = async ({ pageParam }: FetchQuestionsParams) => {
-        try {
-            const data = await getQuestions(tab, pageParam, limit);
-            return data as QuestionData;
-        } catch (error) {
-            throw new Error("An error occurred");
-        }
+    const fetchQuestions = async ({ pageParam }: InfiniteQueryFnProps) => {
+        const payload = { tab, page: pageParam, limit };
+        const data = await getQuestions(payload);
+        return data as QuestionData;
     };
 
     const {
@@ -41,7 +35,7 @@ const Home = () => {
         queryFn: fetchQuestions,
         initialPageParam: 1,
         getNextPageParam: (lastPage, pages) => {
-            if(lastPage.hasNextPage) {
+            if (lastPage.hasNextPage) {
                 return pages.length + 1;
             } else {
                 return null;
@@ -51,6 +45,7 @@ const Home = () => {
 
     const questions = data?.pages.flatMap((page) => page.questions);
 
+    if (status === "pending") return <p>Loading...</p>
     return (
         <div className="flex-1 flex flex-col lg:flex-row gap-4 py-4 pr-4">
             <section className="flex-1">

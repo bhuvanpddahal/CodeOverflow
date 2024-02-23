@@ -6,16 +6,15 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/Select";
-
-interface Option {
-    name: string;
-    value: string;
-}
+import {
+    AnswersSortOptions,
+    AnswersSortValue
+} from "@/types/answer";
 
 interface SelectOptionsProps {
-    value: string;
-    setValue: Dispatch<SetStateAction<string>>;
-    options: Option[];
+    value: AnswersSortValue;
+    setValue: Dispatch<SetStateAction<AnswersSortValue>>;
+    options: AnswersSortOptions;
 }
 
 const SelectOptions = ({
@@ -24,7 +23,7 @@ const SelectOptions = ({
     options
 }: SelectOptionsProps) => {
     return (
-        <Select value={value} onValueChange={(value) => setValue(value)}>
+        <Select value={value} onValueChange={(value) => setValue(value as AnswersSortValue)}>
             <SelectTrigger className="w-[240px]">
                 <SelectValue placeholder={options[0].name} />
             </SelectTrigger>

@@ -1,14 +1,14 @@
-import { Question, User, Vote } from "@prisma/client"
+import { Answer, Question, User, Vote } from "@prisma/client"
 
-type ExtendedQuestion = Question & {
+export type ExtendedQuestion = Question & {
     asker: User
 };
 
-type QuestionData = {
+export type QuestionData = {
     questions: ExtendedQuestion[],
     hasNextPage: boolean
 };
 
-type DetailedQuestion = ExtendedQuestion & {
+export type DetailedQuestion = ExtendedQuestion & {
     votes: Vote[]
 };

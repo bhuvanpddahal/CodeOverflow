@@ -11,19 +11,20 @@ datasource db {
 }
 
 model User {
-    id            String     @id @default(auto()) @map("_id") @db.ObjectId
+    id            String         @id @default(auto()) @map("_id") @db.ObjectId
     name          String
-    email         String     @unique
-    username      String     @unique @default(uuid())
+    email         String         @unique
+    username      String         @unique @default(uuid())
     image         String?
     password      String?
     emailVerified DateTime?
-    createdAt     DateTime   @default(now())
-    updatedAt     DateTime   @updatedAt
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
     accounts      Account[]
-    Question      Question[]
-    Vote          Vote[]
-    Answer        Answer[]
+    questions     Question[]
+    answers       Answer[]
+    questionVotes QuestionVote[]
+    answerVotes   AnswerVote[]
 }
 
 model Account {
@@ -50,18 +51,28 @@ enum VoteType {
     DOWN
 }
 
-model Vote {
+model QuestionVote {
     id         String   @id @default(auto()) @map("_id") @db.ObjectId
     type       VoteType
     voterId    String   @db.ObjectId
     questionId String   @db.ObjectId
 
     voter    User     @relation(fields: [voterId], references: [id], onDelete: Cascade)
-    Question Question @relation(fields: [questionId], references: [id])
-    Answer   Answer?  @relation(fields: [answerId], references: [id])
-    answerId String?  @db.ObjectId
+    question Question @relation(fields: [questionId], references: [id])
 
     @@unique([voterId, questionId])
+}
+
+model AnswerVote {
+    id       String   @id @default(auto()) @map("_id") @db.ObjectId
+    type     VoteType
+    voterId  String   @db.ObjectId
+    answerId String   @db.ObjectId
+
+    voter  User    @relation(fields: [voterId], references: [id], onDelete: Cascade)
+    answer Answer? @relation(fields: [answerId], references: [id])
+
+    @@unique([voterId, answerId])
 }
 
 model Question {
@@ -76,18 +87,21 @@ model Question {
     askedAt     DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    asker User   @relation(fields: [askerId], references: [id], onDelete: Cascade)
-    votes Vote[]
+    asker   User           @relation(fields: [askerId], references: [id], onDelete: Cascade)
+    votes   QuestionVote[]
+    answers Answer[]
 }
 
 model Answer {
     id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    questionId String   @db.ObjectId
     answererId String   @db.ObjectId
     content    String
     votesIds   String[]
     answeredAt DateTime @default(now())
     updatedAt  DateTime @updatedAt
 
-    answerer User   @relation(fields: [answererId], references: [id], onDelete: Cascade)
-    votes    Vote[]
+    question Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
+    answerer User         @relation(fields: [answererId], references: [id], onDelete: Cascade)
+    votes    AnswerVote[]
 }

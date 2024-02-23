@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useTransition, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 
 import JoditEditor from "jodit-react";
 import { Button } from "../ui/Button";
@@ -16,20 +17,49 @@ import {
 import {
     AnswerPayload,
     AnswerValidator
-} from "@/lib/validators/question";
+} from "@/lib/validators/answer";
+import { AnswersSortValue } from "@/types/answer";
+import { answerQuestion } from "@/actions/answerQuestion";
 
-const YourAnswer = () => {
-    const isLoading = false;
+interface YourAnswerProps {
+    questionId: string;
+    sortBy: AnswersSortValue;
+}
+
+const YourAnswer = ({
+    questionId,
+    sortBy
+}: YourAnswerProps) => {
     const editor = useRef(null);
+    const queryClient = useQueryClient();
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [isLoading, startTransition] = useTransition();
 
     const form = useForm<AnswerPayload>({
         resolver: zodResolver(AnswerValidator),
         defaultValues: {
-            answer: ""
+            content: "",
+            questionId
         }
     });
 
-    const onSubmit = () => { };
+    const onSubmit = (payload: AnswerPayload) => {
+        startTransition(() => {
+            answerQuestion(payload).then((data) => {
+                if (data.success) {
+                    queryClient.invalidateQueries({
+                        queryKey: ["answers", { questionId, sortBy }],
+                        exact: true
+                    });
+                    setSuccess(data.success);
+                    form.reset();
+                }
+            }).catch(() => {
+                setError("Something went wrong");
+            });
+        });
+    };
 
     return (
         <div className="mt-4">
@@ -42,7 +72,7 @@ const YourAnswer = () => {
                     <div className='flex flex-col gap-5'>
                         <FormField
                             control={form.control}
-                            name="answer"
+                            name="content"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>

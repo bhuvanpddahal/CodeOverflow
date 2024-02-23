@@ -18,8 +18,8 @@ import {
     QuestionPayload,
     QuestionValidator
 } from "@/lib/validators/question";
-import { createQuestion } from "@/actions/createQuestion";
 import { useRouter } from "next/navigation";
+import { createQuestion } from "@/actions/createQuestion";
 
 const QuestionForm = () => {
     const router = useRouter();

@@ -49,9 +49,9 @@ const Question = ({
                             <p className="text-xs text-blue-700 hover:text-blue-800">{asker.name}</p>
                         </Link>
                         <p className="text-xs text-zinc-700">
-                            {updatedAt === askedAt
-                                ? `asked ${moment(askedAt).startOf('minute').fromNow()}`
-                                : `updated ${moment(updatedAt).startOf('minute').fromNow()}`
+                            {new Date(updatedAt) > new Date(askedAt)
+                                ? `updated ${moment(updatedAt).startOf('minute').fromNow()}`
+                                : `asked ${moment(askedAt).startOf('minute').fromNow()}`
                             }
                         </p>
                     </div>
