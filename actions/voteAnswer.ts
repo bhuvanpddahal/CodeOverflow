@@ -2,48 +2,48 @@
 
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { QuestionVotePayload, QuestionVoteValidator } from "@/lib/validators/vote";
+import { AnswerVotePayload, AnswerVoteValidator } from "@/lib/validators/vote";
 
-export const voteQuestion = async (payload: QuestionVotePayload) => {
+export const voteAnswer = async (payload: AnswerVotePayload) => {
     try {
-        const validatedFields = QuestionVoteValidator.safeParse(payload);
+        const validatedFields = AnswerVoteValidator.safeParse(payload);
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const session = await auth();
         if (!session?.user || !session.user.id) throw new Error("Unauthorized");
 
-        const { questionId, voteType } = validatedFields.data;
-        const question = await db.question.findUnique({
+        const { answerId, voteType } = validatedFields.data;
+        const answer = await db.answer.findUnique({
             where: {
-                id: questionId
+                id: answerId
             }
         });
-        if (!question) throw new Error("Question not found");
+        if (!answer) throw new Error("Answer not found");
 
-        const existingVote = await db.questionVote.findFirst({
+        const existingVote = await db.answerVote.findFirst({
             where: {
                 voterId: session.user.id,
-                questionId
+                answerId
             }
         });
 
         if (existingVote) {
             // If the existing vote type is the same as current vote type, delete the vote completely
             if (existingVote.type === voteType) {
-                await db.questionVote.delete({
+                await db.answerVote.delete({
                     where: {
-                        voterId_questionId: {
+                        voterId_answerId: {
                             voterId: session.user.id,
-                            questionId
+                            answerId
                         }
                     }
                 });
             } else { // If the existing vote type is different from current vote type, update the vote
-                await db.questionVote.update({
+                await db.answerVote.update({
                     where: {
-                        voterId_questionId: {
+                        voterId_answerId: {
                             voterId: session.user.id,
-                            questionId
+                            answerId
                         }
                     },
                     data: {
@@ -52,12 +52,12 @@ export const voteQuestion = async (payload: QuestionVotePayload) => {
                 });
             }
         } else {
-            // Create a new vote with the current vote type, user id & question id
-            await db.questionVote.create({
+            // Create a new vote with the current vote type, user id & answer id
+            await db.answerVote.create({
                 data: {
                     type: voteType,
                     voterId: session.user.id,
-                    questionId
+                    answerId
                 }
             });
         }

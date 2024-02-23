@@ -26,7 +26,10 @@ export const getAnswers = async (payload: GetAnswersPayload) => {
             orderBy: orderByCaluse,
             take: limit,
             skip: (page - 1) * limit,
-            include: { answerer: true }
+            include: {
+                answerer: true,
+                votes: true
+            }
         });
 
         const totalAnswers = await db.answer.count({

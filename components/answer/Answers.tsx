@@ -77,12 +77,13 @@ const Answers = ({
                             />
                         </div>
                     </div>
-                    
+
                     <ul className="space-y-5">
                         {answers.map((answer, index) => {
                             if (index === answers.length - 1) {
                                 return <Answer
                                     key={answer.id}
+                                    id={answer.id}
                                     votes={answer.votes}
                                     content={answer.content}
                                     answerer={answer.answerer}
@@ -92,6 +93,7 @@ const Answers = ({
                                 />
                             } else {
                                 return <Answer
+                                    id={answer.id}
                                     key={answer.id}
                                     votes={answer.votes}
                                     content={answer.content}
