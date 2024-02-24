@@ -88,8 +88,8 @@ model Question {
     updatedAt   DateTime @updatedAt
 
     asker   User           @relation(fields: [askerId], references: [id], onDelete: Cascade)
-    votes   QuestionVote[]
     answers Answer[]
+    votes   QuestionVote[]
 }
 
 model Answer {

@@ -15,7 +15,15 @@ export const getQuestions = async (payload: GetQuestionsPayload) => {
             orderBy: { askedAt: "desc" },
             take: limit,
             skip: (page - 1) * limit,
-            include: { asker: true }
+            include: {
+                asker: true,
+                votes: true,
+                answers: {
+                    select: {
+                        id: true
+                    }
+                }
+            }
         });
 
         const totalQuestions = await db.question.count({

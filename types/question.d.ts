@@ -1,7 +1,13 @@
-import { Answer, Question, User, Vote } from "@prisma/client"
+import { Answer, Question, QuestionVote, User, Vote } from "@prisma/client";
+
+export type AnswererId = {
+    id: string;
+}
 
 export type ExtendedQuestion = Question & {
-    asker: User
+    asker: User,
+    votes: QuestionVote[],
+    answers: AnswererId[];
 };
 
 export type QuestionData = {

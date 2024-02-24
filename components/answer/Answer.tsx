@@ -1,4 +1,5 @@
 import { useState } from "react";
+import moment from "moment";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import {
@@ -95,7 +96,12 @@ const Answer = ({
                     className="text-zinc-800"
                 />
                 <div className="bg-zinc-100 max-w-[200px] p-3 rounded-sm ml-auto mt-2">
-                    <p className="text-xs text-zinc-700 mb-1">answered 1 minute ago</p>
+                    <p className="text-xs text-zinc-700 mb-1">
+                        {new Date(updatedAt) > new Date(answeredAt)
+                            ? `updated ${moment(updatedAt).startOf('minute').fromNow()}`
+                            : `answered ${moment(answeredAt).startOf('minute').fromNow()}`
+                        }
+                    </p>
                     <Link
                         href={`/users/${answerer.username}`}
                         className="flex items-center gap-1"
