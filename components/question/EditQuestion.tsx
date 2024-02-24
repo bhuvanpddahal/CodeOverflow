@@ -9,12 +9,15 @@ import { getQuestion } from "@/actions/getQuestion";
 import { DetailedQuestion } from "@/types/question";
 import { askQuestionInstruction } from "@/constants";
 import { editQuestion } from "@/actions/editQuestion";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface EditQuestionProps {
     id: string;
 }
 
 const EditQuestion = ({ id }: EditQuestionProps) => {
+    const user = useCurrentUser();
+
     const fetchQuestion = async () => {
         const payload = { questionId: id };
         const question = await getQuestion(payload);
@@ -31,6 +34,7 @@ const EditQuestion = ({ id }: EditQuestionProps) => {
 
     if(status === "pending") return <div>Loading...</div>
     if(status === "error") return <div>Something went wrong!</div>
+    if(question.askerId !== user?.id) return <div>Page not found</div>
 
     return (
         <div className="bg-zinc-100 p-5 md:py-10 md:px-14">
@@ -52,7 +56,7 @@ const EditQuestion = ({ id }: EditQuestionProps) => {
                 loadingBtnText="Editing..."
             />
 
-            <p className='px-8 text-center text-sm text-zinc-700'>
+            <p className='px-8 text-center text-sm text-zinc-700 max-w-4xl mt-2'>
                 Want to ask a question instead?{' '}
                 <Link href='/questions/ask' className='hover:text-zinc-800 text-sm underline underline-offset-4'>
                     Click here

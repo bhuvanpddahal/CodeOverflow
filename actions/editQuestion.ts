@@ -12,6 +12,11 @@ export const editQuestion = async (payload: QuestionPayload) => {
         const session = await auth();
         const { questionId, title, details, expectation, tags } = validatedFields.data;
 
+        const question = await db.question.findUnique({
+            where: { id: questionId }
+        });
+        if(question?.askerId !== session?.user.id) return { error: "Not allowed" };
+
         await db.question.update({
             where: { id: questionId },
             data: {

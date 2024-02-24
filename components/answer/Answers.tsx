@@ -18,12 +18,14 @@ interface AnswersProps {
     questionId: string;
     sortBy:  AnswersSortValue;
     setSortBy: Dispatch<SetStateAction<AnswersSortValue>>;
+    setShowAuthModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const Answers = ({
     questionId,
     sortBy,
-    setSortBy
+    setSortBy,
+    setShowAuthModal
 }: AnswersProps) => {
     const { ref, inView } = useInView();
 
@@ -89,6 +91,7 @@ const Answers = ({
                                     answerer={answer.answerer}
                                     answeredAt={answer.answeredAt}
                                     updatedAt={answer.updatedAt}
+                                    setShowAuthModal={setShowAuthModal}
                                     lastAnswerRef={ref}
                                 />
                             } else {
@@ -100,6 +103,7 @@ const Answers = ({
                                     answerer={answer.answerer}
                                     answeredAt={answer.answeredAt}
                                     updatedAt={answer.updatedAt}
+                                    setShowAuthModal={setShowAuthModal}
                                 />
                             }
                         })}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useRef, useState } from "react";
+import { useTransition, useRef, useState, Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -20,17 +20,21 @@ import {
 } from "@/lib/validators/answer";
 import { AnswersSortValue } from "@/types/answer";
 import { answerQuestion } from "@/actions/answerQuestion";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface YourAnswerProps {
     questionId: string;
     sortBy: AnswersSortValue;
+    setShowAuthModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const YourAnswer = ({
     questionId,
-    sortBy
+    sortBy,
+    setShowAuthModal
 }: YourAnswerProps) => {
     const editor = useRef(null);
+    const user = useCurrentUser();
     const queryClient = useQueryClient();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -45,20 +49,24 @@ const YourAnswer = ({
     });
 
     const onSubmit = (payload: AnswerPayload) => {
-        startTransition(() => {
-            answerQuestion(payload).then((data) => {
-                if (data.success) {
-                    queryClient.invalidateQueries({
-                        queryKey: ["answers", { questionId, sortBy }],
-                        exact: true
-                    });
-                    setSuccess(data.success);
-                    form.reset();
-                }
-            }).catch(() => {
-                setError("Something went wrong");
+        if(user) {
+            startTransition(() => {
+                answerQuestion(payload).then((data) => {
+                    if (data.success) {
+                        queryClient.invalidateQueries({
+                            queryKey: ["answers", { questionId, sortBy }],
+                            exact: true
+                        });
+                        setSuccess(data.success);
+                        form.reset();
+                    }
+                }).catch(() => {
+                    setError("Something went wrong");
+                });
             });
-        });
+        } else {
+            setShowAuthModal(true);
+        }
     };
 
     return (

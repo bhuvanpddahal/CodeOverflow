@@ -12,6 +12,8 @@ export const createQuestion = async (payload: QuestionPayload) => {
         const session = await auth();
         const { title, details, expectation, tags } = validatedFields.data;
 
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
         await db.question.create({
             data: {
                 title,
@@ -20,7 +22,7 @@ export const createQuestion = async (payload: QuestionPayload) => {
                 tags,
                 asker: {
                     connect: {
-                        id: session?.user.id
+                        id: session.user.id
                     }
                 }
             }

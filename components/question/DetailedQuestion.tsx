@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import moment from "moment";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
@@ -21,6 +21,7 @@ import { QuestionVotePayload } from "@/lib/validators/vote";
 
 interface DetailedQuestionProps {
     questionId: string;
+    askerId: string;
     votes: QuestionVote[];
     details: string;
     expectation: string;
@@ -30,10 +31,12 @@ interface DetailedQuestionProps {
     askerName: string;
     askerUsername: string;
     askerImage: string | null;
+    setShowAuthModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const DetailedQuestion = ({
     questionId,
+    askerId,
     votes,
     details,
     expectation,
@@ -42,7 +45,8 @@ const DetailedQuestion = ({
     updatedAt,
     askerName,
     askerUsername,
-    askerImage
+    askerImage,
+    setShowAuthModal
 }: DetailedQuestionProps) => {
     const user = useCurrentUser();
     const initialVotesAmt = votes.reduce((acc, vote) => {
@@ -92,18 +96,20 @@ const DetailedQuestion = ({
             <div className="flex flex-col items-center gap-3">
                 <IoMdArrowDropup
                     className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                    onClick={() => vote('UP')}
+                    onClick={() => user ? vote('UP') : setShowAuthModal(true)}
                 />
                 <p className="text-xl font-bold text-zinc-900">{votesAmt}</p>
                 <IoMdArrowDropdown
                     className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                    onClick={() => vote('DOWN')}
+                    onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
                 />
-                <Link href={`questions/${questionId}/edit`}>
-                    <LiaEdit
-                        className="h-7 w-7 text-zinc-300 cursor-pointer hover:text-blue-600"
-                    />
-                </Link>
+                {user?.id === askerId && (
+                    <Link href={`${questionId}/edit`}>
+                        <LiaEdit
+                            className="h-7 w-7 text-zinc-300 cursor-pointer hover:text-blue-600"
+                        />
+                    </Link>
+                )}
             </div>
             <div className="flex-1">
                 <div

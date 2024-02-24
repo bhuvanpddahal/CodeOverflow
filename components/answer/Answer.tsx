@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import moment from "moment";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
@@ -22,6 +22,7 @@ interface AnswerProps {
     answerer: User;
     answeredAt: Date;
     updatedAt: Date;
+    setShowAuthModal: Dispatch<SetStateAction<boolean>>;
     lastAnswerRef?: (node?: Element | null | undefined) => void;
 }
 
@@ -32,6 +33,7 @@ const Answer = ({
     answerer,
     answeredAt,
     updatedAt,
+    setShowAuthModal,
     lastAnswerRef
 }: AnswerProps) => {
     const user = useCurrentUser();
@@ -82,12 +84,12 @@ const Answer = ({
             <div className="flex flex-col items-center gap-3">
                 <IoMdArrowDropup
                     className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                    onClick={() => vote('UP')}
+                    onClick={() => user ? vote('UP') : setShowAuthModal(true)}
                 />
                 <p className="text-xl font-bold text-zinc-900">{votesAmt}</p>
                 <IoMdArrowDropdown
                     className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                    onClick={() => vote('DOWN')}
+                    onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
                 />
             </div>
             <div className="flex-1">

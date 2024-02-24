@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
 import Answers from "../answer/Answers";
+import AuthModal from "../auth/AuthModal";
 import YourAnswer from "../answer/YourAnswer";
 import DetailedQuestion from "./DetailedQuestion";
 import { buttonVariants } from "../ui/Button";
@@ -18,6 +19,7 @@ interface QuestionDetailsProps {
 }
 
 const QuestionDetails = ({ id }: QuestionDetailsProps) => {
+    const [showAuthModal, setShowAuthModal] = useState(true);
     const [sortBy, setSortBy] = useState<AnswersSortValue>("highest-score");
 
     const fetchQuestion = async () => {
@@ -36,8 +38,15 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
 
     if(status === "pending") return <div>Loading...</div>
     if(status === "error") return <div>Something went wrong!</div>
+
     return (
         <div className="flex-1 p-4">
+            {showAuthModal && (
+                <AuthModal
+                    setShow={setShowAuthModal}
+                />
+            )}
+
             <header className="border-b border-zinc-300">
                 <div className="flex flex-col-reverse md:flex-row justify-between gap-3">
                     <h1 className="text-2xl font-medium text-slate-700">{question.title}</h1>
@@ -56,6 +65,7 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
                 <section className="flex-1">
                     <DetailedQuestion
                         questionId={id}
+                        askerId={question.askerId}
                         votes={question.votes}
                         details={question.details}
                         expectation={question.expectation}
@@ -65,17 +75,20 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
                         askerName={question.asker.name}
                         askerUsername={question.asker.username}
                         askerImage={question.asker.image}
+                        setShowAuthModal={setShowAuthModal}
                     />
 
                     <Answers
                         questionId={id}
                         sortBy={sortBy}
                         setSortBy={setSortBy}
+                        setShowAuthModal={setShowAuthModal}
                     />
 
                     <YourAnswer
                         questionId={id}
                         sortBy={sortBy}
+                        setShowAuthModal={setShowAuthModal}
                     />
                 </section>
 
