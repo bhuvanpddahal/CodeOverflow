@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import JoditEditor from "jodit-react";
 import { UseFormReturn } from "react-hook-form";
 
-import { Button } from "./ui/Button";
 import {
     FormControl,
     FormField,
@@ -30,7 +29,6 @@ const EditorBox = ({
     isLoading
 }: EditorBoxProps) => {
     const editor = useRef(null);
-    const [content, setContent] = useState('');
 
     return (
         <div className="border border-zinc-200 bg-white p-6 rounded-sm max-w-4xl">
@@ -52,8 +50,6 @@ const EditorBox = ({
                             />
                         </FormControl>
                         <FormMessage />
-                        <Button className="mt-4">Next</Button>
-                        {content}
                     </FormItem>
                 )}
             />

@@ -3,7 +3,6 @@
 import { UseFormReturn } from "react-hook-form";
 
 import { Input } from "./ui/Input";
-import { Button } from "./ui/Button";
 import {
     FormControl,
     FormField,
@@ -52,7 +51,6 @@ const InputBox = ({
                             />
                         </FormControl>
                         <FormMessage />
-                        <Button className="mt-4">Next</Button>
                     </FormItem>
                 )}
             />

@@ -85,7 +85,7 @@ model Question {
     views       String[] @default([])
     votesIds    String[]
     askedAt     DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    updatedAt   DateTime @default(now())
 
     asker   User           @relation(fields: [askerId], references: [id], onDelete: Cascade)
     answers Answer[]
@@ -99,7 +99,7 @@ model Answer {
     content    String
     votesIds   String[]
     answeredAt DateTime @default(now())
-    updatedAt  DateTime @updatedAt
+    updatedAt  DateTime @default(now())
 
     question Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
     answerer User         @relation(fields: [answererId], references: [id], onDelete: Cascade)

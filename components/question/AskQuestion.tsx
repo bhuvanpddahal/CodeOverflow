@@ -1,6 +1,7 @@
 import Instruction from "../Instruction";
-import { askQuestionInstruction } from "@/constants";
 import QuestionForm from "./QuestionForm";
+import { askQuestionInstruction } from "@/constants";
+import { createQuestion } from "@/actions/createQuestion";
 
 const AskQuestion = () => {
     return (
@@ -11,7 +12,12 @@ const AskQuestion = () => {
 
             <Instruction instruction={askQuestionInstruction} />
 
-            <QuestionForm />
+            <QuestionForm
+                mutationFn={createQuestion}
+                redirectUrl="/home?tab=interesting"
+                btnText="Submit your question"
+                loadingBtnText="Submitting..."
+            />
         </div>
     )
 };

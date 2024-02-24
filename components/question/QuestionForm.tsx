@@ -14,14 +14,40 @@ import {
     questionExpectation,
     questionTags
 } from "@/constants";
-import {
-    QuestionPayload,
-    QuestionValidator
-} from "@/lib/validators/question";
 import { useRouter } from "next/navigation";
-import { createQuestion } from "@/actions/createQuestion";
+import { QuestionPayload, QuestionValidator } from "@/lib/validators/question";
+import FormSuccess from "../FormSuccess";
+import FormError from "../FormError";
 
-const QuestionForm = () => {
+interface QuestionFormProps {
+    questionId?: string;
+    title?: string;
+    details?: string;
+    expectation?: string;
+    tags?: string;
+    mutationFn: (payload: QuestionPayload) => Promise<{
+        error: string;
+        success?: undefined;
+    } | {
+        success: string;
+        error?: undefined;
+    }>;
+    redirectUrl: string;
+    btnText: string;
+    loadingBtnText: string;
+}
+
+const QuestionForm = ({
+    questionId,
+    title,
+    details,
+    expectation,
+    tags,
+    mutationFn,
+    redirectUrl,
+    btnText,
+    loadingBtnText
+}: QuestionFormProps) => {
     const router = useRouter();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -30,10 +56,11 @@ const QuestionForm = () => {
     const form = useForm<QuestionPayload>({
         resolver: zodResolver(QuestionValidator),
         defaultValues: {
-            title: "",
-            details: "",
-            expectation: "",
-            tags: "",
+            questionId: questionId || "",
+            title: title || "",
+            details: details || "",
+            expectation: expectation || "",
+            tags: tags || ""
         }
     });
 
@@ -42,13 +69,14 @@ const QuestionForm = () => {
         setSuccess('');
 
         startTransition(() => {
-            createQuestion(payload).then((data) => {
+            mutationFn(payload).then((data) => {
                 if (data.success) {
                     setSuccess(data.success);
-                    router.push('/home?tab=interesting');
+                    router.push(redirectUrl);
                 }
-            }).catch(() => {
-                setError("Something went wrong");
+                if(data.error) {
+                    setError(data.error);
+                }
             });
         });
     };
@@ -96,13 +124,16 @@ const QuestionForm = () => {
                     />
                 </div>
 
+                <FormSuccess message={success} />
+                <FormError message={error} />
+
                 <div className="max-w-4xl flex justify-between gap-3 mt-5">
                     <Button
                         type='submit'
                         disabled={isLoading}
                         isLoading={isLoading}
                     >
-                        {isLoading ? "Submitting..." : "Submit your question"}
+                        {isLoading ? loadingBtnText : btnText}
                     </Button>
                     <Button
                         variant="destructive"

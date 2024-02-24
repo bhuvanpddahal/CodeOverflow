@@ -8,6 +8,7 @@ import {
     IoMdArrowDropdown,
     IoMdArrowDropup
 } from "react-icons/io";
+import { LiaEdit } from "react-icons/lia";
 import { usePrevious } from "@mantine/hooks";
 import { QuestionVote, VoteType } from "@prisma/client";
 
@@ -98,6 +99,11 @@ const DetailedQuestion = ({
                     className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
                     onClick={() => vote('DOWN')}
                 />
+                <Link href={`questions/${questionId}/edit`}>
+                    <LiaEdit
+                        className="h-7 w-7 text-zinc-300 cursor-pointer hover:text-blue-600"
+                    />
+                </Link>
             </div>
             <div className="flex-1">
                 <div
