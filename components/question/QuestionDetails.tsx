@@ -19,7 +19,7 @@ interface QuestionDetailsProps {
 }
 
 const QuestionDetails = ({ id }: QuestionDetailsProps) => {
-    const [showAuthModal, setShowAuthModal] = useState(true);
+    const [showAuthModal, setShowAuthModal] = useState(false);
     const [sortBy, setSortBy] = useState<AnswersSortValue>("highest-score");
 
     const fetchQuestion = async () => {

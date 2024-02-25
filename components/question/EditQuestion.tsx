@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
 import Instruction from "../Instruction";
@@ -34,7 +35,7 @@ const EditQuestion = ({ id }: EditQuestionProps) => {
 
     if(status === "pending") return <div>Loading...</div>
     if(status === "error") return <div>Something went wrong!</div>
-    if(question.askerId !== user?.id) return <div>Page not found</div>
+    if(question.askerId !== user?.id) return notFound();
 
     return (
         <div className="bg-zinc-100 p-5 md:py-10 md:px-14">
