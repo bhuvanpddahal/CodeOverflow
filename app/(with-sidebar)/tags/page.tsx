@@ -1,8 +1,8 @@
-import Home from '@/components/page/Home';
+import Tags from "@/components/page/Tags";
 
 const Page = () => {
     return (
-        <Home />
+        <Tags />
     )
 };
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MdMenu } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 
-import Searchbar from "./Searchbar";
+import Searchbar from "./NavSearchbar";
 import UserAccountNav from "./UserAccountNav";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/Button";

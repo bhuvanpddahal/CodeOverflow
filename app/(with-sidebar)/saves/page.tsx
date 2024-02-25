@@ -1,8 +1,8 @@
-import Home from '@/components/page/Home';
+import Saves from "@/components/page/Saves";
 
 const Page = () => {
     return (
-        <Home />
+        <Saves />
     )
 };
 

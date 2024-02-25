@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import TabsBox from "./TabsBox";
-import Questions from "./question/Questions";
+import TabsBox from "../TabsBox";
+import Questions from "../question/Questions";
 import { homeTabs } from "@/constants";
-import { buttonVariants } from "./ui/Button";
+import { buttonVariants } from "../ui/Button";
 import { QuestionData } from "@/types/question";
 import { InfiniteQueryFnProps } from "@/types/util";
 import { getQuestions } from "@/actions/getQuestions";

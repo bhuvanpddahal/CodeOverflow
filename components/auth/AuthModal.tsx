@@ -1,12 +1,12 @@
 "use client";
 
 import { Dispatch, SetStateAction, useState } from "react";
-import Link from "next/link";
+import { IoIosClose } from "react-icons/io";
 
-import SocialButtons from "./SocialButtons";
-import { Button, buttonVariants } from "../ui/Button";
 import LogInForm from "./LogInForm";
 import SignUpForm from "./SignUpForm";
+import SocialButtons from "./SocialButtons";
+import { Button } from "../ui/Button";
 
 interface AuthModalProps {
     setShow: Dispatch<SetStateAction<boolean>>;
@@ -23,10 +23,15 @@ const AuthModal = ({
 
     return (
         <div className="bg-zinc-900/40 fixed inset-0 flex items-center justify-center z-20 p-3 overflow-y-auto">
-            <div className="bg-white p-5 max-w-sm w-full rounded-md space-y-5">
+            <div className="bg-white relative p-5 max-w-sm w-full rounded-md space-y-5 shadow-md">
+                <IoIosClose
+                    className="absolute top-5 right-5 h-7 w-7 cursor-pointer"
+                    onClick={() => setShow(false)}
+                />
+
                 <div>
                     <header className="text-slate-700 font-semibold text-lg">Authenticate Yourself</header>
-                    <p className="text-zinc-400 text-sm mt-2">You must be logged in to perform that action.</p>
+                    <p className="text-zinc-400 text-sm">You must be logged in to perform this action.</p>
                 </div>
 
                 {isLogin ? (
@@ -47,7 +52,7 @@ const AuthModal = ({
                 <Button
                     variant="outline"
                     onClick={() => setShow(false)}
-                    className="ml-auto"
+                    className="inline-block ml-auto"
                 >
                     Cancel
                 </Button>

@@ -49,6 +49,21 @@ export const questionsTabs = [
     }
 ];
 
+export const tagsTabs = [
+    {
+        name: "Popular",
+        value: "popular"
+    },
+    {
+        name: "Name",
+        value: "name"
+    },
+    {
+        name: "New",
+        value: "new"
+    }
+];
+
 export const askQuestionInstruction = {
     title: "Writing a good question",
     description: "You're ready to ask a programming-related question and this form will help guide you through the process. Looking to ask a non-programming question? See the topics here to find a relevant site.",

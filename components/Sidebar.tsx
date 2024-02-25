@@ -8,7 +8,7 @@ import { PiBagSimpleFill } from "react-icons/pi";
 
 const Sidebar = () => {
     return (
-        <div className="sticky top-[57px] h-rem w-[180px] sm:w-[210px] border-r border-zinc-300 p-3 overflow-y-auto hidden sm:block">
+        <div className="sticky top-[57px] h-rem w-[180px] md:w-[210px] border-r border-zinc-300 p-2 md:p-3 overflow-y-auto hidden sm:block">
             <ul className="text-[15px]">
                 <li>
                     <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
@@ -17,13 +17,13 @@ const Sidebar = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/questions" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <RiQuestionnaireFill className="h-5 w-5 text-zinc-800" />
                         Questions
                     </Link>
                 </li>
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/tags" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <ImPriceTags className="h-5 w-5 text-zinc-800" />
                         Tags
                     </Link>
@@ -32,19 +32,19 @@ const Sidebar = () => {
 
             <ul className="text-[15px] mt-4">
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/saves" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <IoBookmark className="h-5 w-5 text-zinc-800" />
                         Saves
                     </Link>
                 </li>
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/users" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <ImUsers className="h-5 w-5 text-zinc-800" />
                         Users
                     </Link>
                 </li>
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/companies" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <PiBagSimpleFill className="h-5 w-5 text-zinc-800" />
                         Companies
                     </Link>

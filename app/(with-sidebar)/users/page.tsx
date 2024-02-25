@@ -1,8 +1,8 @@
-import Home from '@/components/page/Home';
+import Users from "@/components/page/Users";
 
 const Page = () => {
     return (
-        <Home />
+        <Users />
     )
 };
 
