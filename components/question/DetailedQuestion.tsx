@@ -121,7 +121,9 @@ const DetailedQuestion = ({
                     className="text-zinc-800"
                 />
                 <div className="flex gap-2 my-5">
-                    <Badge variant="secondary">{tags}</Badge>
+                    <Link href="/questions/tagged/javascript">
+                        <Badge variant="secondary">{tags}</Badge>
+                    </Link>
                 </div>
                 <div className="bg-blue-50 max-w-[200px] p-3 rounded-sm ml-auto">
                     <p className="text-xs text-zinc-700 mb-1">

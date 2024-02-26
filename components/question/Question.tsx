@@ -49,7 +49,9 @@ const Question = ({
             <div className="flex-1">
                 <Link href={`/questions/${id}`} className="text-lg text-blue-700 line-clamp-2 leading-snug hover:text-blue-800">{title}</Link>
                 <div className="flex items-center justify-between gap-3 flex-wrap mt-2">
-                    <Badge variant="secondary">{tags}</Badge>
+                    <Link href="/questions/tagged/javascript">
+                        <Badge variant="secondary">{tags}</Badge>
+                    </Link>
                     <div className="flex items-center gap-2">
                         <Link
                             href={`/users/${asker.username}`}
