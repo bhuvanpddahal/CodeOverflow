@@ -11,8 +11,8 @@ export const QuestionValidator = z.object({
     expectation: z.string().min(10, {
         message: "This is not an enough long paragraph"
     }),
-    tags: z.string().min(3, {
-        message: "Tag must be at least 3 characters long"
+    tags: z.array(z.string()).refine(data => data.length <= 5, {
+        message: "Please enter no more than 5 tags",
     })
 });
 

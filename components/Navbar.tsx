@@ -54,10 +54,15 @@ const Navbar = () => {
                         />
                     ) : (
                         <>
-                            <Link href='/log-in' className={cn(buttonVariants({ variant: 'outline' }))}>
+                            <Link href='/log-in' className={cn(buttonVariants({
+                                variant: 'outline',
+                                className: 'whitespace-nowrap'
+                            }))}>
                                 Log in
                             </Link>
-                            <Link href='/sign-up' className={buttonVariants()}>
+                            <Link href='/sign-up' className={buttonVariants({
+                                className: 'whitespace-nowrap'
+                            })}>
                                 Sign up
                             </Link>
                         </>

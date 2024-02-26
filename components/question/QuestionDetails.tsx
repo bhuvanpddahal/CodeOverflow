@@ -49,7 +49,7 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
 
             <header className="border-b border-zinc-300">
                 <div className="flex flex-col-reverse md:flex-row justify-between gap-3">
-                    <h1 className="text-2xl font-medium text-slate-700">{question.title}</h1>
+                    <h1 className="text-xl sm:text-2xl font-medium text-slate-700">{question.title}</h1>
                     <Link href="/questions/ask" className={buttonVariants({
                         className: "whitespace-nowrap"
                     })}>Ask Question</Link>

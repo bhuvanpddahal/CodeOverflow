@@ -16,7 +16,7 @@ import { QuestionPayload } from "@/lib/validators/question";
 interface EditorBoxProps {
     title: string;
     description: string;
-    name: "title" | "details" | "expectation" | "tags";
+    name: "details" | "expectation";
     form: UseFormReturn<QuestionPayload, any, QuestionPayload>;
     isLoading: boolean;
 }
@@ -43,10 +43,11 @@ const EditorBox = ({
                                 <p className="text-[13px] text-zinc-600 mt-1">{description}</p>
                             </>
                         } />
-                        <FormControl>
+                        <FormControl >
                             <JoditEditor
                                 {...field}
                                 ref={editor}
+                                className={isLoading ? "pointer-events-none" : ""}
                             />
                         </FormControl>
                         <FormMessage />

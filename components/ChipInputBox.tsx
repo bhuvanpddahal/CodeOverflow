@@ -2,7 +2,7 @@
 
 import { UseFormReturn } from "react-hook-form";
 
-import { Input } from "./ui/Input";
+import ChipInput from "./ChipInput";
 import {
     FormControl,
     FormField,
@@ -16,7 +16,7 @@ interface InputBoxProps {
     title: string;
     description: string;
     placeholder: string;
-    name: "title";
+    name: "tags";
     form: UseFormReturn<QuestionPayload, any, QuestionPayload>;
     isLoading: boolean;
 }
@@ -43,10 +43,9 @@ const InputBox = ({
                             </>
                         } />
                         <FormControl>
-                            <Input
+                            <ChipInput
                                 {...field}
                                 placeholder={placeholder}
-                                type='text'
                                 disabled={isLoading}
                             />
                         </FormControl>

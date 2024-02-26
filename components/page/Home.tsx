@@ -51,7 +51,7 @@ const Home = () => {
             <section className="flex-1">
                 <div className="pl-4">
                     <header className="flex items-enter justify-between">
-                        <h1 className="text-2xl font-medium text-zinc-800">Top Questions</h1>
+                        <h1 className="text-xl sm:text-2xl font-medium text-zinc-800">Top Questions</h1>
                         <Link href="/questions/ask" className={buttonVariants()}>Ask Question</Link>
                     </header>
                     <div className="flex justify-end my-4">

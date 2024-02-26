@@ -9,6 +9,7 @@ import EditorBox from "../EditorBox";
 import FormError from "../FormError";
 import FormSuccess from "../FormSuccess";
 import AuthModal from "../auth/AuthModal";
+import ChipInputBox from "../ChipInputBox";
 import { Form } from "../ui/Form";
 import { Button } from "../ui/Button";
 import {
@@ -29,7 +30,7 @@ interface QuestionFormProps {
     title?: string;
     details?: string;
     expectation?: string;
-    tags?: string;
+    tags?: string[];
     mutationFn: (payload: QuestionPayload) => Promise<{
         error: string;
         success?: undefined;
@@ -67,7 +68,7 @@ const QuestionForm = ({
             title: title || "",
             details: details || "",
             expectation: expectation || "",
-            tags: tags || ""
+            tags: tags || []
         }
     });
 
@@ -103,6 +104,7 @@ const QuestionForm = ({
                     setShow={setShowAuthModal}
                 />
             )}
+
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -131,7 +133,7 @@ const QuestionForm = ({
                             form={form}
                             isLoading={isLoading}
                         />
-                        <InputBox
+                        <ChipInputBox
                             title={questionTags.title}
                             description={questionTags.description}
                             placeholder={questionTags.placeholder}

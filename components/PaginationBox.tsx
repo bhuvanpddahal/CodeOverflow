@@ -10,7 +10,7 @@ import {
 
 const PaginationBox = () => {
     return (
-        <Pagination>
+        <Pagination className="justify-end">
             <PaginationContent>
                 <PaginationItem>
                     <PaginationPrevious href="#" />
