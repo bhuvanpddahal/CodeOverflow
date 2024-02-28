@@ -12,20 +12,55 @@ export const editQuestion = async (payload: QuestionPayload) => {
         const session = await auth();
         const { questionId, title, details, expectation, tags } = validatedFields.data;
 
+        if (!session?.user || !session.user.id) return { error: "Unauthorized" };
+
         const question = await db.question.findUnique({
             where: { id: questionId }
         });
-        if(question?.askerId !== session?.user.id) return { error: "Not allowed" };
+        if(question?.askerId !== session.user.id) return { error: "Not allowed" };
 
-        await db.question.update({
+        let tagIds: string[] = [];
+
+        for (const tag of tags) {
+            const tagAlreadyExists = await db.tag.findUnique({
+                where: { name: tag }
+            });
+            
+            if(tagAlreadyExists) {
+                tagIds.push(tagAlreadyExists.id);
+            } else {
+                // Create a new tag
+                const newTag = await db.tag.create({
+                    data: {
+                        name: tag,
+                        creatorId: session.user.id!
+                    }
+                });
+                tagIds.push(newTag.id);
+            }
+        }
+
+        const updatedQuestion = await db.question.update({
             where: { id: questionId },
             data: {
                 title,
                 details,
                 expectation,
-                tags
+                tagIds
             }
         });
+
+        for(const tagId of tagIds) {
+            await db.tag.update({
+                where: { id: tagId },
+                data: {
+                    questionIds: {
+                        push: updatedQuestion.id
+                    }
+                }
+            });
+        }
+
         return { success: "Question edited" };
     } catch (error) {
         console.log(error);
