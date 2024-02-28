@@ -72,18 +72,23 @@ const Tags = () => {
             ) : (
                 data?.tags && data.tags.length ? (
                     <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-px mb-3">
-                        {data.tags.map((tag) => (
-                            <li className="border border-zinc-300 p-3 rounded-sm">
-                                <Link href={`/questions/tagged/${tag.name}`}>
-                                    <Badge variant="secondary">{tag.name}</Badge>
-                                </Link>
-                                <p className="text-sm text-zinc-700 my-3 line-clamp-4">{tag.description ? tag.description : ""}</p>
-                                <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
-                                    <span>{tag.questionIds.length} questions</span>
-                                    <span>1 asked today, 2 this week</span>
-                                </div>
-                            </li>
-                        ))}
+                        {data.tags.map((tag) => {
+                            if(tag.name.includes(input)) {
+                                return (
+                                    <li className="border border-zinc-300 p-3 rounded-sm">
+                                        <Link href={`/questions/tagged/${tag.name}`}>
+                                            <Badge variant="secondary">{tag.name}</Badge>
+                                        </Link>
+                                        <p className="text-sm text-zinc-700 my-3 line-clamp-4">{tag.description ? tag.description : ""}</p>
+                                        <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
+                                            <span>{tag.questionIds.length} questions</span>
+                                            <span>1 asked today, 2 this week</span>
+                                        </div>
+                                    </li>
+                                )
+                            }
+                            return null;
+                        })}
                     </ul>
                 ) : (
                     <div className="text-center text-zinc-400 text-[15px] py-10">No tags to show</div>

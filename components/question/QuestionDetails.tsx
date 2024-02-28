@@ -38,8 +38,6 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
 
     if(status === "pending") return <div>Loading...</div>
     if(status === "error") return <div>Something went wrong!</div>
-
-    console.log('tags is: ', question.tags);
     
     return (
         <div className="flex-1 p-4">
