@@ -139,7 +139,7 @@ const DetailedQuestion = ({
                         <UserAvatar user={{
                             name: askerName,
                             image: askerImage
-                        }} className='h-8 w-8' />
+                        }} className='h-6 w-6' />
                         <p className="text-xs text-blue-700 hover:text-blue-800">{askerName}</p>
                     </Link>
                 </div>

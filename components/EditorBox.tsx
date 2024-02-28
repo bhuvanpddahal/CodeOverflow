@@ -43,11 +43,10 @@ const EditorBox = ({
                                 <p className="text-[13px] text-zinc-600 mt-1">{description}</p>
                             </>
                         } />
-                        <FormControl >
+                        <FormControl>
                             <JoditEditor
                                 {...field}
                                 ref={editor}
-                                className={isLoading ? "pointer-events-none" : ""}
                             />
                         </FormControl>
                         <FormMessage />

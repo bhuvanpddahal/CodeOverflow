@@ -60,7 +60,7 @@ const Question = ({
                             <UserAvatar user={{
                                 name: asker.name,
                                 image: asker?.image
-                            }} className='h-8 w-8' />
+                            }} className='h-6 w-6 rounded-sm' />
                             <p className="text-xs text-blue-700 hover:text-blue-800">{asker.name}</p>
                         </Link>
                         <p className="text-xs text-zinc-700">

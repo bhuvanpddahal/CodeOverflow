@@ -25,6 +25,7 @@ model User {
     answers       Answer[]
     questionVotes QuestionVote[]
     answerVotes   AnswerVote[]
+    Tag           Tag[]
 }
 
 model Account {
@@ -112,6 +113,8 @@ model Tag {
     name        String   @unique
     description String?
     questionIds String[] @db.ObjectId
+    creatorId   String   @db.ObjectId
 
     questions Question[] @relation(fields: [questionIds], references: [id])
+    creator   User       @relation(fields: [creatorId], references: [id])
 }
