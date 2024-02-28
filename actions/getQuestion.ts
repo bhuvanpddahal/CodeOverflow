@@ -15,7 +15,8 @@ export const getQuestion = async (payload: GetQuestionPayload) => {
             where: { id: questionId },
             include: {
                 asker: true,
-                votes: true
+                votes: true,
+                tags: true
             }
         });
         if(!question) throw new Error("Question not found");

@@ -114,6 +114,7 @@ model Tag {
     description String?
     questionIds String[] @db.ObjectId
     creatorId   String   @db.ObjectId
+    createdAt   DateTime @default(now())
 
     questions Question[] @relation(fields: [questionIds], references: [id])
     creator   User       @relation(fields: [creatorId], references: [id])

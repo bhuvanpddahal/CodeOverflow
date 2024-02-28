@@ -1,18 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
-import {
-    Command,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList
-} from "./ui/Command";
+import { Command, CommandInput } from "./ui/Command";
 
-const Searchbar = () => {
-    const [input, setInput] = useState<string>('');
+interface SearchbarProps {
+    input: string;
+    setInput: Dispatch<SetStateAction<string>>;
+}
 
+const Searchbar = ({ input, setInput }: SearchbarProps) => {
     return (
         <Command className="relative w-[250px] shrink rounded-lg border max-w-xl overflow-visible">
             <CommandInput

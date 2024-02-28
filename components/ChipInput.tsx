@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Badge } from "./ui/Badge";
 import { TagData } from "@/types/tag";
-import { getTags } from "@/actions/getTags";
+import { getTagsByName } from "@/actions/getTagsByName";
 import { useOnClickOutside } from "@/hooks/use-on-click-outside";
 import Link from "next/link";
 
@@ -36,8 +36,7 @@ const ChipInput = ({
 
     const fetchTags = async () => {
         const payload = { name: inputRef.current?.value || "" };
-        const data = await getTags(payload);
-        console.log('Inside fetch tags: ', data);
+        const data = await getTagsByName(payload);
         setShowTags(true);
         return data as TagData;
     };
@@ -87,6 +86,7 @@ const ChipInput = ({
                 if (newChip && !chipAlreadyExists) {
                     onChange([...chips, newChip]);
                     setChips((prev) => [...prev, newChip]);
+                    setShowTags(false);
                 }
                 inputRef.current.value = "";
             }

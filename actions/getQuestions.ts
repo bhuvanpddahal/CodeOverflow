@@ -18,6 +18,7 @@ export const getQuestions = async (payload: GetQuestionsPayload) => {
             include: {
                 asker: true,
                 votes: true,
+                tags: true,
                 answers: {
                     select: {
                         id: true

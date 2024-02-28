@@ -1,12 +1,13 @@
 import { AnswersSortOptions } from "@/types/answer";
 
-export const QUESTIONS_PER_PAGE = 10;
+export const TAGS_PER_PAGE = 36;
 export const ANSWERS_PER_PAGE = 10;
+export const QUESTIONS_PER_PAGE = 10;
 
 export const homeTabs = [
     {
-        name: "Interseting",
-        value: "interseting"
+        name: "Interesting",
+        value: "interesting"
     },
     {
         name: "Bountied",

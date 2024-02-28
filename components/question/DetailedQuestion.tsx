@@ -10,7 +10,7 @@ import {
 } from "react-icons/io";
 import { LiaEdit } from "react-icons/lia";
 import { usePrevious } from "@mantine/hooks";
-import { QuestionVote, VoteType } from "@prisma/client";
+import { QuestionVote, Tag, VoteType } from "@prisma/client";
 
 import UserAvatar from "../UserAvatar";
 import { Badge } from "../ui/Badge";
@@ -25,7 +25,7 @@ interface DetailedQuestionProps {
     votes: QuestionVote[];
     details: string;
     expectation: string;
-    tags: string;
+    tags: Tag[];
     askedAt: Date;
     updatedAt: Date;
     askerName: string;
@@ -48,6 +48,7 @@ const DetailedQuestion = ({
     askerImage,
     setShowAuthModal
 }: DetailedQuestionProps) => {
+    console.log("Tags: ", tags);
     const user = useCurrentUser();
     const initialVotesAmt = votes.reduce((acc, vote) => {
         if (vote.type === 'UP') return acc + 1;
@@ -120,10 +121,12 @@ const DetailedQuestion = ({
                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(expectation) }}
                     className="text-zinc-800"
                 />
-                <div className="flex gap-2 my-5">
-                    <Link href="/questions/tagged/javascript">
-                        <Badge variant="secondary">{tags}</Badge>
-                    </Link>
+                <div className="space-x-1.5 my-5">
+                    {tags.map((tag) => (
+                        <Link key={tag.id} href={`/questions/tagged/${tag.name}`}>
+                            <Badge variant="secondary">{tag.name}</Badge>
+                        </Link>
+                    ))}
                 </div>
                 <div className="bg-blue-50 max-w-[200px] p-3 rounded-sm ml-auto">
                     <p className="text-xs text-zinc-700 mb-1">

@@ -14,11 +14,12 @@ interface Tab {
 interface TabsBoxProps {
     route: string;
     tabs: Tab[];
+    value: string;
 }
 
-const TabsBox = ({ route, tabs }: TabsBoxProps) => {
+const TabsBox = ({ route, tabs, value }: TabsBoxProps) => {
     return (
-        <Tabs defaultValue={tabs[0].value}>
+        <Tabs defaultValue={value}>
             <TabsList className="border border-zinc-200">
                 {tabs.map((tab) => (
                     <TabsTrigger

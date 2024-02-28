@@ -111,7 +111,7 @@ const QuestionForm = ({
                     className='mt-5'
                 >
                     <div className='flex flex-col gap-5'>
-                        {/* <InputBox
+                        <InputBox
                             title={questionTitle.title}
                             description={questionTitle.description}
                             placeholder={questionTitle.placeholder}
@@ -132,7 +132,7 @@ const QuestionForm = ({
                             name="expectation"
                             form={form}
                             isLoading={isLoading}
-                        /> */}
+                        />
                         <ChipInputBox
                             title={questionTags.title}
                             description={questionTags.description}

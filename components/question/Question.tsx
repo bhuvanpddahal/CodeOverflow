@@ -2,7 +2,7 @@
 
 import moment from "moment";
 import Link from "next/link";
-import { QuestionVote, User } from "@prisma/client";
+import { QuestionVote, Tag, User } from "@prisma/client";
 
 import UserAvatar from "@/components/UserAvatar";
 import { Badge } from "@/components/ui/Badge";
@@ -11,7 +11,7 @@ import { AnswererId } from "@/types/question";
 interface QuestionProps {
     id: string;
     title: string;
-    tags: string;
+    tags: Tag[];
     asker: User;
     votes: QuestionVote[];
     answererIds: AnswererId[];
@@ -49,9 +49,13 @@ const Question = ({
             <div className="flex-1">
                 <Link href={`/questions/${id}`} className="text-lg text-blue-700 line-clamp-2 leading-snug hover:text-blue-800">{title}</Link>
                 <div className="flex items-center justify-between gap-3 flex-wrap mt-2">
-                    <Link href="/questions/tagged/javascript">
-                        <Badge variant="secondary">{tags}</Badge>
-                    </Link>
+                    <div className="space-x-1.5">
+                        {tags.map((tag) => (
+                            <Link key={tag.id} href={`/questions/tagged/${tag.name}`}>
+                                <Badge variant="secondary">{tag.name}</Badge>
+                            </Link>
+                        ))}
+                    </div>
                     <div className="flex items-center gap-2">
                         <Link
                             href={`/users/${asker.username}`}

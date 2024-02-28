@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { notFound, useSearchParams } from "next/navigation";
 
 import TabsBox from "../TabsBox";
 import Questions from "../question/Questions";
@@ -11,6 +11,12 @@ import { buttonVariants } from "../ui/Button";
 import { QuestionData } from "@/types/question";
 import { InfiniteQueryFnProps } from "@/types/util";
 import { getQuestions } from "@/actions/getQuestions";
+
+const isValidTab = (value: string) => {
+    const isValid = homeTabs.find((tab) => tab.value === value);
+    if(!!isValid) return true;
+    return false;
+};
 
 const Home = () => {
     const limit = 3;
@@ -45,6 +51,7 @@ const Home = () => {
 
     const questions = data?.pages.flatMap((page) => page.questions);
 
+    if (!isValidTab(tab)) return notFound();
     if (status === "pending") return <p>Loading...</p>
     return (
         <div className="flex-1 flex flex-col lg:flex-row gap-4 py-4 pr-4">
@@ -58,6 +65,7 @@ const Home = () => {
                         <TabsBox
                             route="/home"
                             tabs={homeTabs}
+                            value={tab}
                         />
                     </div>
                 </div>

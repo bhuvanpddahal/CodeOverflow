@@ -9,8 +9,8 @@ export const getAnswers = async (payload: GetAnswersPayload) => {
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const { questionId, orderBy, page, limit } = validatedFields.data;
-
         let orderByCaluse = {};
+        
         if (orderBy === "highest-score") {
             orderByCaluse = {
                 votes: { _count:  "desc" }

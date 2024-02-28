@@ -12,7 +12,7 @@ import DetailedQuestion from "./DetailedQuestion";
 import { buttonVariants } from "../ui/Button";
 import { AnswersSortValue } from "@/types/answer";
 import { getQuestion } from "@/actions/getQuestion";
-import { DetailedQuestion as QuestionType } from "@/types/question";
+import { ExtendedQuestion } from "@/types/question";
 
 interface QuestionDetailsProps {
     id: string;
@@ -25,7 +25,7 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
     const fetchQuestion = async () => {
         const payload = { questionId: id };
         const question = await getQuestion(payload);
-        return question as QuestionType;
+        return question as ExtendedQuestion;
     };
 
     const {
@@ -39,6 +39,8 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
     if(status === "pending") return <div>Loading...</div>
     if(status === "error") return <div>Something went wrong!</div>
 
+    console.log('tags is: ', question.tags);
+    
     return (
         <div className="flex-1 p-4">
             {showAuthModal && (

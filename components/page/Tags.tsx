@@ -1,12 +1,53 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { notFound, useSearchParams } from "next/navigation";
 
 import TabsBox from "../TabsBox";
 import Searchbar from "../Searchbar";
 import PaginationBox from "../PaginationBox";
 import { Badge } from "../ui/Badge";
-import { tagsTabs } from "@/constants";
+import { TagData } from "@/types/tag";
+import { getTags } from "@/actions/getTags";
+import { useQuery } from "@tanstack/react-query";
+import { GetTagsPayload } from "@/lib/validators/tag";
+import { TAGS_PER_PAGE, tagsTabs } from "@/constants";
+
+type Tab = "popular" | "name" | "new";
+
+const isValidTab = (value: string) => {
+    const isValid = tagsTabs.find((tab) => tab.value === value);
+    if(!!isValid) return true;
+    return false;
+};
 
 const Tags = () => {
+    const [input, setInput] = useState("");
+    const searchParams = useSearchParams();
+    const page = searchParams.get("page") || "1";
+    const tab = searchParams.get("tab") || "popular";
+
+    const fetchTags = async () => {
+        if (isValidTab(tab)) {
+            const payload: GetTagsPayload = { tab: tab as Tab, page: Number(page), limit: TAGS_PER_PAGE };
+            const data = await getTags(payload);
+            return data as TagData;
+        } else {
+            throw new Error("Invalid tab");
+        }
+    };
+
+    const {
+        data,
+        isFetching
+    } = useQuery({
+        queryKey: ["tags", { tab, page }],
+        queryFn: fetchTags
+    });
+
+    if (!isValidTab(tab)) return notFound();
+
     return (
         <section className="flex-1 p-4">
             <header>
@@ -15,89 +56,43 @@ const Tags = () => {
             </header>
 
             <div className="flex items-center justify-between mb-3">
-                <Searchbar />
+                <Searchbar
+                    input={input}
+                    setInput={setInput}
+                />
                 <TabsBox
                     route="/tags"
                     tabs={tagsTabs}
+                    value={tab}
                 />
             </div>
 
-            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-px mb-3">
-                <li className="border border-zinc-300 p-3 rounded-sm">
-                    <Link href="/questions/tagged/javascript">
-                        <Badge variant="secondary">javascript</Badge>
-                    </Link>
-                    <p className="text-sm text-zinc-700 my-3 line-clamp-4">A static library of object code in UNIX/Linux that can be used by the link editor to create an executable program.</p>
-                    <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
-                        <span>25258314659 questions</span>
-                        <span>161 asked today, 1494 this week</span>
-                    </div>
-                </li>
-                <li className="border border-zinc-300 p-3 rounded-sm">
-                    <Link href="/questions/tagged/javascript">
-                        <Badge variant="secondary">javascript</Badge>
-                    </Link>
-                    <p className="text-sm text-zinc-700 my-3 line-clamp-4">A static library of object code in UNIX/Linux that can be used by the link editor to create an executable program.</p>
-                    <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
-                        <span>25258314659 questions</span>
-                        <span>161 asked today, 1494 this week</span>
-                    </div>
-                </li>
-                <li className="border border-zinc-300 p-3 rounded-sm">
-                    <Link href="/questions/tagged/javascript">
-                        <Badge variant="secondary">javascript</Badge>
-                    </Link>
-                    <p className="text-sm text-zinc-700 my-3 line-clamp-4">A static library of object code in UNIX/Linux that can be used by the link editor to create an executable program.</p>
-                    <div className="flex justify-between gap-3 text-[13px] text-zinc-500 mt-auto">
-                        <span>25258314659 questions</span>
-                        <span>161 asked today, 1494 this week</span>
-                    </div>
-                </li>
-                <li className="border border-zinc-300 p-3 rounded-sm">
-                    <Link href="/questions/tagged/javascript">
-                        <Badge variant="secondary">javascript</Badge>
-                    </Link>
-                    <p className="text-sm text-zinc-700 my-3 line-clamp-4">A static library of object.</p>
-                    <div className="flex justify-between gap-3 text-[13px] text-zinc-500 mt-auto">
-                        <span>25258314659 questions</span>
-                        <span>161 asked today, 1494 this week</span>
-                    </div>
-                </li>
-                <li className="border border-zinc-300 p-3 rounded-sm">
-                    <Link href="/questions/tagged/javascript">
-                        <Badge variant="secondary">javascript</Badge>
-                    </Link>
-                    <p className="text-sm text-zinc-700 my-3 line-clamp-4">A static library of object code in UNIX/Linux that can be used by A static library of object code in UNIX/Linux that can be used by the link editor to create an executable program.</p>
-                    <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
-                        <span>25258314659 questions</span>
-                        <span>161 asked today, 1494 this week</span>
-                    </div>
-                </li>
-                <li className="border border-zinc-300 p-3 rounded-sm">
-                    <Link href="/questions/tagged/javascript">
-                        <Badge variant="secondary">javascript</Badge>
-                    </Link>
-                    <p className="text-sm text-zinc-700 my-3 line-clamp-4">A static library of object code in UNIX/Linux that can be used by the link editor to create an executable program.</p>
-                    <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
-                        <span>25258314659 questions</span>
-                        <span>161 asked today, 1494 this week</span>
-                    </div>
-                </li>
-                <li className="border border-zinc-300 p-3 rounded-sm">
-                    <Link href="/questions/tagged/javascript">
-                        <Badge variant="secondary">javascript</Badge>
-                    </Link>
-                    <p className="text-sm text-zinc-700 my-3 line-clamp-4">A static library of object code in UNIX/Linux that can be used by the link editor to create an executable program.</p>
-                    <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
-                        <span>25258314659 questions</span>
-                        <span>161 asked today, 1494 this week</span>
-                    </div>
-                </li>
-            </ul>
+            {isFetching ? (
+                <div className="text-center text-zinc-400 text-[15px] py-10">Loading...</div>
+            ) : (
+                data?.tags && data.tags.length ? (
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-px mb-3">
+                        {data.tags.map((tag) => (
+                            <li className="border border-zinc-300 p-3 rounded-sm">
+                                <Link href={`/questions/tagged/${tag.name}`}>
+                                    <Badge variant="secondary">{tag.name}</Badge>
+                                </Link>
+                                <p className="text-sm text-zinc-700 my-3 line-clamp-4">{tag.description ? tag.description : ""}</p>
+                                <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
+                                    <span>{tag.questionIds.length} questions</span>
+                                    <span>1 asked today, 2 this week</span>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <div className="text-center text-zinc-400 text-[15px] py-10">No tags to show</div>
+                )
+            )}
 
             <PaginationBox />
         </section>
     )
-}
+};
 
 export default Tags;
