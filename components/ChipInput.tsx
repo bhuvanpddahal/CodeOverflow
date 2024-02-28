@@ -11,10 +11,11 @@ import { useRouter } from "next/navigation";
 import { IoIosClose } from "react-icons/io";
 import { useQuery } from "@tanstack/react-query";
 
+import { Badge } from "./ui/Badge";
 import { TagData } from "@/types/tag";
 import { getTags } from "@/actions/getTags";
 import { useOnClickOutside } from "@/hooks/use-on-click-outside";
-import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "./ui/Command";
+import Link from "next/link";
 
 interface ChipInputProps {
     placeholder: string;
@@ -28,15 +29,16 @@ const ChipInput = ({
     onChange
 }: ChipInputProps) => {
     const router = useRouter();
+    const tagsRef = useRef<HTMLUListElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const commandRef = useRef<HTMLDivElement>(null);
     const [chips, setChips] = useState<string[]>([]);
+    const [showTags, setShowTags] = useState<boolean>(true);
 
     const fetchTags = async () => {
         const payload = { name: inputRef.current?.value || "" };
         const data = await getTags(payload);
         console.log('Inside fetch tags: ', data);
-        
+        setShowTags(true);
         return data as TagData;
     };
 
@@ -51,25 +53,38 @@ const ChipInput = ({
     });
 
     const request = debounce(() => {
-        refetch();
+        if(inputRef.current?.value.trim()) {
+            refetch();
+        }
     }, 300);
 
     const debounceRequest = useCallback(() => {
         request();
     }, []);
 
-    useOnClickOutside(commandRef, () => {
-        if(inputRef.current) inputRef.current.value = "";
+    useOnClickOutside(tagsRef, () => {
+        setShowTags(false);
     });
 
+    const handleTagClick = (name: string) => {
+        const chipAlreadyExists = chips.find((chip) => chip === name);
+        if (!chipAlreadyExists) {
+            setChips((prev) => [...prev, name]);
+        }
+        setShowTags(false);
+        if (inputRef.current) {
+            inputRef.current.value = "";
+            inputRef.current.focus();
+        }
+    };
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         // If the space or the enter key is clicked
-        if(e.key === " " || e.key === "Enter") {
-            if(inputRef.current) {
+        if (e.key === " " || e.key === "Enter") {
+            if (inputRef.current) {
                 const newChip = inputRef.current.value.trim();
                 const chipAlreadyExists = chips.find((chip) => chip === newChip);
-                if(newChip && !chipAlreadyExists) {
+                if (newChip && !chipAlreadyExists) {
                     onChange([...chips, newChip]);
                     setChips((prev) => [...prev, newChip]);
                 }
@@ -85,7 +100,7 @@ const ChipInput = ({
     };
 
     return (
-        <Command ref={commandRef}>
+        <div className="relative">
             <ul
                 className="chip-input flex h-11 w-full items-center gap-2 bg-white rounded-md border border-input overflow-x-auto px-2 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={() => inputRef.current?.focus()}
@@ -102,6 +117,7 @@ const ChipInput = ({
                         />
                     </li>
                 ))}
+
                 <input
                     ref={inputRef}
                     type="text"
@@ -113,28 +129,27 @@ const ChipInput = ({
                 />
             </ul>
 
-            {inputRef.current?.value.length && (
-                <CommandList className="absolute bg-white top-full inset-x-0 shadow rounded-b-md">
-                    {isFetched && <CommandEmpty>No results found.</CommandEmpty>}
-                    {data?.tags.length && (
-                        <CommandGroup heading="Tags">
-                            {data.tags.map((tag) => (
-                                <CommandItem
-                                    key={tag.id}
-                                    onSelect={(e) => {
-                                        router.push(`/questions/tagged/${tag.name}`);
-                                        router.refresh();
-                                    }}
-                                    value={tag.name}
-                                >
-                                    {tag.name}
-                                </CommandItem>
-                            ))}
-                        </CommandGroup>
+            {showTags && (
+                <ul ref={tagsRef} className="absolute bg-white left-0 right-0 top-full grid grid-cols-2 sm:grid-cols-3 p-1 z-30 shadow rounded-b-md">
+                    {data?.tags.length ? (
+                        data.tags.map((tag) => (
+                            <li
+                                key={tag.id}
+                                className="p-2 rounded-sm select-none cursor-pointer hover:bg-zinc-100"
+                                onClick={() => handleTagClick(tag.name)}
+                            >
+                                <Link href={`/questions/tagged/${tag.name}`}>
+                                    <Badge variant="secondary">{tag.name}</Badge>
+                                </Link>
+                                <p className="text-xs pt-2 line-clamp-4 text-zinc-900">{tag.description ? tag.description : ""}</p>
+                            </li>
+                        ))
+                    ) : (
+                        <div className="text-zinc-400 text-sm text-center col-span-4 py-3">No tags found</div>
                     )}
-                </CommandList>
+                </ul>
             )}
-        </Command>
+        </div>
     )
 };
 
