@@ -25,12 +25,16 @@ import {
 import { useRouter } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
+interface Tag {
+    name: string;
+}
+
 interface QuestionFormProps {
     questionId?: string;
     title?: string;
     details?: string;
     expectation?: string;
-    tags?: string[];
+    tags?: Tag[];
     mutationFn: (payload: QuestionPayload) => Promise<{
         error: string;
         success?: undefined;
@@ -68,7 +72,7 @@ const QuestionForm = ({
             title: title || "",
             details: details || "",
             expectation: expectation || "",
-            tags: tags || []
+            tags: tags ? tags.map((tag) => tag.name) : []
         }
     });
 

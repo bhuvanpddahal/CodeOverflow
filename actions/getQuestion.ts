@@ -16,7 +16,11 @@ export const getQuestion = async (payload: GetQuestionPayload) => {
             include: {
                 asker: true,
                 votes: true,
-                tags: true
+                tags: {
+                    select: {
+                        name: true
+                    }
+                }
             }
         });
         if(!question) throw new Error("Question not found");

@@ -4,11 +4,20 @@ export type AnswererId = {
     id: string;
 }
 
-export type ExtendedQuestion = Question & {
+export type BaseQuestion = Question & {
     asker: User,
     votes: QuestionVote[],
-    answers: AnswererId[],
+    answers: AnswererId[]
+};
+
+export type ExtendedQuestion = BaseQuestion & {
     tags: Tag[]
+};
+
+export type FormQuestion = BaseQuestion & {
+    tags: {
+        name: string
+    }[]
 };
 
 export type QuestionData = {

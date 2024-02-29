@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import Instruction from "../Instruction";
 import QuestionForm from "./QuestionForm";
 import { getQuestion } from "@/actions/getQuestion";
-import { DetailedQuestion } from "@/types/question";
+import { FormQuestion } from "@/types/question";
 import { askQuestionInstruction } from "@/constants";
 import { editQuestion } from "@/actions/editQuestion";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -22,7 +22,7 @@ const EditQuestion = ({ id }: EditQuestionProps) => {
     const fetchQuestion = async () => {
         const payload = { questionId: id };
         const question = await getQuestion(payload);
-        return question as DetailedQuestion;
+        return question as FormQuestion;
     };
 
     const {
