@@ -32,7 +32,12 @@ export const getTags= async (payload: GetTagsPayload) => {
             skip: (page - 1) * limit,
         });
 
-        return { tags };
+        const totalTags = await db.tag.count({
+            where: {}
+        });
+        const lastPage = Math.ceil(totalTags / limit);
+
+        return { tags, lastPage };
     } catch (error) {
         throw new Error("Something went wrong");
     }
