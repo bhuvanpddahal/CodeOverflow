@@ -22,6 +22,7 @@ const TaggedQuestions = () => {
                         <TabsBox
                             route="/questions/tagged/javascript"
                             tabs={homeTabs}
+                            value="interesting"
                         />
                     </div>
                 </div>
