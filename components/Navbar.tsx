@@ -6,11 +6,11 @@ import { MdMenu } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 
 import Searchbar from "./NavSearchbar";
+import MobileSidebar from "./MobileSidebar";
 import UserAccountNav from "./UserAccountNav";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/Button";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import MobileSidebar from "./MobileSidebar";
 
 const Navbar = () => {
     const [showSidebar, setShowSidebar] = useState(false);

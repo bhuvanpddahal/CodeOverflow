@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import {
+    RiUserLine,
     RiLogoutBoxRLine,
     RiQuestionLine,
     RiSettings3Line
@@ -18,9 +19,10 @@ import {
     DropdownMenuTrigger,
 } from "./ui/DropdownMenu";
 
-
 interface UserAccountNavProps {
-    user: Pick<User, 'name' | 'image' | 'email'>;
+    user: (User & {
+        username: string;
+    });
 }
 
 const UserAccountNav = ({ user }: UserAccountNavProps) => {
@@ -42,6 +44,12 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
 
                 <DropdownMenuSeparator />
 
+                <DropdownMenuItem asChild>
+                    <Link href={`/users/${user.username}`} className='flex items-center gap-2'>
+                        <RiUserLine className='h-4 w-4 text-zinc-600' />
+                        Profile
+                    </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                     <Link href='/questions/ask' className='flex items-center gap-2'>
                         <RiQuestionLine className='h-4 w-4 text-zinc-600' />

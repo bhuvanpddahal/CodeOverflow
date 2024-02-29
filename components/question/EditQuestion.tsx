@@ -33,8 +33,8 @@ const EditQuestion = ({ id }: EditQuestionProps) => {
         queryFn: fetchQuestion
     });
 
-    if(status === "pending") return <div>Loading...</div>
-    if(status === "error") return <div>Something went wrong!</div>
+    if(status === "pending") return <div className="h-rem flex items-center justify-center text-zinc-400 text-[15px] py-10">Loading...</div>
+    if(status === "error") return <div className="h-rem flex items-center justify-center text-zinc-400 text-[15px] py-10">Something went wrong!</div>
     if(question.askerId !== user?.id) return notFound();
 
     return (

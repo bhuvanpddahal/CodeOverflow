@@ -18,6 +18,12 @@ interface TaggedQuestionsProps {
     name: string;
 }
 
+const isValidTab = (value: string) => {
+    const isValid = taggedQuestionsTabs.find((tab) => tab.value === value);
+    if(!!isValid) return true;
+    return false;
+};
+
 const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
     const searchParams = useSearchParams();
     const page = searchParams.get("page") || "1";
@@ -55,6 +61,7 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
         enabled: !!tag
     });
 
+    if (!isValidTab(tab)) return notFound();
     if (isFetchingTag) return <div className="flex-1 text-center text-zinc-400 text-[15px] py-10">Loading...</div>
     if (!tag) return notFound();
 
@@ -75,7 +82,10 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
                     </header>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between my-4">
                         <p className="text-base sm:text-lg text-zinc-900 mb-2 sm:mb-0">
-                            {tag.questionIds.length} {tag.questionIds.length === 1 ? "question" : "questions"}
+                            {data?.questions
+                                ? `${data?.totalQuestions} ${data?.totalQuestions === 1 ? "question" : "questions"}`
+                                : ""
+                            }
                         </p>
                         <TabsBox
                             route={`/questions/tagged/${tag.name}`}

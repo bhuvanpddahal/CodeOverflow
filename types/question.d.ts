@@ -27,5 +27,6 @@ export type QuestionData = {
 
 export type TaggedData = {
     questions: ExtendedQuestion[],
-    lastPage: number
+    lastPage: number,
+    totalQuestions: number
 };

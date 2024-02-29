@@ -64,6 +64,7 @@ const QuestionForm = ({
     const [success, setSuccess] = useState('');
     const [isLoading, startTransition] = useTransition();
     const [showAuthModal, setShowAuthModal] = useState(false);
+    const tagNames = tags ? tags.map((tag) => tag.name) : [];
 
     const form = useForm<QuestionPayload>({
         resolver: zodResolver(QuestionValidator),
@@ -72,13 +73,15 @@ const QuestionForm = ({
             title: title || "",
             details: details || "",
             expectation: expectation || "",
-            tags: tags ? tags.map((tag) => tag.name) : []
+            tags: tagNames
         }
     });
 
     const onSubmit = (payload: QuestionPayload) => {
         setError('');
         setSuccess('');
+        console.log(payload);
+        
 
         if (user) {
             startTransition(() => {
@@ -144,6 +147,7 @@ const QuestionForm = ({
                             name="tags"
                             form={form}
                             isLoading={isLoading}
+                            initialTags={tagNames}
                         />
                     </div>
 

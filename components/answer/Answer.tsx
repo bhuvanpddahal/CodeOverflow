@@ -95,7 +95,7 @@ const Answer = ({
             <div className="flex-1">
                 <div
                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
-                    className="text-zinc-800"
+                    className="text-zinc-800 text-[15px]"
                 />
                 <div className="bg-zinc-100 max-w-[200px] p-3 rounded-sm ml-auto mt-2">
                     <p className="text-xs text-zinc-700 mb-1">
@@ -111,7 +111,7 @@ const Answer = ({
                         <UserAvatar user={{
                             name: answerer.name,
                             image: answerer.image
-                        }} className='h-6 w-6' />
+                        }} className='h-6 w-6 rounded-sm' />
                         <p className="text-xs text-blue-700 hover:text-blue-800">{answerer.name}</p>
                     </Link>
                 </div>

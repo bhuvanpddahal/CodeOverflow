@@ -21,17 +21,19 @@ interface ChipInputProps {
     placeholder: string;
     disabled: boolean;
     onChange: (chips: string[]) => void;
+    initialValue: string[];
 }
 
 const ChipInput = ({
     placeholder,
     disabled,
-    onChange
+    onChange,
+    initialValue
 }: ChipInputProps) => {
     const router = useRouter();
     const tagsRef = useRef<HTMLUListElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const [chips, setChips] = useState<string[]>([]);
+    const [chips, setChips] = useState<string[]>(initialValue);
     const [showTags, setShowTags] = useState<boolean>(true);
 
     const fetchTags = async () => {
@@ -68,6 +70,7 @@ const ChipInput = ({
     const handleTagClick = (name: string) => {
         const chipAlreadyExists = chips.find((chip) => chip === name);
         if (!chipAlreadyExists) {
+            onChange([...chips, name]);
             setChips((prev) => [...prev, name]);
         }
         setShowTags(false);

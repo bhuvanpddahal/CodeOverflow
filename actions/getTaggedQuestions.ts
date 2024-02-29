@@ -61,7 +61,7 @@ export const getTaggedQuestions = async (payload: GetTaggedQuestionsPayload) => 
         });
         const lastPage = Math.ceil(totalQuestions / limit);
 
-        return { questions, lastPage };
+        return { questions, lastPage, totalQuestions };
     } catch (error) {
         throw new Error("Something went wrong");
     }
