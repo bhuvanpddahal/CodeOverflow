@@ -115,11 +115,11 @@ const DetailedQuestion = ({
             <div className="flex-1">
                 <div
                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }}
-                    className="text-zinc-800"
+                    className="text-zinc-800 text-[15px]"
                 />
                 <div
                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(expectation) }}
-                    className="text-zinc-800"
+                    className="text-zinc-800 text-[15px]"
                 />
                 <div className="space-x-1.5 my-5">
                     {tags.map((tag) => (

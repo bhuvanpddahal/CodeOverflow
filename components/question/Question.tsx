@@ -7,10 +7,12 @@ import { QuestionVote, Tag, User } from "@prisma/client";
 import UserAvatar from "@/components/UserAvatar";
 import { Badge } from "@/components/ui/Badge";
 import { AnswererId } from "@/types/question";
+import DOMPurify from "isomorphic-dompurify";
 
 interface QuestionProps {
     id: string;
     title: string;
+    details: string;
     tags: Tag[];
     asker: User;
     votes: QuestionVote[];
@@ -18,12 +20,14 @@ interface QuestionProps {
     views: string[];
     askedAt: Date;
     updatedAt: Date;
+    showDetails: boolean;
     lastQuestionRef?: (node?: Element | null | undefined) => void;
 }
 
 const Question = ({
     id,
     title,
+    details,
     tags,
     asker,
     votes,
@@ -31,6 +35,7 @@ const Question = ({
     views,
     askedAt,
     updatedAt,
+    showDetails,
     lastQuestionRef
 }: QuestionProps) => {
     const votesAmt = votes.reduce((acc, vote) => {
@@ -48,6 +53,12 @@ const Question = ({
             </div>
             <div className="flex-1">
                 <Link href={`/questions/${id}`} className="text-lg text-blue-700 line-clamp-2 leading-snug hover:text-blue-800">{title}</Link>
+                {showDetails && (
+                    <div
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(details) }}
+                        className="text-zinc-700 text-sm line-clamp-2"
+                    />
+                )}
                 <div className="flex items-center justify-between gap-3 flex-wrap mt-2">
                     <div className="space-x-1.5">
                         {tags.map((tag) => (

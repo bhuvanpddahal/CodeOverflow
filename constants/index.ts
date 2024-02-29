@@ -65,6 +65,25 @@ export const tagsTabs = [
     }
 ];
 
+export const taggedQuestionsTabs = [
+    {
+        name: "Newest",
+        value: "newest"
+    },
+    {
+        name: "Bountied",
+        value: "bountied"
+    },
+    {
+        name: "Unanswered",
+        value: "unanswered"
+    },
+    {
+        name: "Score",
+        value: "score"
+    }
+];
+
 export const askQuestionInstruction = {
     title: "Writing a good question",
     description: "You're ready to ask a programming-related question and this form will help guide you through the process. Looking to ask a non-programming question? See the topics here to find a relevant site.",

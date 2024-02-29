@@ -1,8 +1,14 @@
 import TaggedQuestions from "@/components/question/TaggedQuestions";
 
-const Page = () => {
+interface PageProps {
+    params: {
+        name: string;
+    }
+}
+
+const Page = ({ params: { name } }: PageProps) => {
     return (
-        <TaggedQuestions />
+        <TaggedQuestions name={name} />
     )
 };
 

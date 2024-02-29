@@ -24,3 +24,8 @@ export type QuestionData = {
     questions: ExtendedQuestion[],
     hasNextPage: boolean
 };
+
+export type TaggedData = {
+    questions: ExtendedQuestion[],
+    lastPage: number
+};

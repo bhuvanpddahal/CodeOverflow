@@ -16,20 +16,22 @@ import {
 
 interface QuestionsProps {
     questions: ExtendedQuestion[] | undefined;
-    fetchNextPage: (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<InfiniteData<QuestionData, unknown>, Error>>;
-    hasNextPage: boolean;
+    fetchNextPage?: (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<InfiniteData<QuestionData, unknown>, Error>>;
+    hasNextPage?: boolean;
+    showDetails?: boolean;
 }
 
 const Questions = ({
     questions,
     fetchNextPage,
-    hasNextPage
+    hasNextPage,
+    showDetails = false
 }: QuestionsProps) => {
     const { ref, inView } = useInView();
 
     useEffect(() => {
         if (inView && hasNextPage) {
-            fetchNextPage();
+            if(fetchNextPage) fetchNextPage();
         }
     }, [inView, hasNextPage, fetchNextPage]);
 
@@ -42,6 +44,7 @@ const Questions = ({
                             key={index}
                             id={question.id}
                             title={question.title}
+                            details={question.details}
                             tags={question.tags}
                             asker={question.asker}
                             votes={question.votes}
@@ -49,6 +52,7 @@ const Questions = ({
                             views={question.views}
                             askedAt={question.askedAt}
                             updatedAt={question.updatedAt}
+                            showDetails={showDetails}
                             lastQuestionRef={ref}
                         />
                     } else {
@@ -56,6 +60,7 @@ const Questions = ({
                             key={index}
                             id={question.id}
                             title={question.title}
+                            details={question.details}
                             tags={question.tags}
                             asker={question.asker}
                             votes={question.votes}
@@ -63,6 +68,7 @@ const Questions = ({
                             views={question.views}
                             askedAt={question.askedAt}
                             updatedAt={question.updatedAt}
+                            showDetails={showDetails}
                         />
                     }
                 })
