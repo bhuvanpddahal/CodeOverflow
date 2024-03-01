@@ -1,8 +1,14 @@
-import Users from "@/components/page/Users";
+import UserProfile from "@/components/user/UserProfile";
 
-const Page = () => {
+interface PageProps {
+    params: {
+        username: string;
+    }
+}
+
+const Page = ({ params: { username } }: PageProps) => {
     return (
-        <Users />
+        <UserProfile username={username} />
     )
 };
 
