@@ -36,8 +36,8 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
         queryFn: fetchQuestion
     });
 
-    if(status === "pending") return <div>Loading...</div>
-    if(status === "error") return <div>Something went wrong!</div>
+    if(status === "pending") return <div className="flex-1 text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
+    if(status === "error") return <div className="flex-1 text-center py-10 text-zinc-400 text-[15px]">Something went wrong!</div>
     
     return (
         <div className="flex-1 p-4">

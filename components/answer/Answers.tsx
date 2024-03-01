@@ -68,7 +68,9 @@ const Answers = ({
             {answers && answers.length > 0 && (
                 <>
                     <div className="flex items-center justify-between mt-6 mb-7">
-                        <p className="text-xl text-slate-700 font-medium">{answers.length} Answers</p>
+                        <p className="text-xl text-slate-700 font-medium">
+                            {answers.length} {answers.length === 1 ? "Answer" : "Answers"}
+                        </p>
 
                         <div className="flex items-center gap-2 text-zinc-800">
                             <span className="whitespace-nowrap text-[13px]">Sorted by:</span>

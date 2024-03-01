@@ -11,9 +11,10 @@ import { useOnClickOutside } from "@/hooks/use-on-click-outside";
 
 interface MobileSidebarProps {
     setShowSidebar: Dispatch<SetStateAction<boolean>>;
+    showMenu: boolean;
 }
 
-const MobileSidebar = ({ setShowSidebar }: MobileSidebarProps) => {
+const MobileSidebar = ({ setShowSidebar, showMenu }: MobileSidebarProps) => {
     const sidebarRef = useRef<HTMLDivElement>(null);
 
     useOnClickOutside(sidebarRef, () => {
@@ -21,7 +22,7 @@ const MobileSidebar = ({ setShowSidebar }: MobileSidebarProps) => {
     });
     
     return (
-        <div className="bg-white fixed left-0 bottom-0 h-rem max-w-[210px] w-full p-3 border-r border-zinc-100 overflow-y-auto shadow-lg sm:hidden z-20">
+        <div className={`bg-white fixed left-0 bottom-0 h-rem max-w-[210px] w-full p-3 border-r border-zinc-100 overflow-y-auto shadow-lg ${showMenu ? "" : "sm:hidden"} z-20`}>
             <ul className="text-[15px]">
                 <li>
                     <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
@@ -30,13 +31,13 @@ const MobileSidebar = ({ setShowSidebar }: MobileSidebarProps) => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/questions" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <RiQuestionnaireFill className="h-5 w-5 text-zinc-800" />
                         Questions
                     </Link>
                 </li>
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/tags" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <ImPriceTags className="h-5 w-5 text-zinc-800" />
                         Tags
                     </Link>
@@ -45,19 +46,19 @@ const MobileSidebar = ({ setShowSidebar }: MobileSidebarProps) => {
 
             <ul className="text-[15px] mt-4">
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/saves" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <IoBookmark className="h-5 w-5 text-zinc-800" />
                         Saves
                     </Link>
                 </li>
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/users" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <ImUsers className="h-5 w-5 text-zinc-800" />
                         Users
                     </Link>
                 </li>
                 <li>
-                    <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
+                    <Link href="/companies" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
                         <PiBagSimpleFill className="h-5 w-5 text-zinc-800" />
                         Companies
                     </Link>

@@ -48,7 +48,6 @@ const DetailedQuestion = ({
     askerImage,
     setShowAuthModal
 }: DetailedQuestionProps) => {
-    console.log("Tags: ", tags);
     const user = useCurrentUser();
     const initialVotesAmt = votes.reduce((acc, vote) => {
         if (vote.type === 'UP') return acc + 1;

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { MdMenu } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
+import { usePathname } from "next/navigation";
 
 import Searchbar from "./NavSearchbar";
 import MobileSidebar from "./MobileSidebar";
@@ -13,21 +14,28 @@ import { buttonVariants } from "./ui/Button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 const Navbar = () => {
-    const [showSidebar, setShowSidebar] = useState(false);
     const user = useCurrentUser();
+    const pathname = usePathname();
+    const [showSidebar, setShowSidebar] = useState(false);
+    const showMenu = pathname === "/log-in" || pathname === "/sign-up" || pathname === "/questions/ask" || pathname === "/questions/:id/edit";
     
     return (
         <nav className="bg-white h-[57px] sticky top-0 py-2 border-b border-zinc-300 z-10">
-            {showSidebar && <MobileSidebar setShowSidebar={setShowSidebar} />}
+            {showSidebar && (
+                <MobileSidebar
+                    setShowSidebar={setShowSidebar}
+                    showMenu={showMenu}
+                />
+            )}
 
             <div className="container px-4 md:px-8 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                     <MdMenu
-                        className={`h-6 w-6 text-slate-700 cursor-pointer ${showSidebar ? 'hidden' : 'block'} sm:hidden`}
+                        className={`h-6 w-6 text-slate-700 cursor-pointer ${showSidebar ? 'hidden' : 'block'} ${showMenu ? "" : "sm:hidden"}`}
                         onClick={() => setShowSidebar(true)}
                     />
                     <IoMdClose
-                        className={`h-6 w-6 text-slate-700 cursor-pointer ${showSidebar ? 'block' : 'hidden'} sm:hidden`}
+                        className={`h-6 w-6 text-slate-700 cursor-pointer ${showSidebar ? 'block' : 'hidden'} ${showMenu ? "" : "sm:hidden"}`}
                         onClick={() => setShowSidebar(false)}
                     />
 
