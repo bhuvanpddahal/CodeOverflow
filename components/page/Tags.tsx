@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 import { notFound, useSearchParams } from "next/navigation";
 
 import TabsBox from "../TabsBox";
@@ -10,7 +11,6 @@ import PaginationBox from "../PaginationBox";
 import { Badge } from "../ui/Badge";
 import { TagData } from "@/types/tag";
 import { getTags } from "@/actions/getTags";
-import { useQuery } from "@tanstack/react-query";
 import { GetTagsPayload } from "@/lib/validators/tag";
 import { TAGS_PER_PAGE, tagsTabs } from "@/constants";
 
@@ -59,6 +59,7 @@ const Tags = () => {
                 <Searchbar
                     input={input}
                     setInput={setInput}
+                    placeholder="Filter by tag name"
                 />
                 <TabsBox
                     route="/tags"
@@ -95,13 +96,15 @@ const Tags = () => {
                 )
             )}
 
-            <PaginationBox
-                isFiltering={input.length > 0}
-                location="/tags"
-                tab={tab}
-                currentPage={Number(page)}
-                lastPage={data?.lastPage}
-            />
+            {data?.tags && (
+                <PaginationBox
+                    isFiltering={input.length > 0}
+                    location="/tags"
+                    tab={tab}
+                    currentPage={Number(page)}
+                    lastPage={data?.lastPage}
+                />
+            )}
         </section>
     )
 };

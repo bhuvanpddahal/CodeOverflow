@@ -1,6 +1,7 @@
 import { AnswersSortOptions } from "@/types/answer";
 
 export const TAGS_PER_PAGE = 36;
+export const USERS_PER_PAGE = 36;
 export const ANSWERS_PER_PAGE = 10;
 export const QUESTIONS_PER_PAGE = 10;
 
@@ -81,6 +82,21 @@ export const taggedQuestionsTabs = [
     {
         name: "Score",
         value: "score"
+    }
+];
+
+export const usersTabs = [
+    {
+        name: "Mature",
+        value: "mature"
+    },
+    {
+        name: "New users",
+        value: "new-users"
+    },
+    {
+        name: "Voters",
+        value: "voters"
     }
 ];
 
