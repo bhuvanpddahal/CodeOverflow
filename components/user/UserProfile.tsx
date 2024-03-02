@@ -1,16 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { MdCake } from "react-icons/md";
 import { HiPencil } from "react-icons/hi";
-import { FaUserAstronaut } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
 
-import UserAvatar from "../UserAvatar";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { Button } from "../ui/Button";
-import Link from "next/link";
-import SummaryBox from "./SummaryBox";
+import ActivitiesTab from "./ActivitiesTab";
 import SelectActivity from "./SelectActivity";
+import { Button } from "../ui/Button";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import ProfileTab from "./ProfileTab";
+import NavigationTabs from "./NavigationTabs";
 
 interface UserProfileProps {
     username: string;
@@ -52,79 +52,10 @@ const UserProfile = ({ username }: UserProfileProps) => {
                 </div>
             </header>
 
-            
-            <ul className="flex gap-1 text-zinc-600 text-[13px] sm:text-sm">
-                <li>
-                    <Link href={`/users/${username}?tab=profile`} className={`rounded-3xl px-3 py-1.5 ${tab === "profile" ? "text-white bg-amber-600 hover:bg-amber-800" : "hover:bg-zinc-200"}`}>
-                        Profile
-                    </Link>
-                </li>
-                <li>
-                    <Link href={`/users/${username}?tab=activity`} className={`rounded-3xl px-3 py-1.5 ${tab === "activity" ? "text-white bg-amber-600 hover:bg-amber-800" : "hover:bg-zinc-200"}`}>
-                        Activity
-                    </Link>
-                </li>
-                <li>
-                    <Link href={`/users/${username}?tab=saves`} className={`rounded-3xl px-3 py-1.5 ${tab === "saves" ? "text-white bg-amber-600 hover:bg-amber-800" : "hover:bg-zinc-200"}`}>
-                        Saves
-                    </Link>
-                </li>
-                <li>
-                    <Link href={`/users/${username}?tab=settings`} className={`rounded-3xl px-3 py-1.5 ${tab === "settings" ? "text-white bg-amber-600 hover:bg-amber-800" : "hover:bg-zinc-200"}`}>
-                        Settings
-                    </Link>
-                </li>
-            </ul>
+            <NavigationTabs />
 
-            <SelectActivity />
-
-            <div className="flex gap-4">
-                <ul className="hidden md:inline-block w-[140px] h-fit sticky top-[57px] py-3 text-sm text-zinc-600">
-                    <li>
-                        <Link href={`/users/${username}?tab=summary`} className="block px-4 py-1.5 rounded-3xl hover:bg-zinc-200">
-                            Summary
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={`/users/${username}?tab=answers`} className="block px-4 py-1.5 rounded-3xl hover:bg-zinc-200">
-                            Answers
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={`/users/${username}?tab=tags`} className="block px-4 py-1.5 rounded-3xl hover:bg-zinc-200">
-                            Tags
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={`/users/${username}?tab=votes`} className="block px-4 py-1.5 rounded-3xl hover:bg-zinc-200">
-                            Votes
-                        </Link>
-                    </li>
-                </ul>
-
-                <div className="flex-1 space-y-4">
-                    <div>
-                        <h3 className="text-xl text-zinc-800 mb-2">Summary</h3>
-                        <div className="flex flex-col items-center justify-center gap-2 border border-zinc-300 p-5 rounded-md">
-                            <FaUserAstronaut className="h-12 w-12 text-zinc-400" />
-                            <div className="text-[15px] sm:text-base text-zinc-800">Measure your impact</div>
-                            <p className="text-[13px] sm:text-sm text-zinc-600 text-center">Your posts and helpful actions here help hundreds or thousands of people searching for help.</p>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-                        <SummaryBox
-                            title="Answers"
-                        />
-                        <SummaryBox
-                            title="Questions"
-                        />
-                        <SummaryBox
-                            title="Tags"
-                        />
-                    </div>
-                </div>
-            </div>
+            {/* <ActivitiesTab /> */}
+            <ProfileTab />
         </section>
     )
 };

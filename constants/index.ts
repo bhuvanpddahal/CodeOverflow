@@ -154,3 +154,26 @@ export const answersSortOptions: AnswersSortOptions = [
         value: "oldest-first"
     }
 ];
+
+export const userActivityTabs = [
+    {
+        name: "Summary",
+        value: "summary"
+    },
+    {
+        name: "Answers",
+        value: "answers"
+    },
+    {
+        name: "Questions",
+        value: "questions"
+    },
+    {
+        name: "Tags",
+        value: "tags"
+    },
+    {
+        name: "Votes",
+        value: "votes"
+    },
+];

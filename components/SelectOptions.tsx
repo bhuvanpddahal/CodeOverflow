@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction } from "react";
+
 import {
     Select,
     SelectContent,
@@ -6,25 +7,28 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/Select";
-import {
-    AnswersSortOptions,
-    AnswersSortValue
-} from "@/types/answer";
 
-interface SelectOptionsProps {
-    value: AnswersSortValue;
-    setValue: Dispatch<SetStateAction<AnswersSortValue>>;
-    options: AnswersSortOptions;
+interface Option {
+    name: string;
+    value: string;
+}
+
+interface SelectOptionsProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+    value: string;
+    setValue: Dispatch<SetStateAction<string>>;
+    options: Option[];
+    className?: string;
 }
 
 const SelectOptions = ({
     value,
     setValue,
-    options
+    options,
+    className = "w-[240px]"
 }: SelectOptionsProps) => {
     return (
-        <Select value={value} onValueChange={(value) => setValue(value as AnswersSortValue)}>
-            <SelectTrigger className="w-[240px]">
+        <Select value={value} onValueChange={(value) => setValue(value)}>
+            <SelectTrigger className={className}>
                 <SelectValue placeholder={options[0].name} />
             </SelectTrigger>
             <SelectContent>
