@@ -1,6 +1,37 @@
-import SummaryBox from "./SummaryBox";
+"use client";
 
-const ProfileTab = () => {
+import { useQuery } from "@tanstack/react-query";
+
+import SummaryBox from "./PostsBox";
+import { notFound } from "next/navigation";
+import { ProfileData } from "@/types/user";
+import { getUserProfile } from "@/actions/getUserProfile";
+
+interface ProfileTabProps {
+    userId: string;
+    username: string;
+}
+
+const ProfileTab = ({ userId, username }: ProfileTabProps) => {
+    const fetchProfile = async () => {
+        const payload = { id: userId };
+        const data = await getUserProfile(payload);
+        return data as ProfileData;
+    };
+
+    const {
+        data,
+        isFetching
+    } = useQuery({
+        queryKey: ["users", username, { tab: "profile" }],
+        queryFn: fetchProfile
+    });
+
+    if(isFetching) return <div className="text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
+    if(!data) return notFound();
+
+    const posts = [...data.questions, ...data.answers];
+
     return (
         <div className="flex flex-col md:flex-row gap-5">
             <div className="w-full md:w-[240px] h-fit">
@@ -15,11 +46,11 @@ const ProfileTab = () => {
                         <span className="block text-zinc-600 text-[13px] sm:text-sm">reached</span>
                     </li>
                     <li>
-                        <span className="block text-zinc-800 font-medium">1</span>
+                        <span className="block text-zinc-800 font-medium">{data.totalAnswers}</span>
                         <span className="block text-zinc-600 text-[13px] sm:text-sm">answers</span>
                     </li>
                     <li>
-                        <span className="block text-zinc-800 font-medium">1</span>
+                        <span className="block text-zinc-800 font-medium">{data.totalQuestions}</span>
                         <span className="block text-zinc-600 text-[13px] sm:text-sm">questions</span>
                     </li>
                 </ul>
@@ -47,6 +78,7 @@ const ProfileTab = () => {
 
                 <SummaryBox
                     title="Top posts"
+                    posts={posts}
                 />
             </div>
         </div>

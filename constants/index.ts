@@ -177,3 +177,29 @@ export const userActivityTabs = [
         value: "votes"
     },
 ];
+
+export const userSummaryAnswersTabs = [
+    {
+        name: "Score",
+        value: "score"
+    },
+    {
+        name: "Newest",
+        value: "newest"
+    }
+];
+
+export const userSummaryQuestionsTabs = [
+    {
+        name: "Score",
+        value: "score"
+    },
+    {
+        name: "Newest",
+        value: "newest"
+    },
+    {
+        name: "Views",
+        value: "views"
+    }
+];
