@@ -1,14 +1,17 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { GetUserAnswersPayload, GetUserAnswersValidator } from "@/lib/validators/answer";
+import {
+    GetUserTopAnswersPayload,
+    GetUserTopAnswersValidator
+} from "@/lib/validators/answer";
 
-export const getUserAnswers = async (payload: GetUserAnswersPayload) => {
+export const getUserTopAnswers = async (payload: GetUserTopAnswersPayload) => {
     try {
-        const validatedFields = GetUserAnswersValidator.safeParse(payload);
+        const validatedFields = GetUserTopAnswersValidator.safeParse(payload);
         if (!validatedFields.success) throw new Error("Invalid fields");
 
-        const { userId, sort, page, limit } = validatedFields.data;
+        const { userId, tab } = validatedFields.data;
         let orderByCaluse = {};
 
         const user = await db.user.findUnique({
@@ -18,11 +21,11 @@ export const getUserAnswers = async (payload: GetUserAnswersPayload) => {
         });
         if(!user) throw new Error("User not found");
         
-        if (sort === "score") {
+        if (tab === "score") {
             orderByCaluse = {
                 votes: { _count:  "desc" }
             };
-        } else if (sort === "newest") {
+        } else if (tab === "newest") {
             orderByCaluse = { answeredAt: "desc" };
         }
 
@@ -31,23 +34,12 @@ export const getUserAnswers = async (payload: GetUserAnswersPayload) => {
                 answererId: userId
             },
             orderBy: orderByCaluse,
-            take: limit,
-            skip: (page - 1) * limit,
+            take: 5,
             select: {
                 question: {
                     select: {
                         id: true,
-                        title: true,
-                        tags: {
-                            select: {
-                                name: true
-                            }
-                        }
-                    }
-                },
-                votes: {
-                    select: {
-                        type: true
+                        title: true
                     }
                 },
                 answeredAt: true
@@ -57,10 +49,11 @@ export const getUserAnswers = async (payload: GetUserAnswersPayload) => {
         const totalAnswers = await db.answer.count({
             where: { answererId: userId }
         });
-        const lastPage = Math.ceil(totalAnswers / limit);
 
-        return { answers, totalAnswers, lastPage };
+        return { answers, totalAnswers };
     } catch (error) {
+        console.log(error);
+        
         throw new Error("Something went wrong");
     }
 };

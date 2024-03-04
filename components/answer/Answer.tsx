@@ -85,11 +85,13 @@ const Answer = ({
                 <IoMdArrowDropup
                     className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
                     onClick={() => user ? vote('UP') : setShowAuthModal(true)}
+                    title="This answer is useful"
                 />
                 <p className="text-xl font-bold text-zinc-900">{votesAmt}</p>
                 <IoMdArrowDropdown
                     className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
                     onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
+                    title="This answer is not useful"
                 />
             </div>
             <div className="flex-1">

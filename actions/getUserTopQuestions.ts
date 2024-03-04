@@ -1,11 +1,14 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { GetUserQuestionsPayload, GetUserQuestionsValidator } from "@/lib/validators/question";
+import {
+    GetUserTopQuestionsPayload,
+    GetUserTopQuestionsValidator
+} from "@/lib/validators/question";
 
-export const getUserQuestions = async (payload: GetUserQuestionsPayload) => {
+export const getUserTopQuestions = async (payload: GetUserTopQuestionsPayload) => {
     try {
-        const validatedFields = GetUserQuestionsValidator.safeParse(payload);
+        const validatedFields = GetUserTopQuestionsValidator.safeParse(payload);
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const { userId, tab } = validatedFields.data;

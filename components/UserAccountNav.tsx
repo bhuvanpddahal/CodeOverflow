@@ -32,7 +32,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
                 <UserAvatar user={{
                     name: user.name,
                     image: user.image
-                }} className='h-8 w-8 rounded-md' />
+                }} className='h-8 w-8 rounded-md' title={user.name || undefined} />
             </DropdownMenuTrigger>
             <DropdownMenuContent className='bg-white' align='end'>
                 <div className="flex items-center justify-start gap-2 p-2">

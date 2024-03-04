@@ -97,11 +97,13 @@ const DetailedQuestion = ({
                 <IoMdArrowDropup
                     className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
                     onClick={() => user ? vote('UP') : setShowAuthModal(true)}
+                    title="This question shows research effort; it is useful and clear"
                 />
                 <p className="text-xl font-bold text-zinc-900">{votesAmt}</p>
                 <IoMdArrowDropdown
                     className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
                     onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
+                    title="This question does not show any research effort; it is unclear or not useful"
                 />
                 {user?.id === askerId && (
                     <Link href={`${questionId}/edit`}>

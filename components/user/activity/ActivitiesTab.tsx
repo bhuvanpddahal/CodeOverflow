@@ -1,6 +1,7 @@
 "use client";
 
 import ActivityNav from "./ActivityNav";
+import AnswersContent from "./AnswersContent";
 import SelectActivity from "./SelectActivity";
 import SummaryContent from "./SummaryContent";
 
@@ -26,11 +27,18 @@ const ActivitiesTab = ({
                     username={username}
                     activeTab={activeTab}
                 />
-
-                <SummaryContent
-                    userId={userId}
-                    username={username}
-                />
+                {activeTab === "summary" || activeTab === "activity" && (
+                    <SummaryContent
+                        userId={userId}
+                        username={username}
+                    />
+                )}
+                {activeTab === "answers" && (
+                    <AnswersContent
+                        userId={userId}
+                        username={username}
+                    />
+                )}
             </div>
         </>
     )

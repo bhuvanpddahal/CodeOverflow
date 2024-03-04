@@ -4,6 +4,8 @@ export const TAGS_PER_PAGE = 36;
 export const USERS_PER_PAGE = 36;
 export const ANSWERS_PER_PAGE = 10;
 export const QUESTIONS_PER_PAGE = 10;
+export const USERS_ANSWERS_PER_PAGE = 20;
+export const USERS_QUESTIONS_PER_PAGE = 20;
 
 export const homeTabs = [
     {

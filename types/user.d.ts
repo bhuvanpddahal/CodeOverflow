@@ -34,6 +34,20 @@ export type SummaryAnswersData = {
     totalAnswers: number
 };
 
+export type AnswersData = {
+    answers: {
+        question: {
+            id: string,
+            title: string,
+            tags: { name: string }[]
+        },
+        votes: { type: "UP" | "DOWN" }[],
+        answeredAt: Date
+    }[],
+    totalAnswers: number,
+    lastPage: number
+};
+
 export type SummaryQuestionsData = {
     questions: Question[],
     totalQuestions: number

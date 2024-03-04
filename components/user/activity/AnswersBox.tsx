@@ -8,7 +8,7 @@ import PostTabs from "./PostTabs";
 import { useQuery } from "@tanstack/react-query";
 import { SummaryAnswersData } from "@/types/user";
 import { userSummaryAnswersTabs } from "@/constants";
-import { getUserAnswers } from "@/actions/getUserAnswers";
+import { getUserTopAnswers } from "@/actions/getUserTopAnswers";
 
 interface AnswersBoxProps {
     userId: string;
@@ -22,7 +22,7 @@ const AnswersBox = ({ userId, username }: AnswersBoxProps) => {
 
     const fetchAnswers = async () => {
         const payload = { userId, tab: tab as Tab };
-        const data = await getUserAnswers(payload);
+        const data = await getUserTopAnswers(payload);
         return data as SummaryAnswersData;
     };
 
@@ -42,7 +42,7 @@ const AnswersBox = ({ userId, username }: AnswersBoxProps) => {
             <div className="flex items-end justify-between flex-wrap gap-1.5 mb-2">
                 <div>
                     <h3 className="text-lg sm:text-xl text-zinc-800 -mb-1.5 sm:-mb-1">Answers</h3>
-                    <Link href="/users/username?tab=answers" className="text-zinc-500 text-xs sm:text-sm">View all {data.totalAnswers} answers</Link>
+                    <Link href={`/users/${username}?tab=answers`} className="text-zinc-500 text-xs sm:text-sm">View all {data.totalAnswers} answers</Link>
                 </div>
                 <PostTabs
                     tabs={userSummaryAnswersTabs}

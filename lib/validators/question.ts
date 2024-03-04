@@ -35,6 +35,13 @@ export const GetTaggedQuestionsValidator = z.object({
 
 export const GetUserQuestionsValidator = z.object({
     userId: z.string(),
+    tab: z.enum(["score", "newest", "views"]),
+    page: z.number(),
+    limit: z.number()
+});
+
+export const GetUserTopQuestionsValidator = z.object({
+    userId: z.string(),
     tab: z.enum(["score", "newest", "views"])
 });
 
@@ -43,3 +50,4 @@ export type GetQuestionPayload = z.infer<typeof GetQuestionValidator>;
 export type GetQuestionsPayload = z.infer<typeof GetQuestionsValidator>;
 export type GetTaggedQuestionsPayload = z.infer<typeof GetTaggedQuestionsValidator>;
 export type GetUserQuestionsPayload = z.infer<typeof GetUserQuestionsValidator>;
+export type GetUserTopQuestionsPayload = z.infer<typeof GetUserTopQuestionsValidator>;

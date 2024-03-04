@@ -18,23 +18,6 @@ const SummaryContent = ({
     userId,
     username
 }: SummaryContentProps) => {
-    // const fetchActivity = async () => {
-    //     const payload = { id: userId };
-    //     const data = await getActivitySummary(payload);
-    //     return data as ActivitySummaryData;
-    // };
-
-    // const {
-    //     data,
-    //     isFetching
-    // } = useQuery({
-    //     queryKey: ["users", username, { tab: "summary" }],
-    //     queryFn: fetchActivity
-    // });
-
-    // if(isFetching) return <div className="text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
-    // if(!data) return notFound();
-
     return (
         <div className="flex-1 space-y-4">
             <div>

@@ -23,6 +23,8 @@ interface UserProfileProps {
 const UserProfile = ({ username }: UserProfileProps) => {
     const searchParams = useSearchParams();
     const tab = searchParams.get("tab") || "activity";
+    console.log("tab: ", tab);
+    
     const currentUser = useCurrentUser();
 
     const fetchUser = async () => {
@@ -87,7 +89,7 @@ const UserProfile = ({ username }: UserProfileProps) => {
                     username={user.name}
                 />
             )}
-            {tab === "activity" && (
+            {(tab === "activity" || tab === "summary" || tab === "answers" || tab === "questions" || tab === "tags") && (
                 <ActivitiesTab
                     userId={user.id}
                     username={user.username}
