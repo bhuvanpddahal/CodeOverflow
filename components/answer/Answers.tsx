@@ -30,7 +30,7 @@ const Answers = ({
     const { ref, inView } = useInView();
 
     const fetchAnswers = async ({ pageParam }: InfiniteQueryFnProps) => {
-        const payload = { questionId, orderBy: sortBy, page: pageParam, limit: ANSWERS_PER_PAGE };
+        const payload = { questionId, orderBy: sortBy as AnswersSortValue, page: pageParam, limit: ANSWERS_PER_PAGE };
         const data = await getAnswers(payload);
         return data as AnswersData;
     };
