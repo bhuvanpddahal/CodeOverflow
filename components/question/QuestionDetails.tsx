@@ -10,7 +10,6 @@ import AuthModal from "../auth/AuthModal";
 import YourAnswer from "../answer/YourAnswer";
 import DetailedQuestion from "./DetailedQuestion";
 import { buttonVariants } from "../ui/Button";
-import { AnswersSortValue } from "@/types/answer";
 import { getQuestion } from "@/actions/getQuestion";
 import { ExtendedQuestion } from "@/types/question";
 
@@ -20,7 +19,7 @@ interface QuestionDetailsProps {
 
 const QuestionDetails = ({ id }: QuestionDetailsProps) => {
     const [showAuthModal, setShowAuthModal] = useState(false);
-    const [sortBy, setSortBy] = useState<AnswersSortValue>("highest-score");
+    const [sortBy, setSortBy] = useState("highest-score");
 
     const fetchQuestion = async () => {
         const payload = { questionId: id };

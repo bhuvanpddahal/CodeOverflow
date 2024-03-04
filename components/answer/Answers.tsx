@@ -16,8 +16,8 @@ import { AnswersData, AnswersSortValue } from "@/types/answer";
 
 interface AnswersProps {
     questionId: string;
-    sortBy:  AnswersSortValue;
-    setSortBy: Dispatch<SetStateAction<AnswersSortValue>>;
+    sortBy:  string;
+    setSortBy: Dispatch<SetStateAction<string>>;
     setShowAuthModal: Dispatch<SetStateAction<boolean>>;
 }
 

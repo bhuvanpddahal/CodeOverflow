@@ -18,13 +18,12 @@ import {
     AnswerPayload,
     AnswerValidator
 } from "@/lib/validators/answer";
-import { AnswersSortValue } from "@/types/answer";
 import { answerQuestion } from "@/actions/answerQuestion";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface YourAnswerProps {
     questionId: string;
-    sortBy: AnswersSortValue;
+    sortBy: string;
     setShowAuthModal: Dispatch<SetStateAction<boolean>>;
 }
 
