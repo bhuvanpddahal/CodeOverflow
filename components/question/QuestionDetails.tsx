@@ -5,6 +5,7 @@ import moment from "moment";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
+import Loader from "../Loader";
 import Answers from "../answer/Answers";
 import AuthModal from "../auth/AuthModal";
 import YourAnswer from "../answer/YourAnswer";
@@ -35,7 +36,7 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
         queryFn: fetchQuestion
     });
 
-    if(status === "pending") return <div className="flex-1 text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
+    if(status === "pending") return <Loader type="full" />
     if(status === "error") return <div className="flex-1 text-center py-10 text-zinc-400 text-[15px]">Something went wrong!</div>
     
     return (

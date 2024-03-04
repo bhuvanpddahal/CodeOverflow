@@ -72,3 +72,11 @@ export type SummaryQuestionsData = {
     questions: Question[],
     totalQuestions: number
 };
+
+export type TagsData = {
+    tags: {
+        name: string
+    }[],
+    totalTags: number,
+    lastPage: number
+};

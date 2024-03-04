@@ -20,6 +20,7 @@ const config = {
     extend: {
       spacing: {
         rem: "calc(100vh - 57px)",
+        half: "calc(100vh - 160px)",
       },
       colors: {
         border: "hsl(var(--border))",

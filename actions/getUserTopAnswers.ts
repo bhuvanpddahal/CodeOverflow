@@ -52,8 +52,6 @@ export const getUserTopAnswers = async (payload: GetUserTopAnswersPayload) => {
 
         return { answers, totalAnswers };
     } catch (error) {
-        console.log(error);
-        
         throw new Error("Something went wrong");
     }
 };

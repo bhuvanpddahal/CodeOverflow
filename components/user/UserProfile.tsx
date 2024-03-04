@@ -8,10 +8,11 @@ import { useQuery } from "@tanstack/react-query";
 import { IoLocationSharp } from "react-icons/io5";
 import { notFound, useSearchParams } from "next/navigation";
 
-import ProfileTab from "./profile/ProfileTab";
+import Loader from "../Loader";
 import UserAvatar from "../UserAvatar";
-import ActivitiesTab from "./activity/ActivitiesTab";
+import ProfileTab from "./profile/ProfileTab";
 import NavigationTabs from "./NavigationTabs";
+import ActivitiesTab from "./activity/ActivitiesTab";
 import { Button } from "../ui/Button";
 import { getUser } from "@/actions/getUser";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -41,7 +42,7 @@ const UserProfile = ({ username }: UserProfileProps) => {
         queryFn: fetchUser
     });
 
-    if(isFetching) return <div className="flex-1 h-rem text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
+    if(isFetching) return <Loader type="full" />
     if(!user) return notFound();
 
     const isCurrentUser = currentUser?.id === user.id;
@@ -92,8 +93,10 @@ const UserProfile = ({ username }: UserProfileProps) => {
             {(tab === "activity" || tab === "summary" || tab === "answers" || tab === "questions" || tab === "tags") && (
                 <ActivitiesTab
                     userId={user.id}
+                    profileName={user.name}
                     username={user.username}
                     activeTab={tab}
+                    isCurrentUser={isCurrentUser}
                 />
             )}
         </section>

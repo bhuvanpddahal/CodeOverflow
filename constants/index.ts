@@ -6,6 +6,7 @@ export const ANSWERS_PER_PAGE = 10;
 export const QUESTIONS_PER_PAGE = 10;
 export const USERS_ANSWERS_PER_PAGE = 20;
 export const USERS_QUESTIONS_PER_PAGE = 20;
+export const USERS_TAGS_PER_PAGE = 40;
 
 export const homeTabs = [
     {
@@ -203,5 +204,24 @@ export const userSummaryQuestionsTabs = [
     {
         name: "Views",
         value: "views"
+    }
+];
+
+export const userSummaryTagsTabs = [
+    {
+        name: "Used",
+        value: "used"
+    },
+    {
+        name: "Watched",
+        value: "watched"
+    },
+    {
+        name: "Ignored",
+        value: "ignored"
+    },
+    {
+        name: "Created",
+        value: "created"
     }
 ];

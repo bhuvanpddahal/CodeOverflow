@@ -4,7 +4,7 @@ import { useState } from "react";
 import moment from "moment";
 import Link from "next/link";
 
-import PostTabs from "./PostTabs";
+import PostTabs from "../PostTabs";
 import { useQuery } from "@tanstack/react-query";
 import { SummaryAnswersData } from "@/types/user";
 import { userSummaryAnswersTabs } from "@/constants";

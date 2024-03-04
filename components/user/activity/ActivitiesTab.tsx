@@ -1,21 +1,26 @@
 "use client";
 
 import ActivityNav from "./ActivityNav";
-import AnswersContent from "./AnswersContent";
+import TagsContent from "./tags/TagsContent";
 import SelectActivity from "./SelectActivity";
-import SummaryContent from "./SummaryContent";
-import QuestionsContent from "./QuestionsContent";
+import AnswersContent from "./answers/AnswersContent";
+import SummaryContent from "./summary/SummaryContent";
+import QuestionsContent from "./questions/QuestionsContent";
 
 interface ActivitiesTabProps {
     userId: string;
+    profileName: string;
     username: string;
     activeTab: string;
+    isCurrentUser: boolean;
 }
 
 const ActivitiesTab = ({
     userId,
+    profileName,
     username,
-    activeTab
+    activeTab,
+    isCurrentUser
 }: ActivitiesTabProps) => {
     return (
         <>
@@ -32,18 +37,31 @@ const ActivitiesTab = ({
                     <SummaryContent
                         userId={userId}
                         username={username}
+                        isCurrentUser={isCurrentUser}
                     />
                 )}
                 {activeTab === "answers" && (
                     <AnswersContent
                         userId={userId}
+                        profileName={profileName}
                         username={username}
+                        isCurrentUser={isCurrentUser}
                     />
                 )}
                 {activeTab === "questions" && (
                     <QuestionsContent
                         userId={userId}
+                        profileName={profileName}
                         username={username}
+                        isCurrentUser={isCurrentUser}
+                    />
+                )}
+                {activeTab === "tags" && (
+                    <TagsContent
+                        userId={userId}
+                        profileName={profileName}
+                        username={username}
+                        isCurrentUser={isCurrentUser}
                     />
                 )}
             </div>

@@ -31,11 +31,11 @@ const Navbar = () => {
             <div className="container px-4 md:px-8 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                     <MdMenu
-                        className={`h-6 w-6 text-slate-700 cursor-pointer ${showSidebar ? 'hidden' : 'block'} ${showMenu ? "" : "sm:hidden"}`}
+                        className={`h-6 w-6 shrink-0 text-slate-700 cursor-pointer ${showSidebar ? 'hidden' : 'block'} ${showMenu ? "" : "sm:hidden"}`}
                         onClick={() => setShowSidebar(true)}
                     />
                     <IoMdClose
-                        className={`h-6 w-6 text-slate-700 cursor-pointer ${showSidebar ? 'block' : 'hidden'} ${showMenu ? "" : "sm:hidden"}`}
+                        className={`h-6 w-6 shrink-0 text-slate-700 cursor-pointer ${showSidebar ? 'block' : 'hidden'} ${showMenu ? "" : "sm:hidden"}`}
                         onClick={() => setShowSidebar(false)}
                     />
 
@@ -43,12 +43,12 @@ const Navbar = () => {
                         <img
                             src="/images/logos/main-logo.svg"
                             alt="code-overflow-logo"
-                            className="h-[40px] hidden lg:block"
+                            className="h-[40px] shrink-0 hidden lg:block"
                         />
                         <img
                             src="/images/logos/favicon.png"
                             alt="code-overflow-logo"
-                            className="h-[40px] lg:hidden"
+                            className="h-[40px] shrink-0 lg:hidden"
                         />
                     </Link>
                 </div>

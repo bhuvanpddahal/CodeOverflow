@@ -12,11 +12,13 @@ import { notFound } from "next/navigation";
 interface SummaryContentProps {
     userId: string;
     username: string;
+    isCurrentUser: boolean;
 }
 
 const SummaryContent = ({
     userId,
-    username
+    username,
+    isCurrentUser
 }: SummaryContentProps) => {
     return (
         <div className="flex-1 space-y-4">
