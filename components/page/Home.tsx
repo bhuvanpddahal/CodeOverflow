@@ -52,7 +52,7 @@ const Home = () => {
     const questions = data?.pages.flatMap((page) => page.questions);
 
     if (!isValidTab(tab)) return notFound();
-    if (status === "pending") return <div className="flex-1 text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
+    if (status === "pending") return <div className="flex-1 h-rem text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
 
     return (
         <div className="flex-1 flex flex-col lg:flex-row gap-4 py-4 pr-4">

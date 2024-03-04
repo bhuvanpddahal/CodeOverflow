@@ -99,8 +99,7 @@ const Tags = () => {
             {data?.tags && (
                 <PaginationBox
                     isFiltering={input.length > 0}
-                    location="/tags"
-                    tab={tab}
+                    location={`/tags?tab=${tab}&`}
                     currentPage={Number(page)}
                     lastPage={data?.lastPage}
                 />

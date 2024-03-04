@@ -41,7 +41,7 @@ const UserProfile = ({ username }: UserProfileProps) => {
         queryFn: fetchUser
     });
 
-    if(isFetching) return <div className="flex-1 text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
+    if(isFetching) return <div className="flex-1 h-rem text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
     if(!user) return notFound();
 
     const isCurrentUser = currentUser?.id === user.id;
@@ -55,9 +55,9 @@ const UserProfile = ({ username }: UserProfileProps) => {
                         image: user.image
                     }} className='h-[80px] sm:h-[110px] md:h-[140px] w-[80px] sm:w-[110px] md:w-[140px] rounded-md shadow-md' />
                     <div>
-                        <h2 className="text-2xl sm:text-3xl text-zinc-800">{user.name}</h2>
+                        <h2 className="text-2xl sm:text-3xl text-zinc-800" title={user.username}>{user.name}</h2>
                         <div className="mt-2 space-y-1">
-                            <p className="text-[13px] sm:text-sm flex items-center gap-1 text-zinc-500">
+                            <p className="text-[13px] sm:text-sm flex items-center gap-1 text-zinc-500" title={String(user.createdAt)}>
                                 <MdCake className="h-5 w-5 text-zinc-400" />
                                 Member from {moment(user.createdAt).startOf('seconds').fromNow()}
                             </p>

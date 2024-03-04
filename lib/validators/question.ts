@@ -35,7 +35,7 @@ export const GetTaggedQuestionsValidator = z.object({
 
 export const GetUserQuestionsValidator = z.object({
     userId: z.string(),
-    tab: z.enum(["score", "newest", "views"]),
+    sort: z.enum(["score", "newest", "views"]),
     page: z.number(),
     limit: z.number()
 });

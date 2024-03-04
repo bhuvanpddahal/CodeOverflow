@@ -104,8 +104,7 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
                             showDetails
                         />
                         <PaginationBox
-                            location="/tags"
-                            tab={tab}
+                            location={`/tags?tab=${tab}&`}
                             currentPage={Number(page)}
                             lastPage={data?.lastPage}
                         />

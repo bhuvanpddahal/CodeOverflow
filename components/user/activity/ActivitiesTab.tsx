@@ -4,6 +4,7 @@ import ActivityNav from "./ActivityNav";
 import AnswersContent from "./AnswersContent";
 import SelectActivity from "./SelectActivity";
 import SummaryContent from "./SummaryContent";
+import QuestionsContent from "./QuestionsContent";
 
 interface ActivitiesTabProps {
     userId: string;
@@ -35,6 +36,12 @@ const ActivitiesTab = ({
                 )}
                 {activeTab === "answers" && (
                     <AnswersContent
+                        userId={userId}
+                        username={username}
+                    />
+                )}
+                {activeTab === "questions" && (
+                    <QuestionsContent
                         userId={userId}
                         username={username}
                     />

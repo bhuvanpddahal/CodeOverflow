@@ -11,7 +11,6 @@ import {
 interface PaginationBoxProps {
     isFiltering?: boolean;
     location: string;
-    tab: string;
     currentPage: number;
     lastPage: number | undefined;
 }
@@ -19,7 +18,6 @@ interface PaginationBoxProps {
 const PaginationBox = ({
     isFiltering = false,
     location,
-    tab,
     currentPage,
     lastPage
 }: PaginationBoxProps) => {
@@ -31,10 +29,10 @@ const PaginationBox = ({
                 {currentPage > 1 && (
                     <>
                         <PaginationItem>
-                            <PaginationPrevious href={`${location}?tab=${tab}&page=${currentPage - 1}`} />
+                            <PaginationPrevious href={`${location}page=${currentPage - 1}`} />
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationLink href={`${location}?tab=${tab}&page=1`}>1</PaginationLink>
+                            <PaginationLink href={`${location}page=1`}>1</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
                             <PaginationEllipsis />
@@ -42,7 +40,7 @@ const PaginationBox = ({
                     </>
                 )}
                 <PaginationItem>
-                    <PaginationLink isActive href={`${location}?tab=${tab}&page=${currentPage}`}>{currentPage}</PaginationLink>
+                    <PaginationLink isActive href={`${location}page=${currentPage}`}>{currentPage}</PaginationLink>
                 </PaginationItem>
                 {lastPage && currentPage < lastPage && (
                     <>
@@ -50,10 +48,10 @@ const PaginationBox = ({
                             <PaginationEllipsis />
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationLink href={`${location}?tab=${tab}&page=${lastPage}`}>{lastPage}</PaginationLink>
+                            <PaginationLink href={`${location}page=${lastPage}`}>{lastPage}</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationNext href={`${location}?tab=${tab}&page=${currentPage + 1}`} />
+                            <PaginationNext href={`${location}page=${currentPage + 1}`} />
                         </PaginationItem>
                     </>
                 )}

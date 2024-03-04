@@ -108,8 +108,7 @@ const Users = () => {
             {data?.users && (
                 <PaginationBox
                     isFiltering={input.length > 0}
-                    location="/users"
-                    tab={tab}
+                    location={`/users?tab=${tab}&`}
                     currentPage={Number(page)}
                     lastPage={data?.lastPage}
                 />

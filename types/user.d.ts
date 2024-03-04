@@ -48,6 +48,26 @@ export type AnswersData = {
     lastPage: number
 };
 
+export type QuestionsData = {
+    questions: {
+        votes: {
+            type: "UP" | "DOWN"
+        }[],
+        answers: {
+            id: string
+        }[],
+        views: string[],
+        id: string,
+        title: string,
+        tags: {
+            name: string
+        }[],
+        askedAt: Date
+    }[],
+    totalQuestions: number,
+    lastPage: number
+};
+
 export type SummaryQuestionsData = {
     questions: Question[],
     totalQuestions: number
