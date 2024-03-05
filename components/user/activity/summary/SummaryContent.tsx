@@ -4,19 +4,17 @@ import { FaUserAstronaut } from "react-icons/fa";
 
 import AnswersBox from "./AnswersBox";
 import QuestionsBox from "./QuestionsBox";
-import { useQuery } from "@tanstack/react-query";
-import { ActivitySummaryData } from "@/types/user";
-import { getActivitySummary } from "@/actions/getActivitySummary";
-import { notFound } from "next/navigation";
 
 interface SummaryContentProps {
     userId: string;
+    profileName: string;
     username: string;
     isCurrentUser: boolean;
 }
 
 const SummaryContent = ({
     userId,
+    profileName,
     username,
     isCurrentUser
 }: SummaryContentProps) => {
@@ -34,11 +32,15 @@ const SummaryContent = ({
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                 <AnswersBox
                     userId={userId}
+                    profileName={profileName}
                     username={username}
+                    isCurrentUser={isCurrentUser}
                 />
                 <QuestionsBox
                     userId={userId}
+                    profileName={profileName}
                     username={username}
+                    isCurrentUser={isCurrentUser}
                 />
             </div>
         </div>

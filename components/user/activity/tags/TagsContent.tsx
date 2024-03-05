@@ -67,7 +67,7 @@ const TagsContent = ({
             <ul className="border border-zinc-300 rounded-md mb-4">
                 {data.tags.length ? (
                     data.tags.map((tag, index) => (
-                        <li className={`p-4 flex items-center justify-between ${index === data.tags.length - 1 ? "" : "border-b border-zinc-300"}`}>
+                        <li key={index} className={`p-4 flex items-center justify-between ${index === data.tags.length - 1 ? "" : "border-b border-zinc-300"}`}>
                             <Link href={`/questions/tagged/${tag.name}`}>
                                 <Badge variant="secondary">{tag.name}</Badge>
                             </Link>

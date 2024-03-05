@@ -42,6 +42,11 @@ export const getUserTopAnswers = async (payload: GetUserTopAnswersPayload) => {
                         title: true
                     }
                 },
+                votes: {
+                    select: {
+                        type: true
+                    }
+                },
                 answeredAt: true
             }
         });

@@ -1,5 +1,7 @@
 import { User } from "@prisma/client";
 
+type VoteType = "UP" | "DOWN";
+
 export type UserData = {
     users: User[],
     lastPage: number
@@ -29,11 +31,6 @@ export type ProfileData = ActivitySummaryData & {
     totalAnswers: number
 };
 
-export type SummaryAnswersData = {
-    answers: Answer[],
-    totalAnswers: number
-};
-
 export type AnswersData = {
     answers: {
         question: {
@@ -41,7 +38,9 @@ export type AnswersData = {
             title: string,
             tags: { name: string }[]
         },
-        votes: { type: "UP" | "DOWN" }[],
+        votes: {
+            type: VoteType
+        }[],
         answeredAt: Date
     }[],
     totalAnswers: number,
@@ -51,7 +50,7 @@ export type AnswersData = {
 export type QuestionsData = {
     questions: {
         votes: {
-            type: "UP" | "DOWN"
+            type: VoteType
         }[],
         answers: {
             id: string
@@ -68,8 +67,29 @@ export type QuestionsData = {
     lastPage: number
 };
 
+export type SummaryAnswersData = {
+    answers: {
+        question: {
+            id: string,
+            title: string
+        },
+        votes: {
+            type: VoteType
+        }[],
+        answeredAt: Date
+    }[],
+    totalAnswers: number
+};
+
 export type SummaryQuestionsData = {
-    questions: Question[],
+    questions: {
+        id: string,
+        title: string,
+        votes: {
+            type: VoteType
+        }[],
+        askedAt: Date
+    }[],
     totalQuestions: number
 };
 

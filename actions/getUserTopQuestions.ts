@@ -40,6 +40,11 @@ export const getUserTopQuestions = async (payload: GetUserTopQuestionsPayload) =
             select: {
                 id: true,
                 title: true,
+                votes: {
+                    select: {
+                        type: true
+                    }
+                },
                 askedAt: true
             }
         });

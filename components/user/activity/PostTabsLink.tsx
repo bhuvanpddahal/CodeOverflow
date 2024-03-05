@@ -32,7 +32,7 @@ const PostTabsLink = ({
                         className="text-xs px-2"
                         asChild
                     >
-                        <Link href={`${route}&sort=${tab.value}`}>{tab.name}</Link>
+                        <Link key={tab.value} href={`${route}&sort=${tab.value}`}>{tab.name}</Link>
                     </TabsTrigger>
                 ))}
             </TabsList>

@@ -1,7 +1,7 @@
 import { Loader2 } from "lucide-react";
 
 interface LoaderProps {
-    type: "mini" | "half" | "full";
+    type?: "mini" | "half" | "full";
 }
 
 const Loader = ({ type = "mini" }: LoaderProps) => {

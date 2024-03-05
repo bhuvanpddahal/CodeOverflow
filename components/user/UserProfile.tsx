@@ -12,6 +12,7 @@ import Loader from "../Loader";
 import UserAvatar from "../UserAvatar";
 import ProfileTab from "./profile/ProfileTab";
 import NavigationTabs from "./NavigationTabs";
+import SettingsTab from "./settings/SettingsTab";
 import ActivitiesTab from "./activity/ActivitiesTab";
 import { Button } from "../ui/Button";
 import { getUser } from "@/actions/getUser";
@@ -24,8 +25,6 @@ interface UserProfileProps {
 const UserProfile = ({ username }: UserProfileProps) => {
     const searchParams = useSearchParams();
     const tab = searchParams.get("tab") || "activity";
-    console.log("tab: ", tab);
-    
     const currentUser = useCurrentUser();
 
     const fetchUser = async () => {
@@ -71,8 +70,8 @@ const UserProfile = ({ username }: UserProfileProps) => {
                 </div>
 
                 <div className="absolute top-0 right-0">
-                    <Button variant="outline" className="text-sm text-zinc-800">
-                        <HiPencil className="text-zinc-800" />
+                    <Button variant="outline" size="sm" className="text-zinc-800">
+                        <HiPencil className="text-zinc-800 mr-1" />
                         Edit profile
                     </Button>
                 </div>
@@ -90,13 +89,19 @@ const UserProfile = ({ username }: UserProfileProps) => {
                     username={user.name}
                 />
             )}
-            {(tab === "activity" || tab === "summary" || tab === "answers" || tab === "questions" || tab === "tags") && (
+            {(tab === "activity" || tab === "summary" || tab === "answers" || tab === "questions" || tab === "tags" || tab === "votes") && (
                 <ActivitiesTab
                     userId={user.id}
                     profileName={user.name}
                     username={user.username}
                     activeTab={tab}
                     isCurrentUser={isCurrentUser}
+                />
+            )}
+            {tab === "settings" && (
+                <SettingsTab
+                    // userId={user.id}
+                    // username={user.name}
                 />
             )}
         </section>

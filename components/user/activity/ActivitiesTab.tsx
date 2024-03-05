@@ -3,6 +3,7 @@
 import ActivityNav from "./ActivityNav";
 import TagsContent from "./tags/TagsContent";
 import SelectActivity from "./SelectActivity";
+import VotesContent from "./votes/VotesContent";
 import AnswersContent from "./answers/AnswersContent";
 import SummaryContent from "./summary/SummaryContent";
 import QuestionsContent from "./questions/QuestionsContent";
@@ -33,9 +34,10 @@ const ActivitiesTab = ({
                     username={username}
                     activeTab={activeTab}
                 />
-                {activeTab === "summary" || activeTab === "activity" && (
+                {(activeTab === "summary" || activeTab === "activity") && (
                     <SummaryContent
                         userId={userId}
+                        profileName={profileName}
                         username={username}
                         isCurrentUser={isCurrentUser}
                     />
@@ -58,6 +60,14 @@ const ActivitiesTab = ({
                 )}
                 {activeTab === "tags" && (
                     <TagsContent
+                        userId={userId}
+                        profileName={profileName}
+                        username={username}
+                        isCurrentUser={isCurrentUser}
+                    />
+                )}
+                {activeTab === "votes" && (
+                    <VotesContent
                         userId={userId}
                         profileName={profileName}
                         username={username}

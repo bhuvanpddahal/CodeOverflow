@@ -33,21 +33,21 @@ interface AnswerProps {
 
 const Question = ({ id, title, askedAt, isLast }: QuestionProps) => (
     <li className={`flex items-center gap-3 ${isLast ? "" : "border-b border-zinc-300"} p-3`}>
-        <RiQuestionnaireFill className="h-5 w-5 text-emerald-800" />
+        <RiQuestionnaireFill title="question" className="h-5 w-5 text-emerald-800" />
         <Link href={`/questions/${id}`} className="flex-1 line-clamp-1 text-[15px] sm:text-base text-blue-700 hover:text-blue-800">
             {title}
         </Link>
-        <span className="text-sm sm:text-[15px] text-zinc-600">{moment(askedAt).format('ll')}</span>
+        <span title={String(askedAt)} className="text-sm sm:text-[15px] text-zinc-600">{moment(askedAt).format('ll')}</span>
     </li>
 );
 
 const Answer = ({ questionId, questionTitle, answeredAt, isLast }: AnswerProps) => (
     <li className={`flex items-center gap-3 ${isLast ? "" : "border-b border-zinc-300"} p-3`}>
-        <RiChatCheckFill className="h-5 w-5 text-emerald-800" />
+        <RiChatCheckFill title="answer" className="h-5 w-5 text-emerald-800" />
         <Link href={`/questions/${questionId}`} className="flex-1 line-clamp-1 text-[15px] sm:text-base text-blue-700 hover:text-blue-800">
             {questionTitle}
         </Link>
-        <span className="text-sm sm:text-[15px] text-zinc-600">{moment(answeredAt).format('ll')}</span>
+        <span title={String(answeredAt)} className="text-sm sm:text-[15px] text-zinc-600">{moment(answeredAt).format('ll')}</span>
     </li>
 );
 

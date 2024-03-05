@@ -1,9 +1,10 @@
 "use client";
 
+import { notFound } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
 import SummaryBox from "./PostsBox";
-import { notFound } from "next/navigation";
+import Loader from "@/components/Loader";
 import { ProfileData } from "@/types/user";
 import { getUserProfile } from "@/actions/getUserProfile";
 
@@ -27,7 +28,7 @@ const ProfileTab = ({ userId, username }: ProfileTabProps) => {
         queryFn: fetchProfile
     });
 
-    if(isFetching) return <div className="text-center py-10 text-zinc-400 text-[15px]">Loading...</div>
+    if(isFetching) return <Loader type="half" />
     if(!data) return notFound();
 
     const posts = [...data.questions, ...data.answers];
