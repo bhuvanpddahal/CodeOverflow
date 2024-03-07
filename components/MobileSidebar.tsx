@@ -26,19 +26,19 @@ const MobileSidebar = ({ setShowSidebar, showMenu }: MobileSidebarProps) => {
             <ul className="text-[15px]">
                 <li>
                     <Link href="/home" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
-                        <BiSolidHome className="h-5 w-5 text-zinc-800" />
+                        <BiSolidHome className="h-5 w-5 text-zinc-700" />
                         Home
                     </Link>
                 </li>
                 <li>
                     <Link href="/questions" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
-                        <RiQuestionnaireFill className="h-5 w-5 text-zinc-800" />
+                        <RiQuestionnaireFill className="h-5 w-5 text-zinc-700" />
                         Questions
                     </Link>
                 </li>
                 <li>
                     <Link href="/tags" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
-                        <ImPriceTags className="h-5 w-5 text-zinc-800" />
+                        <ImPriceTags className="h-5 w-5 text-zinc-700" />
                         Tags
                     </Link>
                 </li>
@@ -47,19 +47,19 @@ const MobileSidebar = ({ setShowSidebar, showMenu }: MobileSidebarProps) => {
             <ul className="text-[15px] mt-4">
                 <li>
                     <Link href="/saves" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
-                        <IoBookmark className="h-5 w-5 text-zinc-800" />
+                        <IoBookmark className="h-5 w-5 text-zinc-700" />
                         Saves
                     </Link>
                 </li>
                 <li>
                     <Link href="/users" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
-                        <ImUsers className="h-5 w-5 text-zinc-800" />
+                        <ImUsers className="h-5 w-5 text-zinc-700" />
                         Users
                     </Link>
                 </li>
                 <li>
                     <Link href="/companies" className="w-full flex items-center gap-2 px-3 py-1.5 rounded-md hover:bg-zinc-100">
-                        <PiBagSimpleFill className="h-5 w-5 text-zinc-800" />
+                        <PiBagSimpleFill className="h-5 w-5 text-zinc-700" />
                         Companies
                     </Link>
                 </li>

@@ -63,7 +63,6 @@ export const editQuestion = async (payload: QuestionPayload) => {
 
         return { success: "Question edited" };
     } catch (error) {
-        console.log(error);
         return { error: "Something went wrong" };
     }
 };

@@ -15,8 +15,13 @@ model User {
     name          String
     email         String         @unique
     username      String         @unique @default(uuid())
+    about         String?
+    location      String?
     image         String?
     password      String?
+    websiteLink   String?
+    twitterLink   String?
+    githubLink    String?
     emailVerified DateTime?
     createdAt     DateTime       @default(now())
     updatedAt     DateTime       @updatedAt

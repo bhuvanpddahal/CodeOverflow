@@ -6,13 +6,18 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'lh3.googleusercontent.com',
-                port: '',
+                port: ''
             },
             {
                 protocol: 'https',
                 hostname: 'avatars.githubusercontent.com',
-                port: '',
+                port: ''
             },
+            {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com',
+                port: ''
+            }
         ],
     },
 };

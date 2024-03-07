@@ -80,7 +80,6 @@ const QuestionForm = ({
     const onSubmit = (payload: QuestionPayload) => {
         setError('');
         setSuccess('');
-        console.log("inside onSubmit ", payload);
 
         if (user) {
             startTransition(() => {
@@ -100,7 +99,6 @@ const QuestionForm = ({
     };
 
     const handleDiscard = () => {
-        console.log("inside handleDiscard");
         form.reset();
     };
 

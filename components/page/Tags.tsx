@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { notFound, useSearchParams } from "next/navigation";
 
+import Loader from "../Loader";
 import TabsBox from "../TabsBox";
 import Searchbar from "../Searchbar";
 import PaginationBox from "../PaginationBox";
@@ -69,7 +70,7 @@ const Tags = () => {
             </div>
 
             {isFetching ? (
-                <div className="text-center text-zinc-400 text-[15px] py-10">Loading...</div>
+                <Loader type="half" />
             ) : (
                 data?.tags && data.tags.length ? (
                     <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-px mb-3">

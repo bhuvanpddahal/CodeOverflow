@@ -19,8 +19,6 @@ export const getUser = async (payload: GetUserPayload) => {
 
         return user;
     } catch (error) {
-        console.log(error);
-        
         throw new Error("Something went wrong");
     }
 };

@@ -1,11 +1,14 @@
 "use client";
 
 import moment from "moment";
+import Link from "next/link";
 import { User } from "@prisma/client";
 import { MdCake } from "react-icons/md";
 import { HiPencil } from "react-icons/hi";
+import { RiLinksFill } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
 import { IoLocationSharp } from "react-icons/io5";
+import { FaTwitter, FaGithub } from "react-icons/fa";
 import { notFound, useSearchParams } from "next/navigation";
 
 import Loader from "../Loader";
@@ -14,17 +17,18 @@ import ProfileTab from "./profile/ProfileTab";
 import NavigationTabs from "./NavigationTabs";
 import SettingsTab from "./settings/SettingsTab";
 import ActivitiesTab from "./activity/ActivitiesTab";
-import { Button } from "../ui/Button";
 import { getUser } from "@/actions/getUser";
+import { buttonVariants } from "../ui/Button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface UserProfileProps {
+    activeTab?: string;
     username: string;
 }
 
-const UserProfile = ({ username }: UserProfileProps) => {
+const UserProfile = ({ activeTab, username }: UserProfileProps) => {
     const searchParams = useSearchParams();
-    const tab = searchParams.get("tab") || "activity";
+    const tab = searchParams.get("tab") || activeTab || "activity";
     const currentUser = useCurrentUser();
 
     const fetchUser = async () => {
@@ -42,6 +46,7 @@ const UserProfile = ({ username }: UserProfileProps) => {
     });
 
     if(isFetching) return <Loader type="full" />
+    console.log("user: ", user);
     if(!user) return notFound();
 
     const isCurrentUser = currentUser?.id === user.id;
@@ -61,20 +66,46 @@ const UserProfile = ({ username }: UserProfileProps) => {
                                 <MdCake className="h-5 w-5 text-zinc-400" />
                                 Member from {moment(user.createdAt).startOf('seconds').fromNow()}
                             </p>
-                            <p className="text-[13px] sm:text-sm flex items-center gap-1 text-zinc-500">
-                                <IoLocationSharp className="h-5 w-5 text-zinc-400" />
-                                Reading, United Kingdom
-                            </p>
+                            {user.location && (
+                                <p className="text-[13px] sm:text-sm flex items-center gap-1 text-zinc-500">
+                                    <IoLocationSharp className="h-5 w-5 text-zinc-400" />
+                                    {user.location}
+                                </p>
+                            )}
+                            <div className="flex gap-2">
+                                {user.twitterLink && (
+                                    <Link href={user.twitterLink} className="text-[13px] sm:text-sm flex items-center gap-1 text-zinc-500" title={user.twitterLink}>
+                                        <FaTwitter className="h-5 w-5 text-zinc-400" />
+                                    </Link>
+                                )}
+                                {user.githubLink && (
+                                    <Link href={user.githubLink} className="text-[13px] sm:text-sm flex items-center gap-1 text-zinc-500" title={user.githubLink}>
+                                        <FaGithub className="h-5 w-5 text-zinc-400" />
+                                    </Link>
+                                )}
+                                {user.websiteLink && (
+                                    <p className="text-[13px] sm:text-sm flex items-center gap-1 text-zinc-500" title={user.websiteLink}>
+                                        <RiLinksFill className="h-5 w-5 text-zinc-400" />
+                                        {user.websiteLink}
+                                    </p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="absolute top-0 right-0">
-                    <Button variant="outline" size="sm" className="text-zinc-800">
-                        <HiPencil className="text-zinc-800 mr-1" />
-                        Edit profile
-                    </Button>
-                </div>
+                {isCurrentUser && (
+                    <div className="absolute top-0 right-0">
+                        <Link href={`/users/${username}/edit`} className={buttonVariants({
+                            variant: "outline",
+                            size: "sm",
+                            className: "text-zinc-800"
+                        })}>
+                            <HiPencil className="text-zinc-800 mr-1" />
+                            Edit profile
+                        </Link>
+                    </div>
+                )}
             </header>
 
             <NavigationTabs
@@ -100,8 +131,16 @@ const UserProfile = ({ username }: UserProfileProps) => {
             )}
             {tab === "settings" && (
                 <SettingsTab
-                    // userId={user.id}
-                    // username={user.name}
+                    userId={user.id}
+                    profileName={user.name}
+                    username={user.username}
+                    image={user.image}
+                    location={user.location}
+                    about={user.about}
+                    websiteLink={user.websiteLink}
+                    twitterLink={user.twitterLink}
+                    githubLink={user.githubLink}
+                    isCurrentUser={isCurrentUser}
                 />
             )}
         </section>
