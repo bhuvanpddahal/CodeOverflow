@@ -52,6 +52,7 @@ interface QuestionProps {
     askedAt: Date;
     updatedAt: Date;
     showDetails: boolean;
+    setShowAuthModal: Dispatch<SetStateAction<boolean>>;
     lastQuestionRef?: (node?: Element | null | undefined) => void;
 }
 
@@ -67,6 +68,7 @@ const Question = ({
     askedAt,
     updatedAt,
     showDetails,
+    setShowAuthModal,
     lastQuestionRef
 }: QuestionProps) => {
     const user = useCurrentUser();
@@ -114,8 +116,12 @@ const Question = ({
         isPending: isIgnoreLoading
     } = useMutation({
         mutationFn: async (values: IgnoreValues) => {
-            const payload = { tagId: values.tagId };
-            await ignoreTag(payload);
+            if(user && user.id) {
+                const payload = { tagId: values.tagId };
+                await ignoreTag(payload);
+            } else {
+                setShowAuthModal(true);
+            }
         },
         onSuccess: (_, values: IgnoreValues) => {
             if(values.type === "ignore") {
@@ -191,6 +197,8 @@ const Question = ({
                                             isIgnoreLoading={isIgnoreLoading}
                                             handleWatch={watch}
                                             handleIgnore={ignore}
+                                            isLoggedIn={!!user}
+                                            setShowAuthModal={setShowAuthModal}
                                         />
                                     </HoverCardContent>
                                 </HoverCard>

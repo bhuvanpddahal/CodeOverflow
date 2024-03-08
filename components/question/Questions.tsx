@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import {
     FetchNextPageOptions,
@@ -13,6 +13,7 @@ import {
     ExtendedQuestion,
     QuestionData
 } from "@/types/question";
+import AuthModal from "../auth/AuthModal";
 
 interface QuestionsProps {
     questions: ExtendedQuestion[] | undefined;
@@ -28,6 +29,7 @@ const Questions = ({
     showDetails = false
 }: QuestionsProps) => {
     const { ref, inView } = useInView();
+    const [showAuthModal, setShowAuthModal] = useState(false);
 
     useEffect(() => {
         if (inView && hasNextPage) {
@@ -36,46 +38,53 @@ const Questions = ({
     }, [inView, hasNextPage, fetchNextPage]);
 
     return (
-        <div>
-            {questions && questions?.length > 0 ? (
-                questions.map((question, index) => {
-                    if (index === questions.length - 1) {
-                        return <Question
-                            key={index}
-                            id={question.id}
-                            title={question.title}
-                            details={question.details}
-                            tags={question.tags}
-                            asker={question.asker}
-                            votes={question.votes}
-                            answererIds={question.answers}
-                            views={question.views}
-                            askedAt={question.askedAt}
-                            updatedAt={question.updatedAt}
-                            showDetails={showDetails}
-                            lastQuestionRef={ref}
-                        />
-                    } else {
-                        return <Question
-                            key={index}
-                            id={question.id}
-                            title={question.title}
-                            details={question.details}
-                            tags={question.tags}
-                            asker={question.asker}
-                            votes={question.votes}
-                            answererIds={question.answers}
-                            views={question.views}
-                            askedAt={question.askedAt}
-                            updatedAt={question.updatedAt}
-                            showDetails={showDetails}
-                        />
-                    }
-                })
-            ) : (
-                <p className="text-center text-zinc-400 text-[15px]">No questions to show</p>
+        <>
+            {showAuthModal && (
+                <AuthModal setShow={setShowAuthModal} />
             )}
-        </div>
+            <div>
+                {questions && questions?.length > 0 ? (
+                    questions.map((question, index) => {
+                        if (index === questions.length - 1) {
+                            return <Question
+                                key={index}
+                                id={question.id}
+                                title={question.title}
+                                details={question.details}
+                                tags={question.tags}
+                                asker={question.asker}
+                                votes={question.votes}
+                                answererIds={question.answers}
+                                views={question.views}
+                                askedAt={question.askedAt}
+                                updatedAt={question.updatedAt}
+                                showDetails={showDetails}
+                                setShowAuthModal={setShowAuthModal}
+                                lastQuestionRef={ref}
+                            />
+                        } else {
+                            return <Question
+                                key={index}
+                                id={question.id}
+                                title={question.title}
+                                details={question.details}
+                                tags={question.tags}
+                                asker={question.asker}
+                                votes={question.votes}
+                                answererIds={question.answers}
+                                views={question.views}
+                                askedAt={question.askedAt}
+                                updatedAt={question.updatedAt}
+                                showDetails={showDetails}
+                                setShowAuthModal={setShowAuthModal}
+                            />
+                        }
+                    })
+                ) : (
+                    <p className="text-center text-zinc-400 text-[15px]">No questions to show</p>
+                )}
+            </div>
+        </>
     )
 };
 

@@ -22,7 +22,7 @@ const AuthModal = ({
     };
 
     return (
-        <div className="bg-zinc-900/40 fixed inset-0 flex items-center justify-center z-20 p-3 overflow-y-auto">
+        <div className="bg-zinc-900/40 fixed inset-0 flex items-center justify-center z-50 p-3 overflow-y-auto">
             <div className="bg-white relative p-5 max-w-sm w-full rounded-md space-y-5 shadow-md">
                 <IoIosClose
                     className="absolute top-5 right-5 h-7 w-7 cursor-pointer"

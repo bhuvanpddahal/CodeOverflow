@@ -1,6 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import {
+    Dispatch,
+    SetStateAction,
+    useState
+} from "react";
 import Link from "next/link";
 import { ImFire } from "react-icons/im";
 import { MdDoNotDisturb } from "react-icons/md";
@@ -27,6 +31,8 @@ interface TagDetailsProps {
     isIgnoreLoading: boolean;
     handleWatch: UseMutateFunction<void, Error, WatchValues, unknown>;
     handleIgnore: UseMutateFunction<void, Error, IgnoreValues, unknown>;
+    isLoggedIn: boolean;
+    setShowAuthModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const TagDetails = ({
@@ -40,13 +46,31 @@ const TagDetails = ({
     isWatchLoading,
     isIgnoreLoading,
     handleWatch,
-    handleIgnore
+    handleIgnore,
+    isLoggedIn,
+    setShowAuthModal
 }: TagDetailsProps) => {
     const watchType: WatchType = isWatchedTag ? "unwatch" : "watch";
     const ignoreType: IgnoreType = isIgnoredTag ? "unignore" : "ignore";
     const [watchersCount, setWatchersCount] = useState(watcherIds.length);
     const watchValues = { type: watchType, tagId, setWatchersCount };
     const ignoreValues = { type: ignoreType, tagId, setWatchersCount };
+
+    const handleWatchClick = () => {
+        if(isLoggedIn) {
+            handleWatch(watchValues);
+        } else {
+            setShowAuthModal(true);
+        }
+    };
+
+    const handleIgnoreClick = () => {
+        if(isLoggedIn) {
+            handleIgnore(ignoreValues);
+        } else {
+            setShowAuthModal(true);
+        }
+    };
 
     return (
         <div>
@@ -64,7 +88,7 @@ const TagDetails = ({
                 <Button
                     className="w-full"
                     isLoading={isWatchLoading}
-                    onClick={() => handleWatch(watchValues)}
+                    onClick={handleWatchClick}
                 >
                     {isWatchedTag ? (
                         <>{!isWatchLoading && <IoMdEyeOff className="h-5 w-5 mr-1" />} Unwatch tag</>
@@ -76,7 +100,7 @@ const TagDetails = ({
                     variant="outline"
                     className="w-full"
                     isLoading={isIgnoreLoading}
-                    onClick={() => handleIgnore(ignoreValues)}
+                    onClick={handleIgnoreClick}
                 >
                     {isIgnoredTag ? (
                         <>{!isIgnoreLoading && <MdDoNotDisturb className="h-5 w-5 mr-1" />} Unignore tag</>
