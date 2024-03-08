@@ -17,6 +17,11 @@ export const GetUserTagsValidator = z.object({
     limit: z.number()
 });
 
+export const WatchTagValidator = z.object({
+    tagId: z.string()
+});
+
 export type GetTagsPayload = z.infer<typeof GetTagsValidator>;
 export type GetTagsByNamePayload = z.infer<typeof GetTagsByNameValidator>;
 export type GetUserTagsPayload = z.infer<typeof GetUserTagsValidator>;
+export type WatchTagPayload = z.infer<typeof WatchTagValidator>;

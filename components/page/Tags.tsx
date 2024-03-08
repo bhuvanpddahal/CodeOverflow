@@ -11,7 +11,7 @@ import Searchbar from "../Searchbar";
 import PaginationBox from "../PaginationBox";
 import { Badge } from "../ui/Badge";
 import { TagData } from "@/types/tag";
-import { getTags } from "@/actions/getTags";
+import { getTags } from "@/actions/tag/getTags";
 import { GetTagsPayload } from "@/lib/validators/tag";
 import { TAGS_PER_PAGE, tagsTabs } from "@/constants";
 

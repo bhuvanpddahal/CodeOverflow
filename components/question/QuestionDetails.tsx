@@ -11,7 +11,7 @@ import AuthModal from "../auth/AuthModal";
 import YourAnswer from "../answer/YourAnswer";
 import DetailedQuestion from "./DetailedQuestion";
 import { buttonVariants } from "../ui/Button";
-import { getQuestion } from "@/actions/getQuestion";
+import { getQuestion } from "@/actions/question/getQuestion";
 import { ExtendedQuestion } from "@/types/question";
 
 interface QuestionDetailsProps {

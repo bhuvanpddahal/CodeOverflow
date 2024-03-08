@@ -20,7 +20,7 @@ import {
     FormMessage
 } from "../ui/Form";
 import { Input } from "../ui/Input";
-import { signUp } from "@/actions/signUp";
+import { signUp } from "@/actions/auth/signUp";
 
 const SignUpForm = () => {
     const [error, setError] = useState('');

@@ -14,7 +14,7 @@ import {
 } from "@/constants";
 import { QuestionsData } from "@/types/user";
 import { Badge } from "@/components/ui/Badge";
-import { getUserQuestions } from "@/actions/getUserQuestions";
+import { getUserQuestions } from "@/actions/user/getUserQuestions";
 
 interface QuestionsContentProps {
     userId: string;

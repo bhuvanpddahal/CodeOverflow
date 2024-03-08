@@ -9,7 +9,7 @@ import PostTabs from "../PostTabs";
 import Loader from "@/components/Loader";
 import { SummaryQuestionsData } from "@/types/user";
 import { userSummaryQuestionsTabs } from "@/constants";
-import { getUserTopQuestions } from "@/actions/getUserTopQuestions";
+import { getUserTopQuestions } from "@/actions/user/getUserTopQuestions";
 
 interface QuestionsBoxProps {
     userId: string;

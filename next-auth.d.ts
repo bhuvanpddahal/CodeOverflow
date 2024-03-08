@@ -3,6 +3,9 @@ import NextAuth, { type DefaultSession } from "next-auth";
 
 export type ExtendedUser = DefaultSession["user"] & {
     username: string;
+    watchedTagIds: string[];
+    watchedTagIds: string[];
+    ignoredTagIds: string[];
 };
 
 declare module "next-auth" {

@@ -4,7 +4,7 @@ import { v2 as cloudinary } from "cloudinary";
 
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { ProfilePayload, ProfileValidator } from "../lib/validators/user";
+import { ProfilePayload, ProfileValidator } from "../../lib/validators/user";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 

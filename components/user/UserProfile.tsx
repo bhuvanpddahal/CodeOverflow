@@ -17,7 +17,7 @@ import ProfileTab from "./profile/ProfileTab";
 import NavigationTabs from "./NavigationTabs";
 import SettingsTab from "./settings/SettingsTab";
 import ActivitiesTab from "./activity/ActivitiesTab";
-import { getUser } from "@/actions/getUser";
+import { getUser } from "@/actions/user/getUser";
 import { buttonVariants } from "../ui/Button";
 import { useCurrentUser } from "@/hooks/use-current-user";
 

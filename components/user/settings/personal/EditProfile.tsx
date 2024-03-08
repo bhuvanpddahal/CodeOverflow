@@ -28,7 +28,7 @@ import {
     ProfileValidator
 } from "@/lib/validators/user";
 import { Input } from "@/components/ui/Input";
-import { editProfile } from "@/actions/editProfile";
+import { editProfile } from "@/actions/user/editProfile";
 import { Button, buttonVariants } from "@/components/ui/Button";
 
 interface EditProfileProps {

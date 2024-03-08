@@ -35,6 +35,8 @@ export const {
                 session.user.name = token.name;
                 session.user.email = token.email || "";
                 session.user.username = token.username || "";
+                session.user.watchedTagIds = token.watchedTagIds || [];
+                session.user.ignoredTagIds = token.ignoredTagIds || [];
             }
             return session;
         },
@@ -46,6 +48,8 @@ export const {
             token.name = existingUser.name;
             token.email = existingUser.email;
             token.username = existingUser.username;
+            token.watchedTagIds = existingUser.watchedTagIds;
+            token.ignoredTagIds = existingUser.ignoredTagIds;
 
             return token;
         }

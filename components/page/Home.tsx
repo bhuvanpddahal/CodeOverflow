@@ -11,7 +11,7 @@ import { homeTabs } from "@/constants";
 import { buttonVariants } from "../ui/Button";
 import { QuestionData } from "@/types/question";
 import { InfiniteQueryFnProps } from "@/types/util";
-import { getQuestions } from "@/actions/getQuestions";
+import { getQuestions } from "@/actions/question/getQuestions";
 
 const isValidTab = (value: string) => {
     const isValid = homeTabs.find((tab) => tab.value === value);
@@ -53,7 +53,6 @@ const Home = () => {
     const questions = data?.pages.flatMap((page) => page.questions);
 
     if (!isValidTab(tab)) return notFound();
-    if (status === "pending") return <Loader type="full" />
 
     return (
         <div className="flex-1 flex flex-col lg:flex-row gap-4 py-4 pr-4">
@@ -72,11 +71,15 @@ const Home = () => {
                     </div>
                 </div>
 
-                <Questions
-                    questions={questions}
-                    fetchNextPage={fetchNextPage}
-                    hasNextPage={hasNextPage}
-                />
+                {status === "pending" ? (
+                    <Loader type="full" />
+                ) : (
+                    <Questions
+                        questions={questions}
+                        fetchNextPage={fetchNextPage}
+                        hasNextPage={hasNextPage}
+                    />
+                )}
             </section>
 
             <section className="w-full lg:w-[300px] ml-4 lg:ml-0 border border-zinc-300 rounded-sm">

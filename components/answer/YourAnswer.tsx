@@ -1,6 +1,12 @@
 "use client";
 
-import { useTransition, useRef, useState, Dispatch, SetStateAction } from "react";
+import {
+    useTransition,
+    useRef,
+    useState,
+    Dispatch,
+    SetStateAction
+} from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -18,8 +24,8 @@ import {
     AnswerPayload,
     AnswerValidator
 } from "@/lib/validators/answer";
-import { answerQuestion } from "@/actions/answerQuestion";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { answerQuestion } from "@/actions/question/answerQuestion";
 
 interface YourAnswerProps {
     questionId: string;

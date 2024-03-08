@@ -13,7 +13,7 @@ import {
 } from '@/constants';
 import { TagsData } from '@/types/user';
 import { Badge } from '@/components/ui/Badge';
-import { getUserTags } from '@/actions/getUserTags';
+import { getUserTags } from '@/actions/user/getUserTags';
 
 interface TagsContentProps {
     userId: string;

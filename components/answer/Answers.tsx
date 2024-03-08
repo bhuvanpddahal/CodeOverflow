@@ -10,8 +10,8 @@ import {
     answersSortOptions,
     ANSWERS_PER_PAGE
 } from "@/constants";
-import { getAnswers } from "@/actions/getAnswers";
 import { InfiniteQueryFnProps } from "@/types/util";
+import { getAnswers } from "@/actions/answer/getAnswers";
 import { AnswersData, AnswersSortValue } from "@/types/answer";
 
 interface AnswersProps {

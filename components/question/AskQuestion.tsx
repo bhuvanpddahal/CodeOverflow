@@ -1,7 +1,7 @@
 import Instruction from "../Instruction";
 import QuestionForm from "./QuestionForm";
 import { askQuestionInstruction } from "@/constants";
-import { createQuestion } from "@/actions/createQuestion";
+import { createQuestion } from "@/actions/question/createQuestion";
 
 const AskQuestion = () => {
     return (

@@ -20,7 +20,7 @@ import {
     FormMessage
 } from "../ui/Form";
 import { Input } from "../ui/Input";
-import { logIn } from "@/actions/logIn";
+import { logIn } from "@/actions/auth/logIn";
 
 const LogInForm = () => {
     const [error, setError] = useState('');

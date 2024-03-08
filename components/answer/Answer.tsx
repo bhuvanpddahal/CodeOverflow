@@ -11,7 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AnswerVote, User, VoteType } from "@prisma/client";
 
 import UserAvatar from "../UserAvatar";
-import { voteAnswer } from "@/actions/voteAnswer";
+import { voteAnswer } from "@/actions/answer/voteAnswer";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { AnswerVotePayload } from "@/lib/validators/vote";
 

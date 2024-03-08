@@ -8,11 +8,12 @@ import { notFound, useSearchParams } from "next/navigation";
 import TabsBox from "../TabsBox";
 import Questions from "./Questions";
 import PaginationBox from "../PaginationBox";
-import { getTag } from "@/actions/getTag";
+import { getTag } from "@/actions/tag/getTag";
 import { TaggedData } from "@/types/question";
 import { buttonVariants } from "../ui/Button";
-import { getTaggedQuestions } from "@/actions/getTaggedQuestions";
+import { getTaggedQuestions } from "@/actions/question/getTaggedQuestions";
 import { QUESTIONS_PER_PAGE, taggedQuestionsTabs } from "@/constants";
+import Loader from "../Loader";
 
 interface TaggedQuestionsProps {
     name: string;
@@ -62,7 +63,7 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
     });
 
     if (!isValidTab(tab)) return notFound();
-    if (isFetchingTag) return <div className="flex-1 text-center text-zinc-400 text-[15px] py-10">Loading...</div>
+    if (isFetchingTag) return <Loader type="full" />
     if (!tag) return notFound();
 
     return (
@@ -96,7 +97,7 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
                 </div>
 
                 {isFetchingQuestions ? (
-                    <div className="text-center text-zinc-400 text-[15px] py-10">Loading...</div>
+                    <Loader type="half" />
                 ) : (
                     <>
                         <Questions

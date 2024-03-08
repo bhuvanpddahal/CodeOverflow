@@ -23,7 +23,7 @@ model User {
     twitterLink   String?
     githubLink    String?
     emailVerified DateTime?
-    createdTagIds String[]  @db.ObjectId
+    watchedTagIds String[]  @db.ObjectId
     ignoredTagIds String[]  @db.ObjectId
     createdAt     DateTime  @default(now())
     updatedAt     DateTime  @updatedAt
@@ -35,7 +35,7 @@ model User {
     answerVotes   AnswerVote[]
 
     createdTags Tag[] @relation("creator")
-    watchedTags Tag[] @relation("watchers", fields: [createdTagIds], references: [id])
+    watchedTags Tag[] @relation("watchers", fields: [watchedTagIds], references: [id])
     ignoredTags Tag[] @relation("ignorers", fields: [ignoredTagIds], references: [id])
 }
 

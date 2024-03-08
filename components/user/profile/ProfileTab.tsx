@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import SummaryBox from "./PostsBox";
 import Loader from "@/components/Loader";
 import { ProfileData } from "@/types/user";
-import { getUserProfile } from "@/actions/getUserProfile";
+import { getUserProfile } from "@/actions/user/getUserProfile";
 
 interface ProfileTabProps {
     userId: string;

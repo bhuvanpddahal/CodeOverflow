@@ -15,9 +15,9 @@ import { QuestionVote, Tag, VoteType } from "@prisma/client";
 import UserAvatar from "../UserAvatar";
 import { Badge } from "../ui/Badge";
 import { useMutation } from "@tanstack/react-query";
-import { voteQuestion } from "@/actions/voteQuestion";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { QuestionVotePayload } from "@/lib/validators/vote";
+import { voteQuestion } from "@/actions/question/voteQuestion";
 
 interface DetailedQuestionProps {
     questionId: string;

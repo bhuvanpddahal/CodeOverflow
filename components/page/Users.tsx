@@ -11,7 +11,7 @@ import Searchbar from "../Searchbar";
 import UserAvatar from "../UserAvatar";
 import PaginationBox from "../PaginationBox";
 import { UserData } from "@/types/user";
-import { getUsers } from "@/actions/getUsers";
+import { getUsers } from "@/actions/user/getUsers";
 import { GetUsersPayload } from "@/lib/validators/user";
 import { USERS_PER_PAGE, usersTabs } from "@/constants";
 

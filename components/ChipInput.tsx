@@ -6,6 +6,7 @@ import {
     useRef,
     useState
 } from "react";
+import Link from "next/link";
 import debounce from "lodash.debounce";
 import { useRouter } from "next/navigation";
 import { IoIosClose } from "react-icons/io";
@@ -13,9 +14,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Badge } from "./ui/Badge";
 import { TagData } from "@/types/tag";
-import { getTagsByName } from "@/actions/getTagsByName";
+import { getTagsByName } from "@/actions/tag/getTagsByName";
 import { useOnClickOutside } from "@/hooks/use-on-click-outside";
-import Link from "next/link";
 
 interface ChipInputProps {
     placeholder: string;

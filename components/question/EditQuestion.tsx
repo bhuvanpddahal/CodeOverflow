@@ -6,10 +6,10 @@ import { useQuery } from "@tanstack/react-query";
 
 import Instruction from "../Instruction";
 import QuestionForm from "./QuestionForm";
-import { getQuestion } from "@/actions/getQuestion";
+import { getQuestion } from "@/actions/question/getQuestion";
 import { FormQuestion } from "@/types/question";
 import { askQuestionInstruction } from "@/constants";
-import { editQuestion } from "@/actions/editQuestion";
+import { editQuestion } from "@/actions/question/editQuestion";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface EditQuestionProps {
