@@ -2,12 +2,19 @@
 
 import moment from "moment";
 import Link from "next/link";
+import DOMPurify from "isomorphic-dompurify";
+import { IoMdEye } from "react-icons/io";
 import { QuestionVote, Tag, User } from "@prisma/client";
 
+import TagDetails from "../TagDetails";
 import UserAvatar from "@/components/UserAvatar";
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from "@/components/ui/HoverCard";
 import { Badge } from "@/components/ui/Badge";
 import { AnswererId } from "@/types/question";
-import DOMPurify from "isomorphic-dompurify";
 
 interface QuestionProps {
     id: string;
@@ -62,9 +69,23 @@ const Question = ({
                 <div className="flex items-center justify-between gap-3 flex-wrap mt-2">
                     <div className="space-x-1.5">
                         {tags.map((tag) => (
-                            <Link key={tag.id} href={`/questions/tagged/${tag.name}`}>
-                                <Badge variant="secondary">{tag.name}</Badge>
-                            </Link>
+                            <HoverCard>
+                                <HoverCardTrigger>
+                                    <Link key={tag.id} href={`/questions/tagged/${tag.name}`}>
+                                        <Badge variant="secondary">
+                                            <IoMdEye className="h-4 w-4 mr-0.5" /> {tag.name}
+                                        </Badge>
+                                    </Link>
+                                </HoverCardTrigger>
+                                <HoverCardContent>
+                                    <TagDetails
+                                        watcherIds={tag.watcherIds}
+                                        questionIds={tag.questionIds}
+                                        description={tag.description}
+
+                                    />
+                                </HoverCardContent>
+                            </HoverCard>
                         ))}
                     </div>
                     <div className="flex items-center gap-2">

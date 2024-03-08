@@ -84,10 +84,10 @@ const UserProfile = ({ activeTab, username }: UserProfileProps) => {
                                     </Link>
                                 )}
                                 {user.websiteLink && (
-                                    <p className="text-[13px] sm:text-sm flex items-center gap-1 text-zinc-500" title={user.websiteLink}>
+                                    <Link href={user.websiteLink} className="text-[13px] sm:text-sm flex items-center gap-1 text-zinc-500" title={user.websiteLink}>
                                         <RiLinksFill className="h-5 w-5 text-zinc-400" />
                                         {user.websiteLink}
-                                    </p>
+                                    </Link>
                                 )}
                             </div>
                         </div>

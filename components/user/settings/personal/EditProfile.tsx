@@ -105,7 +105,7 @@ const EditProfile = ({
             }) => {
                 if (data.success) {
                     setSuccess(data.success);
-                    router.push(`/users/${username}/edit`);
+                    router.push(`/users/${form.getValues("username")}/edit`);
                 }
                 if (data.error) {
                     setError(data.error);

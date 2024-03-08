@@ -11,10 +11,10 @@ datasource db {
 }
 
 model User {
-    id            String         @id @default(auto()) @map("_id") @db.ObjectId
+    id            String    @id @default(auto()) @map("_id") @db.ObjectId
     name          String
-    email         String         @unique
-    username      String         @unique @default(uuid())
+    email         String    @unique
+    username      String    @unique @default(uuid())
     about         String?
     location      String?
     image         String?
@@ -23,14 +23,20 @@ model User {
     twitterLink   String?
     githubLink    String?
     emailVerified DateTime?
-    createdAt     DateTime       @default(now())
-    updatedAt     DateTime       @updatedAt
+    createdTagIds String[]  @db.ObjectId
+    ignoredTagIds String[]  @db.ObjectId
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
+
     accounts      Account[]
     questions     Question[]
     answers       Answer[]
     questionVotes QuestionVote[]
     answerVotes   AnswerVote[]
-    Tag           Tag[]
+
+    createdTags Tag[] @relation("creator")
+    watchedTags Tag[] @relation("watchers", fields: [createdTagIds], references: [id])
+    ignoredTags Tag[] @relation("ignorers", fields: [ignoredTagIds], references: [id])
 }
 
 model Account {
@@ -119,8 +125,12 @@ model Tag {
     description String?
     questionIds String[] @db.ObjectId
     creatorId   String   @db.ObjectId
+    watcherIds  String[] @db.ObjectId
+    ignorerIds  String[] @db.ObjectId
     createdAt   DateTime @default(now())
 
     questions Question[] @relation(fields: [questionIds], references: [id])
-    creator   User       @relation(fields: [creatorId], references: [id])
+    creator   User       @relation("creator", fields: [creatorId], references: [id])
+    watchers  User[]     @relation("watchers", fields: [watcherIds], references: [id])
+    ignorers  User[]     @relation("ignorers", fields: [ignorerIds], references: [id])
 }

@@ -1,8 +1,8 @@
 import { Answer, Question, QuestionVote, Tag, User, Vote } from "@prisma/client";
 
 export type AnswererId = {
-    id: string;
-}
+    id: string
+};
 
 export type BaseQuestion = Question & {
     asker: User,
