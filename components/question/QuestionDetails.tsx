@@ -58,7 +58,7 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
                 <div className="text-[15px] flex gap-4 my-3">
                     <p className="text-zinc-500">Asked <span className="text-zinc-800">{moment(question.askedAt).calendar()}</span></p>
                     <p className="text-zinc-500">Modified <span className="text-zinc-800">{moment(question.updatedAt).calendar()}</span></p>
-                    <p className="text-zinc-500">Viewed <span className="text-zinc-800">{question.views?.length} times</span></p>
+                    <p className="text-zinc-500">Viewed <span className="text-zinc-800">{question.views.length} {question.views.length === 1 ? "view" : "views"}</span></p>
                 </div>
             </header>
             <div className="flex flex-col lg:flex-row gap-4 py-4">

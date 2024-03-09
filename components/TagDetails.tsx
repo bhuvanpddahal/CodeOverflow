@@ -12,11 +12,11 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { UseMutateFunction } from "@tanstack/react-query";
 
 import {
-    WatchValues,
+    IgnoreType,
     IgnoreValues,
     WatchType,
-    IgnoreType
-} from "./question/Question";
+    WatchValues
+} from "@/types/tag";
 import { Button } from "./ui/Button";
 
 interface TagDetailsProps {

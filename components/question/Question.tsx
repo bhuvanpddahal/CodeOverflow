@@ -24,21 +24,7 @@ import { AnswererId } from "@/types/question";
 import { watchTag } from "@/actions/tag/watchTag";
 import { ignoreTag } from "@/actions/tag/ignoreTag";
 import { useCurrentUser } from "@/hooks/use-current-user";
-
-export type WatchType = "watch" | "unwatch";
-export type IgnoreType = "ignore" | "unignore";
-
-export interface WatchValues {
-    type: WatchType;
-    tagId: string;
-    setWatchersCount: Dispatch<SetStateAction<number>>;
-}
-
-export interface IgnoreValues {
-    type: IgnoreType;
-    tagId: string;
-    setWatchersCount: Dispatch<SetStateAction<number>>;
-}
+import { IgnoreValues, WatchValues } from "@/types/tag";
 
 interface QuestionProps {
     id: string;
@@ -96,13 +82,13 @@ const Question = ({
                 const newWatchedTagIds = [...watchedTagIds, values.tagId];
                 setIgnoredTagIds(newIgnoredTagIds);
                 setWatchedTagIds(newWatchedTagIds);
-                values.setWatchersCount((prev) => prev + 1); // Increament the watchers count
+                values.setWatchersCount((prev: number) => prev + 1); // Increament the watchers count
             } else if(values.type === "unwatch") {
                 // If the user is clicking the `Unwatch tag` button,
                 // Simply remove the tag id from the watchedTagIds
                 const newWatchedTagIds = watchedTagIds.filter((id) => id !== values.tagId);
                 setWatchedTagIds(newWatchedTagIds);
-                values.setWatchersCount((prev) => prev - 1); // Decreament the watchers count
+                values.setWatchersCount((prev: number) => prev - 1); // Decreament the watchers count
             }
         },
         onError: (error) => {
@@ -131,7 +117,7 @@ const Question = ({
                 const newIgnoredTagIds = [...ignoredTagIds, values.tagId];
                 if(newWatchedTagIds.length < watchedTagIds.length) {
                     // If the user had previously watched the tag, decreament the watchers count
-                    values.setWatchersCount((prev) => prev - 1);
+                    values.setWatchersCount((prev: number) => prev - 1);
                 }
                 setWatchedTagIds(newWatchedTagIds);
                 setIgnoredTagIds(newIgnoredTagIds);
