@@ -32,6 +32,7 @@ export const {
                 session.user.id = token.sub;
             }
             if (session.user) {
+                session.user.id = token.sub || "";
                 session.user.name = token.name;
                 session.user.email = token.email || "";
                 session.user.username = token.username || "";

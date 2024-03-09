@@ -1,35 +1,37 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
 import {
     FetchNextPageOptions,
     InfiniteData,
     InfiniteQueryObserverResult
 } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
 
 import Question from "./Question";
+import AuthModal from "../auth/AuthModal";
 import {
     ExtendedQuestion,
     QuestionData
 } from "@/types/question";
-import AuthModal from "../auth/AuthModal";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface QuestionsProps {
     questions: ExtendedQuestion[] | undefined;
-    fetchNextPage?: (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<InfiniteData<QuestionData, unknown>, Error>>;
-    hasNextPage?: boolean;
-    showDetails?: boolean;
+    fetchNextPage: (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<InfiniteData<QuestionData, unknown>, Error>>;
+    hasNextPage: boolean;
 }
 
 const Questions = ({
     questions,
     fetchNextPage,
-    hasNextPage,
-    showDetails = false
+    hasNextPage
 }: QuestionsProps) => {
+    const user = useCurrentUser();
     const { ref, inView } = useInView();
     const [showAuthModal, setShowAuthModal] = useState(false);
+    const [watchedTagIds, setWatchedTagIds] = useState(user?.watchedTagIds || []);
+    const [ignoredTagIds, setIgnoredTagIds] = useState(user?.ignoredTagIds || []);
 
     useEffect(() => {
         if (inView && hasNextPage) {
@@ -48,6 +50,7 @@ const Questions = ({
                         if (index === questions.length - 1) {
                             return <Question
                                 key={index}
+                                user={user}
                                 id={question.id}
                                 title={question.title}
                                 details={question.details}
@@ -58,13 +61,17 @@ const Questions = ({
                                 views={question.views}
                                 askedAt={question.askedAt}
                                 updatedAt={question.updatedAt}
-                                showDetails={showDetails}
+                                watchedTagIds={watchedTagIds}
+                                ignoredTagIds={ignoredTagIds}
+                                setWatchedTagIds={setWatchedTagIds}
+                                setIgnoredTagIds={setIgnoredTagIds}
                                 setShowAuthModal={setShowAuthModal}
                                 lastQuestionRef={ref}
                             />
                         } else {
                             return <Question
                                 key={index}
+                                user={user}
                                 id={question.id}
                                 title={question.title}
                                 details={question.details}
@@ -75,7 +82,10 @@ const Questions = ({
                                 views={question.views}
                                 askedAt={question.askedAt}
                                 updatedAt={question.updatedAt}
-                                showDetails={showDetails}
+                                watchedTagIds={watchedTagIds}
+                                ignoredTagIds={ignoredTagIds}
+                                setWatchedTagIds={setWatchedTagIds}
+                                setIgnoredTagIds={setIgnoredTagIds}
                                 setShowAuthModal={setShowAuthModal}
                             />
                         }

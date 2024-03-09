@@ -2,8 +2,7 @@
 
 import {
     Dispatch,
-    SetStateAction,
-    useState
+    SetStateAction
 } from "react";
 import Link from "next/link";
 import { ImFire } from "react-icons/im";
@@ -22,8 +21,8 @@ import { Button } from "./ui/Button";
 interface TagDetailsProps {
     tagId: string;
     tagName: string;
-    watcherIds: string[];
-    questionIds: string[];
+    watchersCount: number;
+    questionsCount: number;
     description: string | null;
     isWatchedTag: boolean;
     isIgnoredTag: boolean;
@@ -38,8 +37,8 @@ interface TagDetailsProps {
 const TagDetails = ({
     tagId,
     tagName,
-    watcherIds,
-    questionIds,
+    watchersCount,
+    questionsCount,
     description,
     isWatchedTag,
     isIgnoredTag,
@@ -52,9 +51,8 @@ const TagDetails = ({
 }: TagDetailsProps) => {
     const watchType: WatchType = isWatchedTag ? "unwatch" : "watch";
     const ignoreType: IgnoreType = isIgnoredTag ? "unignore" : "ignore";
-    const [watchersCount, setWatchersCount] = useState(watcherIds.length);
-    const watchValues = { type: watchType, tagId, setWatchersCount };
-    const ignoreValues = { type: ignoreType, tagId, setWatchersCount };
+    const watchValues = { type: watchType, tagId };
+    const ignoreValues = { type: ignoreType, tagId };
 
     const handleWatchClick = () => {
         if(isLoggedIn) {
@@ -78,7 +76,7 @@ const TagDetails = ({
                 <div className="flex items-center gap-1 text-amber-900">
                     <ImFire className="h-4 w-4" /> {watchersCount} {watchersCount === 1 ? "watcher" : "watchers"}
                 </div>
-                <div className="text-zinc-800">{questionIds.length} {questionIds.length === 1 ? "question" : "questions"}</div>
+                <div className="text-zinc-800">{questionsCount} {questionsCount === 1 ? "question" : "questions"}</div>
             </header>
             <p className={`text-sm ${description ? "text-zinc-600" : "text-slate-400"} mb-3`}>
                 {description ? description : "No description provided for this tag."}

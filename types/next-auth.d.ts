@@ -1,11 +1,9 @@
-import type { Session, User } from "next-auth";
 import type { JWT } from "next-auth/jwt";
-
-type UserId = string;
+import type { Session, User } from "next-auth";
 
 declare module "next-auth/jwt" {
     interface JWT {
-        id: UserId;
+        id: string;
         username?: string | null;
         watchedTagIds?: string[];
         ignoredTagIds?: string[];
@@ -14,7 +12,7 @@ declare module "next-auth/jwt" {
 
 declare module "next-auth" {
     interface Session {
-        id: UserId;
+        id: string;
         username?: string | null;
         watchedTagIds?: string[];
         ignoredTagIds?: string[];

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { notFound, useSearchParams } from "next/navigation";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Loader from "../Loader";
 import TabsBox from "../TabsBox";
@@ -41,8 +41,6 @@ const Tags = () => {
     const page = searchParams.get("page") || "1";
     const tab = searchParams.get("tab") || "popular";
     const [showAuthModal, setShowAuthModal] = useState(false);
-    const [ignoredTagIds, setIgnoredTagIds] = useState(user?.ignoredTagIds || []);
-    const [watchedTagIds, setWatchedTagIds] = useState(user?.watchedTagIds || []);
 
     const fetchTags = async () => {
         if (isValidTab(tab)) {
@@ -71,20 +69,19 @@ const Tags = () => {
             await watchTag(payload);
         },
         onSuccess: (_, values: WatchValues) => {
-            if(values.type === "watch") {
+            if(!user) return;
+            if (values.type === "watch") {
                 // If the user is clicking the `Watch tag` button,
                 // Remove the tag id from the ignoredTagIds (in case if they have ignored the tag) & add it to watchedTagIds
-                const newIgnoredTagIds = ignoredTagIds.filter((id) => id !== values.tagId);
-                const newWatchedTagIds = [...watchedTagIds, values.tagId];
-                setIgnoredTagIds(newIgnoredTagIds);
-                setWatchedTagIds(newWatchedTagIds);
-                values.setWatchersCount((prev: number) => prev + 1); // Increament the watchers count
-            } else if(values.type === "unwatch") {
+                const newIgnoredTagIds = user.ignoredTagIds.filter((id) => id !== values.tagId);
+                const newWatchedTagIds = [...user.watchedTagIds, values.tagId];
+                user.ignoredTagIds = newIgnoredTagIds;
+                user.watchedTagIds = newWatchedTagIds;
+            } else if (values.type === "unwatch") {
                 // If the user is clicking the `Unwatch tag` button,
                 // Simply remove the tag id from the watchedTagIds
-                const newWatchedTagIds = watchedTagIds.filter((id) => id !== values.tagId);
-                setWatchedTagIds(newWatchedTagIds);
-                values.setWatchersCount((prev: number) => prev - 1); // Decreament the watchers count
+                const newWatchedTagIds = user.watchedTagIds.filter((id) => id !== values.tagId);
+                user.watchedTagIds = newWatchedTagIds;
             }
         },
         onError: (error) => {
@@ -98,30 +95,23 @@ const Tags = () => {
         isPending: isIgnoreLoading
     } = useMutation({
         mutationFn: async (values: IgnoreValues) => {
-            if(user && user.id) {
                 const payload = { tagId: values.tagId };
                 await ignoreTag(payload);
-            } else {
-                setShowAuthModal(true);
-            }
         },
         onSuccess: (_, values: IgnoreValues) => {
-            if(values.type === "ignore") {
+            if(!user) return;
+            if (values.type === "ignore") {
                 // If the user is clicking the `Ignore tag` button,
                 // Remove the tag id from the watchedTagIds (in case if they have watched the tag) & add it to ignoredTagIds
-                const newWatchedTagIds = watchedTagIds.filter((id) => id !== values.tagId);
-                const newIgnoredTagIds = [...ignoredTagIds, values.tagId];
-                if(newWatchedTagIds.length < watchedTagIds.length) {
-                    // If the user had previously watched the tag, decreament the watchers count
-                    values.setWatchersCount((prev: number) => prev - 1);
-                }
-                setWatchedTagIds(newWatchedTagIds);
-                setIgnoredTagIds(newIgnoredTagIds);
-            } else if(values.type === "unignore") {
+                const newWatchedTagIds = user.watchedTagIds.filter((id) => id !== values.tagId);
+                const newIgnoredTagIds = [...user.ignoredTagIds, values.tagId];
+                user.watchedTagIds = newWatchedTagIds;
+                user.ignoredTagIds = newIgnoredTagIds;
+            } else if (values.type === "unignore") {
                 // If the user is clicking the `Unignore tag` button,
                 // Simply remove the tag id from the ignoredTagIds
-                const newIgnoredTagIds = ignoredTagIds.filter((id) => id !== values.tagId);
-                setIgnoredTagIds(newIgnoredTagIds);
+                const newIgnoredTagIds = user.ignoredTagIds.filter((id) => id !== values.tagId);
+                user.ignoredTagIds = newIgnoredTagIds;
             }
         },
         onError: (error) => {
@@ -163,8 +153,16 @@ const Tags = () => {
                         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-px mb-3">
                             {data.tags.map((tag) => {
                                 if (tag.name.includes(input)) {
-                                    const isWatchedTag = watchedTagIds.find((id) => id === tag.id);
-                                    const isIgnoredTag = ignoredTagIds.find((id) => id === tag.id);
+                                    const isWatchedTag = user?.watchedTagIds.find((id) => id === tag.id);
+                                    const isIgnoredTag = user?.ignoredTagIds.find((id) => id === tag.id);
+                                    const watcherIdsHasUserId = tag.watcherIds.find((id) => id === user?.id);
+                                    let watchersCount = tag.watcherIds.length;
+                                    // Code to dynamically update the watchers count
+                                    if (isWatchedTag && !watcherIdsHasUserId) {
+                                        watchersCount += 1;
+                                    } else if (!isWatchedTag && watcherIdsHasUserId) {
+                                        watchersCount -= 1;
+                                    }
 
                                     return (
                                         <li key={tag.id} className="border border-zinc-300 p-3 rounded-sm">
@@ -186,8 +184,8 @@ const Tags = () => {
                                                     <TagDetails
                                                         tagId={tag.id}
                                                         tagName={tag.name}
-                                                        watcherIds={tag.watcherIds}
-                                                        questionIds={tag.questionIds}
+                                                        watchersCount={watchersCount}
+                                                        questionsCount={tag.questionIds.length}
                                                         description={tag.description}
                                                         isWatchedTag={!!isWatchedTag}
                                                         isIgnoredTag={!!isIgnoredTag}
@@ -200,12 +198,9 @@ const Tags = () => {
                                                     />
                                                 </HoverCardContent>
                                             </HoverCard>
-                                            {/* <Link href={`/questions/tagged/${tag.name}`}>
-                                                <Badge variant="secondary">{tag.name}</Badge>
-                                            </Link> */}
                                             <p className="text-sm text-zinc-700 my-3 line-clamp-4">{tag.description ? tag.description : ""}</p>
                                             <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
-                                                <span>{tag.questionIds.length} questions</span>
+                                                <span>{tag.questionIds.length} {tag.questionIds.length === 1 ? "question" : "questions"}</span>
                                                 <span>1 asked today, 2 this week</span>
                                             </div>
                                         </li>

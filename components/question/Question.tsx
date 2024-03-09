@@ -2,8 +2,7 @@
 
 import {
     Dispatch,
-    SetStateAction,
-    useState
+    SetStateAction
 } from "react";
 import moment from "moment";
 import Link from "next/link";
@@ -19,14 +18,15 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/HoverCard";
+import { ExtendedUser } from "@/next-auth";
 import { Badge } from "@/components/ui/Badge";
 import { AnswererId } from "@/types/question";
 import { watchTag } from "@/actions/tag/watchTag";
 import { ignoreTag } from "@/actions/tag/ignoreTag";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { IgnoreValues, WatchValues } from "@/types/tag";
 
 interface QuestionProps {
+    user: ExtendedUser | undefined;
     id: string;
     title: string;
     details: string;
@@ -37,12 +37,17 @@ interface QuestionProps {
     views: string[];
     askedAt: Date;
     updatedAt: Date;
-    showDetails: boolean;
+    watchedTagIds: string[];
+    ignoredTagIds: string[];
+    setWatchedTagIds: Dispatch<SetStateAction<string[]>>;
+    setIgnoredTagIds: Dispatch<SetStateAction<string[]>>;
     setShowAuthModal: Dispatch<SetStateAction<boolean>>;
+    showDetails?: boolean;
     lastQuestionRef?: (node?: Element | null | undefined) => void;
 }
 
 const Question = ({
+    user,
     id,
     title,
     details,
@@ -53,13 +58,14 @@ const Question = ({
     views,
     askedAt,
     updatedAt,
-    showDetails,
+    watchedTagIds,
+    ignoredTagIds,
+    setWatchedTagIds,
+    setIgnoredTagIds,
     setShowAuthModal,
+    showDetails = false,
     lastQuestionRef
 }: QuestionProps) => {
-    const user = useCurrentUser();
-    const [watchedTagIds, setWatchedTagIds] = useState(user?.watchedTagIds || []);
-    const [ignoredTagIds, setIgnoredTagIds] = useState(user?.ignoredTagIds || []);
     const votesAmt = votes.reduce((acc, vote) => {
         if (vote.type === 'UP') return acc + 1;
         if (vote.type === 'DOWN') return acc - 1;
@@ -75,20 +81,22 @@ const Question = ({
             await watchTag(payload);
         },
         onSuccess: (_, values: WatchValues) => {
-            if(values.type === "watch") {
+            if (!user) return;
+            if (values.type === "watch") {
                 // If the user is clicking the `Watch tag` button,
                 // Remove the tag id from the ignoredTagIds (in case if they have ignored the tag) & add it to watchedTagIds
                 const newIgnoredTagIds = ignoredTagIds.filter((id) => id !== values.tagId);
                 const newWatchedTagIds = [...watchedTagIds, values.tagId];
+                user.ignoredTagIds = newIgnoredTagIds;
+                user.watchedTagIds = newWatchedTagIds;
                 setIgnoredTagIds(newIgnoredTagIds);
                 setWatchedTagIds(newWatchedTagIds);
-                values.setWatchersCount((prev: number) => prev + 1); // Increament the watchers count
-            } else if(values.type === "unwatch") {
+            } else if (values.type === "unwatch") {
                 // If the user is clicking the `Unwatch tag` button,
                 // Simply remove the tag id from the watchedTagIds
                 const newWatchedTagIds = watchedTagIds.filter((id) => id !== values.tagId);
+                user.watchedTagIds = newWatchedTagIds;
                 setWatchedTagIds(newWatchedTagIds);
-                values.setWatchersCount((prev: number) => prev - 1); // Decreament the watchers count
             }
         },
         onError: (error) => {
@@ -102,29 +110,25 @@ const Question = ({
         isPending: isIgnoreLoading
     } = useMutation({
         mutationFn: async (values: IgnoreValues) => {
-            if(user && user.id) {
-                const payload = { tagId: values.tagId };
-                await ignoreTag(payload);
-            } else {
-                setShowAuthModal(true);
-            }
+            const payload = { tagId: values.tagId };
+            await ignoreTag(payload);
         },
         onSuccess: (_, values: IgnoreValues) => {
-            if(values.type === "ignore") {
+            if (!user) return;
+            if (values.type === "ignore") {
                 // If the user is clicking the `Ignore tag` button,
                 // Remove the tag id from the watchedTagIds (in case if they have watched the tag) & add it to ignoredTagIds
                 const newWatchedTagIds = watchedTagIds.filter((id) => id !== values.tagId);
                 const newIgnoredTagIds = [...ignoredTagIds, values.tagId];
-                if(newWatchedTagIds.length < watchedTagIds.length) {
-                    // If the user had previously watched the tag, decreament the watchers count
-                    values.setWatchersCount((prev: number) => prev - 1);
-                }
+                user.watchedTagIds = newWatchedTagIds;
+                user.ignoredTagIds = newIgnoredTagIds;
                 setWatchedTagIds(newWatchedTagIds);
                 setIgnoredTagIds(newIgnoredTagIds);
-            } else if(values.type === "unignore") {
+            } else if (values.type === "unignore") {
                 // If the user is clicking the `Unignore tag` button,
                 // Simply remove the tag id from the ignoredTagIds
                 const newIgnoredTagIds = ignoredTagIds.filter((id) => id !== values.tagId);
+                user.ignoredTagIds = newIgnoredTagIds;
                 setIgnoredTagIds(newIgnoredTagIds);
             }
         },
@@ -154,6 +158,14 @@ const Question = ({
                         {tags.map((tag) => {
                             const isWatchedTag = watchedTagIds.find((id) => id === tag.id);
                             const isIgnoredTag = ignoredTagIds.find((id) => id === tag.id);
+                            const watcherIdsHasUserId = tag.watcherIds.find((id) => id === user?.id);
+                            let watchersCount = tag.watcherIds.length;
+                            // Code to dynamically update the watchers count
+                            if (isWatchedTag && !watcherIdsHasUserId) {
+                                watchersCount += 1;
+                            } else if (!isWatchedTag && watcherIdsHasUserId) {
+                                watchersCount -= 1;
+                            }
 
                             return (
                                 <HoverCard key={tag.id}>
@@ -174,8 +186,8 @@ const Question = ({
                                         <TagDetails
                                             tagId={tag.id}
                                             tagName={tag.name}
-                                            watcherIds={tag.watcherIds}
-                                            questionIds={tag.questionIds}
+                                            watchersCount={watchersCount}
+                                            questionsCount={tag.questionIds.length}
                                             description={tag.description}
                                             isWatchedTag={!!isWatchedTag}
                                             isIgnoredTag={!!isIgnoredTag}

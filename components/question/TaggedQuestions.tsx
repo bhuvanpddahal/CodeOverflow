@@ -4,13 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { Tag } from "@prisma/client";
 import { MdDoNotDisturb } from "react-icons/md";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { notFound, useSearchParams } from "next/navigation";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Loader from "../Loader";
 import TabsBox from "../TabsBox";
-import Questions from "./Questions";
 import AuthModal from "../auth/AuthModal";
 import PaginationBox from "../PaginationBox";
 import { getTag } from "@/actions/tag/getTag";
@@ -22,6 +21,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { QUESTIONS_PER_PAGE, taggedQuestionsTabs } from "@/constants";
 import { getTaggedQuestions } from "@/actions/question/getTaggedQuestions";
 import { IgnoreType, IgnoreValues, WatchType, WatchValues } from "@/types/tag";
+import Question from "./Question";
 
 interface TaggedQuestionsProps {
     name: string;
@@ -99,17 +99,21 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
             await watchTag(payload);
         },
         onSuccess: (_, values: WatchValues) => {
+            if (!user) return;
             if (values.type === "watch") {
                 // If the user is clicking the `Watch tag` button,
                 // Remove the tag id from the ignoredTagIds (in case if they have ignored the tag) & add it to watchedTagIds
                 const newIgnoredTagIds = ignoredTagIds.filter((id) => id !== values.tagId);
                 const newWatchedTagIds = [...watchedTagIds, values.tagId];
+                user.ignoredTagIds = newIgnoredTagIds;
+                user.watchedTagIds = newWatchedTagIds;
                 setIgnoredTagIds(newIgnoredTagIds);
                 setWatchedTagIds(newWatchedTagIds);
             } else if (values.type === "unwatch") {
                 // If the user is clicking the `Unwatch tag` button,
                 // Simply remove the tag id from the watchedTagIds
                 const newWatchedTagIds = watchedTagIds.filter((id) => id !== values.tagId);
+                user.watchedTagIds = newWatchedTagIds;
                 setWatchedTagIds(newWatchedTagIds);
             }
         },
@@ -132,17 +136,21 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
             }
         },
         onSuccess: (_, values: IgnoreValues) => {
+            if (!user) return;
             if (values.type === "ignore") {
                 // If the user is clicking the `Ignore tag` button,
                 // Remove the tag id from the watchedTagIds (in case if they have watched the tag) & add it to ignoredTagIds
                 const newWatchedTagIds = watchedTagIds.filter((id) => id !== values.tagId);
                 const newIgnoredTagIds = [...ignoredTagIds, values.tagId];
+                user.watchedTagIds = newWatchedTagIds;
+                user.ignoredTagIds = newIgnoredTagIds;
                 setWatchedTagIds(newWatchedTagIds);
                 setIgnoredTagIds(newIgnoredTagIds);
             } else if (values.type === "unignore") {
                 // If the user is clicking the `Unignore tag` button,
                 // Simply remove the tag id from the ignoredTagIds
                 const newIgnoredTagIds = ignoredTagIds.filter((id) => id !== values.tagId);
+                user.ignoredTagIds = newIgnoredTagIds;
                 setIgnoredTagIds(newIgnoredTagIds);
             }
         },
@@ -225,10 +233,34 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
                         <Loader type="half" />
                     ) : (
                         <>
-                            <Questions
-                                questions={data?.questions}
-                                showDetails
-                            />
+                            <div>
+                                {(data?.questions && data.questions.length > 0) ? (
+                                    data.questions.map((question, index) => (
+                                        <Question
+                                            key={index}
+                                            user={user}
+                                            id={question.id}
+                                            title={question.title}
+                                            details={question.details}
+                                            tags={question.tags}
+                                            asker={question.asker}
+                                            votes={question.votes}
+                                            answererIds={question.answers}
+                                            views={question.views}
+                                            askedAt={question.askedAt}
+                                            updatedAt={question.updatedAt}
+                                            watchedTagIds={watchedTagIds}
+                                            ignoredTagIds={ignoredTagIds}
+                                            setWatchedTagIds={setWatchedTagIds}
+                                            setIgnoredTagIds={setIgnoredTagIds}
+                                            setShowAuthModal={setShowAuthModal}
+                                            showDetails
+                                        />
+                                    ))
+                                ) : (
+                                    <p className="text-center text-zinc-400 text-[15px]">No questions to show</p>
+                                )}
+                            </div>
                             <PaginationBox
                                 location={`/tags?tab=${tab}&`}
                                 currentPage={Number(page)}
