@@ -11,11 +11,11 @@ export type IgnoreType = "ignore" | "unignore";
 export interface WatchValues {
     type: WatchType;
     tagId: string;
-    setWatchersCount: Dispatch<SetStateAction<number>>;
+    setWatchersCount?: Dispatch<SetStateAction<number>>;
 }
 
 export interface IgnoreValues {
     type: IgnoreType;
     tagId: string;
-    setWatchersCount: Dispatch<SetStateAction<number>>;
+    setWatchersCount?: Dispatch<SetStateAction<number>>;
 }
