@@ -185,34 +185,36 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
                                 <Link href="/questions/ask" className={buttonVariants()}>Ask Question</Link>
                             </div>
 
-                            <p className={`text-[13px] sm:text-sm ${tag.description ? "text-zinc-900" : "text-zinc-400"} mt-4 mb-3`}>{tag.description
+                            <p className={`text-[13px] sm:text-sm ${tag.description ? "text-zinc-900" : "text-zinc-400"} mt-4`}>{tag.description
                                 ? tag.description
                                 : "No description provided for this tag"
                             }</p>
 
-                            <div className="flex gap-3">
-                                <Button
-                                    isLoading={isWatchLoading}
-                                    onClick={handleWatchClick}
-                                >
-                                    {isWatchedTag ? (
-                                        <>{!isWatchLoading && <IoMdEyeOff className="h-5 w-5 mr-1" />} Unwatch tag</>
-                                    ) : (
-                                        <>{!isWatchLoading && <IoMdEye className="h-5 w-5 mr-1" />} Watch tag</>
-                                    )}
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    isLoading={isIgnoreLoading}
-                                    onClick={handleIgnoreClick}
-                                >
-                                    {isIgnoredTag ? (
-                                        <>{!isIgnoreLoading && <MdDoNotDisturb className="h-5 w-5 mr-1" />} Unignore tag</>
-                                    ) : (
-                                        <>{!isIgnoreLoading && <MdDoNotDisturb className="h-5 w-5 mr-1" />} Ignore tag</>
-                                    )}
-                                </Button>
-                            </div>
+                            {!!user && (
+                                <div className="flex gap-3 mt-3">
+                                    <Button
+                                        isLoading={isWatchLoading}
+                                        onClick={handleWatchClick}
+                                    >
+                                        {isWatchedTag ? (
+                                            <>{!isWatchLoading && <IoMdEyeOff className="h-5 w-5 mr-1" />} Unwatch tag</>
+                                        ) : (
+                                            <>{!isWatchLoading && <IoMdEye className="h-5 w-5 mr-1" />} Watch tag</>
+                                        )}
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        isLoading={isIgnoreLoading}
+                                        onClick={handleIgnoreClick}
+                                    >
+                                        {isIgnoredTag ? (
+                                            <>{!isIgnoreLoading && <MdDoNotDisturb className="h-5 w-5 mr-1" />} Unignore tag</>
+                                        ) : (
+                                            <>{!isIgnoreLoading && <MdDoNotDisturb className="h-5 w-5 mr-1" />} Ignore tag</>
+                                        )}
+                                    </Button>
+                                </div>
+                            )}
                         </header>
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between my-4">
                             <p className="text-base sm:text-lg text-zinc-900 mb-2 sm:mb-0">

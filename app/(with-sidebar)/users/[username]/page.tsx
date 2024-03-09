@@ -8,7 +8,7 @@ interface PageProps {
 
 const Page = ({ params: { username } }: PageProps) => {
     return (
-        <UserProfile username={username} />
+        <UserProfile username={decodeURIComponent(username)} />
     )
 };
 

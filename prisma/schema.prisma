@@ -34,9 +34,10 @@ model User {
     questionVotes QuestionVote[]
     answerVotes   AnswerVote[]
 
-    createdTags Tag[] @relation("creator")
-    watchedTags Tag[] @relation("watchers", fields: [watchedTagIds], references: [id])
-    ignoredTags Tag[] @relation("ignorers", fields: [ignoredTagIds], references: [id])
+    createdTags Tag[]  @relation("creator")
+    watchedTags Tag[]  @relation("watchers", fields: [watchedTagIds], references: [id])
+    ignoredTags Tag[]  @relation("ignorers", fields: [ignoredTagIds], references: [id])
+    saves       Save[]
 }
 
 model Account {
@@ -103,6 +104,7 @@ model Question {
     answers Answer[]
     votes   QuestionVote[]
     tags    Tag[]          @relation(fields: [tagIds], references: [id])
+    saves   Save[]
 }
 
 model Answer {
@@ -117,6 +119,7 @@ model Answer {
     question Question     @relation(fields: [questionId], references: [id], onDelete: Cascade)
     answerer User         @relation(fields: [answererId], references: [id], onDelete: Cascade)
     votes    AnswerVote[]
+    saves    Save[]
 }
 
 model Tag {
@@ -133,4 +136,21 @@ model Tag {
     creator   User       @relation("creator", fields: [creatorId], references: [id])
     watchers  User[]     @relation("watchers", fields: [watcherIds], references: [id])
     ignorers  User[]     @relation("ignorers", fields: [ignorerIds], references: [id])
+}
+
+enum SavedItemType {
+    QUESTION
+    ANSWER
+}
+
+model Save {
+    id       String        @id @default(auto()) @map("_id") @db.ObjectId
+    saverId  String        @db.ObjectId
+    itemId   String        @db.ObjectId
+    itemType SavedItemType
+    savedAt  DateTime      @default(now())
+
+    question Question? @relation(fields: [itemId], references: [id], onDelete: Cascade)
+    answer   Answer?   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+    saver    User      @relation(fields: [saverId], references: [id], onDelete: Cascade)
 }

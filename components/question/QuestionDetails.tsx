@@ -55,10 +55,10 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
                     })}>Ask Question</Link>
                 </div>
 
-                <div className="text-[15px] flex gap-4 my-3">
+                <div className="text-sm flex gap-4 my-3">
                     <p className="text-zinc-500">Asked <span className="text-zinc-800">{moment(question.askedAt).calendar()}</span></p>
                     <p className="text-zinc-500">Modified <span className="text-zinc-800">{moment(question.updatedAt).calendar()}</span></p>
-                    <p className="text-zinc-500">Viewed <span className="text-zinc-800">{question.views.length} {question.views.length === 1 ? "view" : "views"}</span></p>
+                    <p className="text-zinc-500">Viewed <span className="text-zinc-800">{question.views.length} {question.views.length === 1 ? "time" : "times"}</span></p>
                 </div>
             </header>
             <div className="flex flex-col lg:flex-row gap-4 py-4">

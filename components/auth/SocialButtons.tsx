@@ -10,7 +10,6 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 const SocialButtons = () => {
     const isLoading = false;
     const loginWithSocial = (provider: "google" | "github") => {
-        console.log("Trying to login with ", provider);
         signIn(provider, {
             callbackUrl: DEFAULT_LOGIN_REDIRECT
         });

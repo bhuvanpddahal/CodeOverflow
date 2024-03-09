@@ -11,9 +11,15 @@ import { useMutation } from "@tanstack/react-query";
 import { AnswerVote, User, VoteType } from "@prisma/client";
 
 import UserAvatar from "../UserAvatar";
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger
+} from "../ui/HoverCard";
 import { voteAnswer } from "@/actions/answer/voteAnswer";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { AnswerVotePayload } from "@/lib/validators/vote";
+import { IoBookmarkOutline } from "react-icons/io5";
 
 interface AnswerProps {
     id: string;
@@ -82,17 +88,43 @@ const Answer = ({
     return (
         <li className="flex-1 flex gap-4" ref={lastAnswerRef}>
             <div className="flex flex-col items-center gap-3">
-                <IoMdArrowDropup
-                    className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                    onClick={() => user ? vote('UP') : setShowAuthModal(true)}
-                    title="This answer is useful"
-                />
+                <HoverCard>
+                    <HoverCardTrigger>
+                        <IoMdArrowDropup
+                            className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
+                            onClick={() => user ? vote('UP') : setShowAuthModal(true)}
+                        />
+                    </HoverCardTrigger>
+                    <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
+                        This answer is useful
+                    </HoverCardContent>
+                </HoverCard>
                 <p className="text-xl font-bold text-zinc-900">{votesAmt}</p>
-                <IoMdArrowDropdown
-                    className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                    onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
-                    title="This answer is not useful"
-                />
+                <HoverCard>
+                    <HoverCardTrigger>
+                        <IoMdArrowDropdown
+                            className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
+                            onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
+                        />
+                    </HoverCardTrigger>
+                    <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
+                        This answer is not useful
+                    </HoverCardContent>
+                </HoverCard>
+                {!!user && (
+                    <HoverCard>
+                        <HoverCardTrigger>
+                            <div>
+                                <IoBookmarkOutline
+                                    className="h-5 w-5 text-zinc-400 cursor-pointer hover:text-blue-600"
+                                />
+                            </div>
+                        </HoverCardTrigger>
+                        <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
+                            Save this answer
+                        </HoverCardContent>
+                    </HoverCard>
+                )}
             </div>
             <div className="flex-1">
                 <div

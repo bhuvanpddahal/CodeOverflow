@@ -46,7 +46,6 @@ const UserProfile = ({ activeTab, username }: UserProfileProps) => {
     });
 
     if(isFetching) return <Loader type="full" />
-    console.log("user: ", user);
     if(!user) return notFound();
 
     const isCurrentUser = currentUser?.id === user.id;

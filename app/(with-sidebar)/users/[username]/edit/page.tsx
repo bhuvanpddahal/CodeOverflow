@@ -10,7 +10,7 @@ const Page = ({ params: { username } }: PageProps) => {
     return (
         <UserProfile
             activeTab="settings"
-            username={username}
+            username={decodeURIComponent(username)}
         />
     )
 };

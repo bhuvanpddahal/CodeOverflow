@@ -8,7 +8,7 @@ interface PageProps {
 
 const Page = ({ params: { name } }: PageProps) => {
     return (
-        <TaggedQuestions name={name} />
+        <TaggedQuestions name={decodeURIComponent(name)} />
     )
 };
 
