@@ -42,7 +42,13 @@ export const ProfileValidator = z.object({
     ])
 });
 
+export const SaveItemValidator = z.object({
+    itemId: z.string(),
+    itemType: z.enum(["QUESTION", "ANSWER"])
+});
+
 export type GetUserPayload = z.infer<typeof GetUserValidator>;
 export type GetUserProfilePayload = z.infer<typeof GetUserProfileValidator>;
 export type GetUsersPayload = z.infer<typeof GetUsersValidator>;
 export type ProfilePayload = z.infer<typeof ProfileValidator>;
+export type SaveItemPayload = z.infer<typeof SaveItemValidator>;

@@ -260,14 +260,16 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
                                         />
                                     ))
                                 ) : (
-                                    <p className="text-center text-zinc-400 text-[15px]">No questions to show</p>
+                                    <p className="text-center text-zinc-400 text-[15px] py-10">No questions to show</p>
                                 )}
                             </div>
-                            <PaginationBox
-                                location={`/tags?tab=${tab}&`}
-                                currentPage={Number(page)}
-                                lastPage={data?.lastPage}
-                            />
+                            {(data?.questions && data.questions.length > 0) && (
+                                <PaginationBox
+                                    location={`/tags?tab=${tab}&`}
+                                    currentPage={Number(page)}
+                                    lastPage={data?.lastPage}
+                                />
+                            )}
                         </>
                     )}
                 </section>

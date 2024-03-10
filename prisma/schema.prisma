@@ -145,12 +145,12 @@ enum SavedItemType {
 
 model Save {
     id       String        @id @default(auto()) @map("_id") @db.ObjectId
-    saverId  String        @db.ObjectId
     itemId   String        @db.ObjectId
+    saverId  String        @db.ObjectId
     itemType SavedItemType
     savedAt  DateTime      @default(now())
 
     question Question? @relation(fields: [itemId], references: [id], onDelete: Cascade)
     answer   Answer?   @relation(fields: [itemId], references: [id], onDelete: Cascade)
-    saver    User      @relation(fields: [saverId], references: [id], onDelete: Cascade)
+    User     User      @relation(fields: [saverId], references: [id])
 }

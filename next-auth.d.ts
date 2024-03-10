@@ -7,6 +7,7 @@ export type ExtendedUser = DefaultSession["user"] & {
     watchedTagIds: string[];
     watchedTagIds: string[];
     ignoredTagIds: string[];
+    savedItemIds: string[];
 };
 
 declare module "next-auth" {

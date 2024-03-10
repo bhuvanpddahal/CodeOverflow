@@ -1,6 +1,7 @@
 import { User } from "@prisma/client";
 
-type VoteType = "UP" | "DOWN";
+export type VoteType = "UP" | "DOWN";
+export type ItemType = "QUESTION" | "ANSWER";
 
 export type UserData = {
     users: User[],

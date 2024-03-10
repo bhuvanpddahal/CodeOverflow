@@ -21,3 +21,21 @@ export const getUserById = async (id: string) => {
         return null;
     }
 };
+
+export const getUserForSession = async (id: string) => {
+    try {
+        const user = await db.user.findUnique({
+            where: { id },
+            include: {
+                saves: {
+                    select: {
+                        itemId: true
+                    }
+                }
+            }
+        });
+        return user;
+    } catch (error) {
+        return null;
+    }
+};

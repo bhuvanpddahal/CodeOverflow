@@ -8,9 +8,10 @@ import {
     IoMdArrowDropdown,
     IoMdArrowDropup
 } from "react-icons/io";
+import { Loader2 } from "lucide-react";
 import { LiaEdit } from "react-icons/lia";
 import { usePrevious } from "@mantine/hooks";
-import { IoBookmarkOutline } from "react-icons/io5";
+import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { QuestionVote, Tag, VoteType } from "@prisma/client";
 
 import UserAvatar from "../UserAvatar";
@@ -20,10 +21,14 @@ import {
     HoverCardTrigger
 } from "../ui/HoverCard";
 import { Badge } from "../ui/Badge";
+import { ItemType } from "@/types/user";
+import { saveItem } from "@/actions/user/saveItem";
 import { useMutation } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { QuestionVotePayload } from "@/lib/validators/vote";
 import { voteQuestion } from "@/actions/question/voteQuestion";
+
+type PayloadType = "save" | "unsave";
 
 interface DetailedQuestionProps {
     questionId: string;
@@ -55,6 +60,7 @@ const DetailedQuestion = ({
     setShowAuthModal
 }: DetailedQuestionProps) => {
     const user = useCurrentUser();
+    const isQuestionSaved = user?.savedItemIds.find((id) => id === questionId);
     const initialVotesAmt = votes.reduce((acc, vote) => {
         if (vote.type === 'UP') return acc + 1;
         if (vote.type === 'DOWN') return acc - 1;
@@ -94,6 +100,29 @@ const DetailedQuestion = ({
                 if (type === 'UP') setVotesAmt((prev) => prev + (currentVote ? 2 : 1));
                 else if (type === 'DOWN') setVotesAmt((prev) => prev - (currentVote ? 2 : 1));
             }
+        }
+    });
+
+    const {
+        mutate: save,
+        isPending: isSaveLoading
+    } = useMutation({
+        mutationFn: async (type: PayloadType) => {
+            const payload = { itemId: questionId, itemType: "QUESTION" as ItemType };
+            await saveItem(payload);
+        },
+        onSuccess: (_, type: PayloadType) => {
+            if(!user) return;
+            if(type === "save") {
+                const newSavedItemIds = [...user.savedItemIds, questionId];
+                user.savedItemIds = newSavedItemIds;
+            } else if(type === "unsave") {
+                const newSavedItemIds = user.savedItemIds.filter((id) => id !== questionId);
+                user.savedItemIds = newSavedItemIds;
+            }
+        },
+        onError: () => {
+            // TODO - Show the error message
         }
     });
 
@@ -140,15 +169,30 @@ const DetailedQuestion = ({
                 {!!user && (
                     <HoverCard>
                         <HoverCardTrigger>
-                            <div>
-                                <IoBookmarkOutline
-                                    className="h-5 w-5 text-zinc-400 cursor-pointer hover:text-blue-600"
-                                />
-                            </div>
+                            {isSaveLoading ? (
+                                <Loader2 className="h-5 w-5 animate-spin text-slate-700" />
+                            ) : (
+                                isQuestionSaved ? (
+                                    <IoBookmark
+                                        className="h-5 w-5 text-amber-500 hover:text-amber-600 cursor-pointer"
+                                        onClick={() => save("unsave")}
+                                    />
+                                ) : (
+                                    <IoBookmarkOutline
+                                        className="h-5 w-5 text-zinc-400 hover:text-blue-600 cursor-pointer"
+                                        onClick={() => save("save")}
+                                    />
+                                )
+                            )}
                         </HoverCardTrigger>
-                        <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
-                            Save this question
-                        </HoverCardContent>
+                        {!isSaveLoading && (
+                            <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
+                                {isQuestionSaved
+                                    ? "Unsave this question"
+                                    : "Save this question"
+                                }
+                            </HoverCardContent>
+                        )}
                     </HoverCard>
                 )}
             </div>

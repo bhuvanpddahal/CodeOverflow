@@ -54,22 +54,6 @@ const TagDetails = ({
     const watchValues = { type: watchType, tagId };
     const ignoreValues = { type: ignoreType, tagId };
 
-    const handleWatchClick = () => {
-        if(isLoggedIn) {
-            handleWatch(watchValues);
-        } else {
-            setShowAuthModal(true);
-        }
-    };
-
-    const handleIgnoreClick = () => {
-        if(isLoggedIn) {
-            handleIgnore(ignoreValues);
-        } else {
-            setShowAuthModal(true);
-        }
-    };
-
     return (
         <div>
             <header className="flex items-center gap-3 text-sm mb-2">
@@ -78,35 +62,37 @@ const TagDetails = ({
                 </div>
                 <div className="text-zinc-800">{questionsCount} {questionsCount === 1 ? "question" : "questions"}</div>
             </header>
-            <p className={`text-sm ${description ? "text-zinc-600" : "text-slate-400"} mb-3`}>
+            <p className={`text-sm ${description ? "text-zinc-600" : "text-zinc-400"}`}>
                 {description ? description : "No description provided for this tag."}
                 <Link href={`/questions/tagged/${tagName}`} className="text-blue-700 ml-1 underline hover:text-blue-800">View tag</Link>
             </p>
-            <div className="flex gap-3">
-                <Button
-                    className="w-full"
-                    isLoading={isWatchLoading}
-                    onClick={handleWatchClick}
-                >
-                    {isWatchedTag ? (
-                        <>{!isWatchLoading && <IoMdEyeOff className="h-5 w-5 mr-1" />} Unwatch tag</>
-                    ) : (
-                        <>{!isWatchLoading && <IoMdEye className="h-5 w-5 mr-1" />} Watch tag</>
-                    )}
-                </Button>
-                <Button
-                    variant="outline"
-                    className="w-full"
-                    isLoading={isIgnoreLoading}
-                    onClick={handleIgnoreClick}
-                >
-                    {isIgnoredTag ? (
-                        <>{!isIgnoreLoading && <MdDoNotDisturb className="h-5 w-5 mr-1" />} Unignore tag</>
-                    ) : (
-                        <>{!isIgnoreLoading && <MdDoNotDisturb className="h-5 w-5 mr-1" />} Ignore tag</>
-                    )}
-                </Button>
-            </div>
+            {isLoggedIn && (
+                <div className="flex gap-3 mt-3">
+                    <Button
+                        className="w-full"
+                        isLoading={isWatchLoading}
+                        onClick={() => handleWatch(watchValues)}
+                    >
+                        {isWatchedTag ? (
+                            <>{!isWatchLoading && <IoMdEyeOff className="h-5 w-5 mr-1" />} Unwatch tag</>
+                        ) : (
+                            <>{!isWatchLoading && <IoMdEye className="h-5 w-5 mr-1" />} Watch tag</>
+                        )}
+                    </Button>
+                    <Button
+                        variant="outline"
+                        className="w-full"
+                        isLoading={isIgnoreLoading}
+                        onClick={() => handleIgnore(ignoreValues)}
+                    >
+                        {isIgnoredTag ? (
+                            <>{!isIgnoreLoading && <MdDoNotDisturb className="h-5 w-5 mr-1" />} Unignore tag</>
+                        ) : (
+                            <>{!isIgnoreLoading && <MdDoNotDisturb className="h-5 w-5 mr-1" />} Ignore tag</>
+                        )}
+                    </Button>
+                </div>
+            )}
         </div>
     )
 };

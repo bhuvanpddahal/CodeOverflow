@@ -214,7 +214,7 @@ const Tags = () => {
                     )
                 )}
 
-                {data?.tags && (
+                {(data?.tags && data.tags.length > 0) && (
                     <PaginationBox
                         isFiltering={input.length > 0}
                         location={`/tags?tab=${tab}&`}

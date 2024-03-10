@@ -6,9 +6,11 @@ import {
     IoMdArrowDropdown,
     IoMdArrowDropup
 } from "react-icons/io";
+import { Loader2 } from "lucide-react";
 import { usePrevious } from "@mantine/hooks";
 import { useMutation } from "@tanstack/react-query";
 import { AnswerVote, User, VoteType } from "@prisma/client";
+import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 
 import UserAvatar from "../UserAvatar";
 import {
@@ -16,10 +18,13 @@ import {
     HoverCardContent,
     HoverCardTrigger
 } from "../ui/HoverCard";
+import { ItemType } from "@/types/user";
+import { saveItem } from "@/actions/user/saveItem";
 import { voteAnswer } from "@/actions/answer/voteAnswer";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { AnswerVotePayload } from "@/lib/validators/vote";
-import { IoBookmarkOutline } from "react-icons/io5";
+
+type PayloadType = "save" | "unsave";
 
 interface AnswerProps {
     id: string;
@@ -43,6 +48,7 @@ const Answer = ({
     lastAnswerRef
 }: AnswerProps) => {
     const user = useCurrentUser();
+    const isAnswerSaved = user?.savedItemIds.find((savedId) => savedId === id);
     const initialVotesAmt = votes.reduce((acc, vote) => {
         if (vote.type === 'UP') return acc + 1;
         if (vote.type === 'DOWN') return acc - 1;
@@ -85,6 +91,29 @@ const Answer = ({
         }
     });
 
+    const {
+        mutate: save,
+        isPending: isSaveLoading
+    } = useMutation({
+        mutationFn: async (type: PayloadType) => {
+            const payload = { itemId: id, itemType: "ANSWER" as ItemType };
+            await saveItem(payload);
+        },
+        onSuccess: (_, type: PayloadType) => {
+            if(!user) return;
+            if(type === "save") {
+                const newSavedItemIds = [...user.savedItemIds, id];
+                user.savedItemIds = newSavedItemIds;
+            } else if(type === "unsave") {
+                const newSavedItemIds = user.savedItemIds.filter((savedId) => savedId !== id);
+                user.savedItemIds = newSavedItemIds;
+            }
+        },
+        onError: () => {
+            // TODO - Show the error message
+        }
+    });
+
     return (
         <li className="flex-1 flex gap-4" ref={lastAnswerRef}>
             <div className="flex flex-col items-center gap-3">
@@ -113,17 +142,32 @@ const Answer = ({
                 </HoverCard>
                 {!!user && (
                     <HoverCard>
-                        <HoverCardTrigger>
-                            <div>
-                                <IoBookmarkOutline
-                                    className="h-5 w-5 text-zinc-400 cursor-pointer hover:text-blue-600"
+                    <HoverCardTrigger>
+                        {isSaveLoading ? (
+                            <Loader2 className="h-5 w-5 animate-spin text-slate-700" />
+                        ) : (
+                            isAnswerSaved ? (
+                                <IoBookmark
+                                    className="h-5 w-5 text-amber-500 hover:text-amber-600 cursor-pointer"
+                                    onClick={() => save("unsave")}
                                 />
-                            </div>
-                        </HoverCardTrigger>
+                            ) : (
+                                <IoBookmarkOutline
+                                    className="h-5 w-5 text-zinc-400 hover:text-blue-600 cursor-pointer"
+                                    onClick={() => save("save")}
+                                />
+                            )
+                        )}
+                    </HoverCardTrigger>
+                    {!isSaveLoading && (
                         <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
-                            Save this answer
+                            {isAnswerSaved
+                                ? "Unsave this question"
+                                : "Save this question"
+                            }
                         </HoverCardContent>
-                    </HoverCard>
+                    )}
+                </HoverCard>
                 )}
             </div>
             <div className="flex-1">

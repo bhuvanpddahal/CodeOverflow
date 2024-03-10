@@ -3,7 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import authConfig from "./auth.config";
 import { db } from "@/lib/db";
-import { getUserById } from "./lib/queries/user";
+import { getUserForSession } from "./lib/queries/user";
 
 export const {
     handlers: { GET, POST },
@@ -36,21 +36,22 @@ export const {
                 session.user.name = token.name;
                 session.user.email = token.email || "";
                 session.user.username = token.username || "";
-                session.user.watchedTagIds = token.watchedTagIds || [];
-                session.user.ignoredTagIds = token.ignoredTagIds || [];
+                session.user.watchedTagIds = token.watchedTagIds;
+                session.user.ignoredTagIds = token.ignoredTagIds;
+                session.user.savedItemIds = token.savedItemIds;
             }
             return session;
         },
         async jwt({ token }) {
             if (!token.sub) return token;
-            const existingUser = await getUserById(token.sub);
+            const existingUser = await getUserForSession(token.sub);
             if (!existingUser) return token;
-
             token.name = existingUser.name;
             token.email = existingUser.email;
             token.username = existingUser.username;
             token.watchedTagIds = existingUser.watchedTagIds;
             token.ignoredTagIds = existingUser.ignoredTagIds;
+            token.savedItemIds = existingUser.saves.map((item) => item.itemId);
 
             return token;
         }
