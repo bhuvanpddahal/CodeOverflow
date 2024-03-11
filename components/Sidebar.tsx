@@ -16,7 +16,7 @@ const Sidebar = () => {
         <div className="sticky top-[57px] h-rem w-[180px] md:w-[210px] border-r border-zinc-300 p-2 md:p-3 overflow-y-auto hidden sm:block">
             <ul className="text-[15px]">
                 <li>
-                    <Link href="/home" className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-md ${pathname.includes("/home") ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
+                    <Link href="/home" className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-md ${(pathname === process.env.NEXT_PUBLIC_APP_URL || pathname.includes("/home")) ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
                         <BiSolidHome className={`h-5 w-5 ${pathname.includes("/home") ? "text-zinc-800" : "text-zinc-700"}`} />
                         Home
                     </Link>

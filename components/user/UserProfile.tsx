@@ -13,12 +13,13 @@ import { notFound, useSearchParams } from "next/navigation";
 
 import Loader from "../Loader";
 import UserAvatar from "../UserAvatar";
+import SavesTab from "./saves/SavesTab";
 import ProfileTab from "./profile/ProfileTab";
 import NavigationTabs from "./NavigationTabs";
 import SettingsTab from "./settings/SettingsTab";
 import ActivitiesTab from "./activity/ActivitiesTab";
-import { getUser } from "@/actions/user/getUser";
 import { buttonVariants } from "../ui/Button";
+import { getUser } from "@/actions/user/getUser";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface UserProfileProps {
@@ -141,6 +142,9 @@ const UserProfile = ({ activeTab, username }: UserProfileProps) => {
                     githubLink={user.githubLink}
                     isCurrentUser={isCurrentUser}
                 />
+            )}
+            {tab === "saves" && (
+                <SavesTab />
             )}
         </section>
     )
