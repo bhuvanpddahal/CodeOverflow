@@ -59,7 +59,7 @@ const AnswerContent = ({
                     <p className="text-xs text-zinc-700">
                         {new Date() > new Date()
                             ? `updated ${moment(updatedAt).startOf('minute').fromNow()}`
-                            : `asked ${moment(answeredAt).startOf('minute').fromNow()}`
+                            : `answered ${moment(answeredAt).startOf('minute').fromNow()}`
                         }
                     </p>
                 </div>

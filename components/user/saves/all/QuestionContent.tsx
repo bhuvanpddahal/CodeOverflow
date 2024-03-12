@@ -1,14 +1,7 @@
 import moment from "moment";
 import Link from "next/link";
-import { IoEllipsisVertical } from "react-icons/io5";
 
 import UserAvatar from "@/components/UserAvatar";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/DropdownMenu";
 import { VoteType } from "@/types/user";
 import { Badge } from "@/components/ui/Badge";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -58,18 +51,6 @@ const QuestionContent = ({
                 <span className="text-sm text-emerald-700" title={`23 answers`}>{answersCount} {answersCount === 1 ? "answer" : "answers"}</span>
                 <span className="text-sm text-amber-700" title={`45k views`}>{viewsCount} {viewsCount === 1 ? "view" : "views"}</span>
             </div>
-            <DropdownMenu>
-                <DropdownMenuTrigger className="absolute top-2 right-2">
-                    <div className="p-2 rounded-sm cursor-pointer border border-transparent hover:border-zinc-300 hover:bg-zinc-100">
-                        <IoEllipsisVertical className="text-zinc-700" />
-                    </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className='bg-white' align='end'>
-                    <DropdownMenuItem className="cursor-pointer">Unsave</DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">Move to...</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-
             <Link href={`/questions/${questionId}`} className="inline-block text-blue-700 line-clamp-1 -mb-1 hover:text-blue-800">
                 {title}
             </Link>

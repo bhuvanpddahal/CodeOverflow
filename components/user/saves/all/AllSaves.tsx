@@ -15,11 +15,18 @@ import {
 import { AllSavesData } from "@/types/user";
 import { getUserSavedItems } from "@/actions/user/getUserSavedItems";
 import PaginationBox from "@/components/PaginationBox";
+import SavedItem from "./SavedItem";
 
 type Sort = "score" | "views" | "newest";
 
 interface AllSavesProps {
-    username: string;
+    user: {
+        id: string;
+        username: string;
+        watchedTagIds: string[];
+        ignoredTagIds: string[];
+        savedItemIds: string[];
+    } | undefined;
 }
 
 const isValidTab = (value: string) => {
@@ -29,7 +36,7 @@ const isValidTab = (value: string) => {
 };
 
 const AllSaves = ({
-    username
+    user
 }: AllSavesProps) => {
     const searchParams = useSearchParams();
     const page = searchParams.get("page") || "1";
@@ -45,11 +52,12 @@ const AllSaves = ({
         data,
         isFetching
     } = useQuery({
-        queryKey: ["users", username, "saves", { sort }],
+        queryKey: ["users", user?.username, "saves", { sort }],
         queryFn: fetchSavedItems
     });
 
     if (!isValidTab(sort)) return notFound();
+    if (isFetching) return <Loader type="half" />
     if (!data) return <div>Something went wrong</div>
     console.log("Data: ", data);
 
@@ -65,69 +73,28 @@ const AllSaves = ({
                     <PostTabsLink
                         tabs={userAllSavesTabs}
                         value={sort}
-                        route={`/users/${username}/saves`}
+                        route={`/users/${user?.username}/saves`}
                     />
                 </div>
             </div>
 
-            {isFetching ? (
-                <Loader type="half" />
+            {data.items.length ? (
+                <ul className="border border-zinc-300 rounded-md mb-4">
+                    {data.items.map((item, index) => (
+                        <SavedItem
+                            user={user}
+                            item={item}
+                            isLast={index === data.items.length - 1}
+                        />
+                    ))}
+                </ul>
             ) : (
-                data.items.length ? (
-                    <ul className="border border-zinc-300 rounded-md mb-4">
-                        {data.items.map((item, index) => (
-                            <li className={`relative p-4 ${index === data.items.length - 1 ? "" : "border-b border-zinc-300"}`}>
-                                {item.itemType === "QUESTION" ? (
-                                    <QuestionContent
-                                        questionId={item.itemId}
-                                        votes={item.question.votes}
-                                        answersCount={item.question.answers.length}
-                                        viewsCount={item.question.views.length}
-                                        title={item.question.title}
-                                        tags={item.question.tags}
-                                        askerImage={item.question.asker.image}
-                                        askerName={item.question.asker.name}
-                                        askerUsername={item.question.asker.username}
-                                        askedAt={item.question.askedAt}
-                                        updatedAt={item.question.updatedAt}
-                                    />
-                                ) : (
-                                    <>
-                                        <QuestionContent
-                                            questionId={item.answer.question.id}
-                                            votes={item.answer.question.votes}
-                                            answersCount={item.answer.question.answers.length}
-                                            viewsCount={item.answer.question.views.length}
-                                            title={item.answer.question.title}
-                                            tags={item.answer.question.tags}
-                                            askerImage={item.answer.question.asker.image}
-                                            askerName={item.answer.question.asker.name}
-                                            askerUsername={item.answer.question.asker.username}
-                                            askedAt={item.answer.question.askedAt}
-                                            updatedAt={item.answer.question.updatedAt}
-                                        />
-                                        <AnswerContent
-                                            votes={item.answer.votes}
-                                            content={item.answer.content}
-                                            answererImage={item.answer.answerer.image}
-                                            answererName={item.answer.answerer.name}
-                                            answererUsername={item.answer.answerer.username}
-                                            answeredAt={item.answer.answeredAt}
-                                            updatedAt={item.answer.updatedAt}
-                                        />
-                                    </>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <div>Add items to display</div>
-                )
+                <div>Add items to display</div>
             )}
 
             {(data.items.length > 0) && (
                 <PaginationBox
-                    location={`/users/${username}/saves?sort=${sort}&`}
+                    location={`/users/${user?.username}/saves?sort=${sort}&`}
                     currentPage={Number(page)}
                     lastPage={data?.lastPage}
                 />

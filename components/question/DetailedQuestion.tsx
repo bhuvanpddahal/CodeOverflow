@@ -11,6 +11,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { LiaEdit } from "react-icons/lia";
 import { usePrevious } from "@mantine/hooks";
+import { useMutation } from "@tanstack/react-query";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { QuestionVote, Tag, VoteType } from "@prisma/client";
 
@@ -23,7 +24,6 @@ import {
 import { Badge } from "../ui/Badge";
 import { ItemType } from "@/types/user";
 import { saveItem } from "@/actions/user/saveItem";
-import { useMutation } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { QuestionVotePayload } from "@/lib/validators/vote";
 import { voteQuestion } from "@/actions/question/voteQuestion";

@@ -144,7 +144,9 @@ const UserProfile = ({ activeTab, username }: UserProfileProps) => {
                 />
             )}
             {tab === "saves" && (
-                <SavesTab />
+                <SavesTab
+                    user={currentUser}
+                />
             )}
         </section>
     )
