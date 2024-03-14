@@ -46,22 +46,17 @@ export const getUserTags = async (payload: GetUserTagsPayload) => {
         }
 
         const tags = await db.tag.findMany({
-            where: {
-                questions: {
-                    some: {
-                        askerId: userId
-                    }
-                }
-            },
+            where: whereClause,
             take: limit,
             skip: (page - 1) * limit,
             select: {
-                name: true
+                name: true,
+                questionIds: true
             }
         });
 
         const totalTags = await db.tag.count({
-            where: { creatorId: userId }
+            where: whereClause
         });
         const lastPage = Math.ceil(totalTags / limit);
 

@@ -71,12 +71,14 @@ const TagsContent = ({
                             <Link href={`/questions/tagged/${tag.name}`}>
                                 <Badge variant="secondary">{tag.name}</Badge>
                             </Link>
-                            <p className="text-zinc-600 text-sm">watching since 1st Jan, 2023</p>
+                            <p title={`${tag.questionIds.length} ${tag.questionIds.length === 1 ? "question" : "questions"} tagged with this tag`} className="text-zinc-600 text-sm">
+                                {tag.questionIds.length} {tag.questionIds.length === 1 ? "post" : "posts"}
+                            </p>
                         </li>
                     ))
                 ) : (
                     <p className="px-4 py-10 text-center text-sm text-zinc-600">
-                        {isCurrentUser ? "You have" : `${profileName} has`} not participated in any tags
+                        {isCurrentUser ? "You have" : `${profileName} has`} not {sort} any tags
                     </p>
                 )}
             </ul>

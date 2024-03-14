@@ -96,7 +96,8 @@ export type SummaryQuestionsData = {
 
 export type TagsData = {
     tags: {
-        name: string
+        name: string,
+        questionIds: string[]
     }[],
     totalTags: number,
     lastPage: number
