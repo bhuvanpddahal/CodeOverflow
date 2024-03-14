@@ -2,18 +2,24 @@ import SavesNav from "./SavesNav";
 import AllSaves from "./all/AllSaves";
 
 interface SavesTabProps {
-    username: string;
+    user: {
+        id: string;
+        username: string;
+        watchedTagIds: string[];
+        ignoredTagIds: string[];
+        savedItemIds: string[];
+    } | undefined;
 }
 
 const SavesTab = ({
-    username
+    user
 }: SavesTabProps) => {
     return (
         <div className="flex gap-5">
             <SavesNav />
 
             <AllSaves
-                username={username}
+                user={user}
             />
         </div>
     )

@@ -32,6 +32,7 @@ const SavedItem = ({
     isLast
 }: SavedItemProps) => {
     const isSaved = user?.savedItemIds.find((id) => id === item.itemId);
+    console.log("user saved item ids: ", user?.savedItemIds, "isSaved: ", isSaved);
 
     const {
         mutate: save,

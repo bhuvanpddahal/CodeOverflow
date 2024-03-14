@@ -118,6 +118,7 @@ const UserProfile = ({ activeTab, username }: UserProfileProps) => {
                 <ProfileTab
                     userId={user.id}
                     username={user.name}
+                    about={user.about}
                 />
             )}
             {(tab === "activity" || tab === "summary" || tab === "answers" || tab === "questions" || tab === "tags" || tab === "votes") && (

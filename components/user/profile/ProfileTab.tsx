@@ -11,9 +11,10 @@ import { getUserProfile } from "@/actions/user/getUserProfile";
 interface ProfileTabProps {
     userId: string;
     username: string;
+    about: string | null;
 }
 
-const ProfileTab = ({ userId, username }: ProfileTabProps) => {
+const ProfileTab = ({ userId, username, about }: ProfileTabProps) => {
     const fetchProfile = async () => {
         const payload = { id: userId };
         const data = await getUserProfile(payload);
@@ -60,20 +61,8 @@ const ProfileTab = ({ userId, username }: ProfileTabProps) => {
             <div className="flex-1 space-y-4">
                 <div>
                     <h3 className="text-lg sm:text-xl text-zinc-800 mb-2">About</h3>
-                    <div className="text-zinc-800 text-[15px]">
-                        Author of C# in Depth
-
-                        Currently a software engineer at Google, working remotely but near London.
-                        Usually a Microsoft MVP (C#, 2003-2010, 2011-)
-
-                        Sites / social:
-
-                        Mastodon: @jonskeet@hachyderm.io
-                        C# in Depth
-                        Coding blog
-                        C# articles
-                        Twitter @jonskeet
-                        Email: skeet@pobox.com (but please read my blog post on Stack Overflow-related emails first)
+                    <div className={`${about ? "text-zinc-800" : "text-zinc-400"} text-[15px]`}>
+                        {about ? about : "No data provided"}
                     </div>
                 </div>
 

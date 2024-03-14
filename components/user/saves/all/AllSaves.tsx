@@ -3,9 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { notFound, useSearchParams } from "next/navigation";
 
+import SavedItem from "./SavedItem";
 import Loader from "@/components/Loader";
-import AnswerContent from "./AnswerContent";
-import QuestionContent from "./QuestionContent";
+import PaginationBox from "@/components/PaginationBox";
 import PostTabsLink from "../../activity/PostTabsLink";
 import { Button } from "@/components/ui/Button";
 import {
@@ -14,8 +14,6 @@ import {
 } from "@/constants";
 import { AllSavesData } from "@/types/user";
 import { getUserSavedItems } from "@/actions/user/getUserSavedItems";
-import PaginationBox from "@/components/PaginationBox";
-import SavedItem from "./SavedItem";
 
 type Sort = "score" | "views" | "newest";
 
@@ -70,11 +68,13 @@ const AllSaves = ({
                 </div>
                 <div>
                     <Button className="block mb-4 ml-auto">Create a new list</Button>
-                    <PostTabsLink
-                        tabs={userAllSavesTabs}
-                        value={sort}
-                        route={`/users/${user?.username}/saves`}
-                    />
+                    {data.items.length > 0 && (
+                        <PostTabsLink
+                            tabs={userAllSavesTabs}
+                            value={sort}
+                            route={`/users/${user?.username}/saves`}
+                        />
+                    )}
                 </div>
             </div>
 
@@ -82,6 +82,7 @@ const AllSaves = ({
                 <ul className="border border-zinc-300 rounded-md mb-4">
                     {data.items.map((item, index) => (
                         <SavedItem
+                            key={item.itemId}
                             user={user}
                             item={item}
                             isLast={index === data.items.length - 1}
@@ -89,7 +90,7 @@ const AllSaves = ({
                     ))}
                 </ul>
             ) : (
-                <div>Add items to display</div>
+                <p className="text-center text-zinc-400 text-[15px] py-10">Add items to display</p>
             )}
 
             {(data.items.length > 0) && (

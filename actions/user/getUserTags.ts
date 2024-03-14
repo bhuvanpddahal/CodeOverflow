@@ -12,7 +12,7 @@ export const getUserTags = async (payload: GetUserTagsPayload) => {
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const { userId, sort, page, limit } = validatedFields.data;
-        let orderByCaluse = {};
+        let whereClause = {};
 
         const user = await db.user.findUnique({
             where: {
@@ -21,20 +21,38 @@ export const getUserTags = async (payload: GetUserTagsPayload) => {
         });
         if(!user) throw new Error("User not found");
         
-        // TODO - Implement the sorting of tags
-        if (sort === "watched") {
-            orderByCaluse = {};
+        if (sort === "used") {
+            whereClause = {
+                questions: {
+                    some: {
+                        askerId: userId
+                    }
+                }
+            };
+        } else if (sort === "watched") {
+            whereClause = {
+                watcherIds: {
+                    has: userId
+                }
+            };
         } else if (sort === "ignored") {
-            orderByCaluse = {};
+            whereClause = {
+                ignorerIds: {
+                    has: userId
+                }
+            };
         } else if (sort === "created") {
-            orderByCaluse = {};
+            whereClause = { creatorId: userId };
         }
 
         const tags = await db.tag.findMany({
             where: {
-                creatorId: userId
+                questions: {
+                    some: {
+                        askerId: userId
+                    }
+                }
             },
-            orderBy: orderByCaluse,
             take: limit,
             skip: (page - 1) * limit,
             select: {
