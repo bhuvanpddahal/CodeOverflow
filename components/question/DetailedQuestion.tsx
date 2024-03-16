@@ -128,7 +128,7 @@ const DetailedQuestion = ({
                 <Hint
                     label="This question shows research effort; it is useful and clear"
                     side="right"
-                    align="center"
+                    align="start"
                     sideOffset={18}
                 >
                     <IoMdArrowDropup

@@ -176,6 +176,7 @@ export type AnswerVotesType = {
     postType: "ANSWER",
     votedAt: Date,
     answer: {
+        id: string,
         question: {
             id: string,
             title: string,

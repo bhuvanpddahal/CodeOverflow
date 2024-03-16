@@ -64,6 +64,7 @@ const VotesContent = ({
                             <PostVote
                                 type={vote.type}
                                 postType={vote.postType}
+                                answerId={vote.answer.id}
                                 questionId={vote.answer.question.id}
                                 votes={vote.answer.votes}
                                 title={vote.answer.question.title}

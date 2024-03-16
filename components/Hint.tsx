@@ -6,8 +6,8 @@ import {
 } from "@/components/ui/Tooltip";
 
 interface HintProps {
-    label: string | undefined;
     children: React.ReactNode;
+    label: string | undefined;
     side?: "top" | "bottom" | "left" | "right";
     align?: "start" | "center" | "end";
     sideOffset?: number;
@@ -15,8 +15,8 @@ interface HintProps {
 }
 
 const Hint = ({
-    label,
     children,
+    label,
     side,
     align,
     sideOffset,
@@ -34,9 +34,10 @@ const Hint = ({
                         align={align}
                         sideOffset={sideOffset}
                         alignOffset={alignOffset}
-                        className="text-sm text-zinc-700 w-fit px-3 py-2"
                     >
-                        {label}
+                        <p className="text-sm text-zinc-700">
+                            {label}
+                        </p>
                     </TooltipContent>
                 )}
             </Tooltip>

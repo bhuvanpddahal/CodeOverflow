@@ -75,6 +75,7 @@ export const getUserVotes = async (payload: GetUserVotesPayload) => {
                         type: true,
                         answer: {
                             select: {
+                                id: true,
                                 votes: {
                                     select: {
                                         type: true
@@ -105,6 +106,7 @@ export const getUserVotes = async (payload: GetUserVotesPayload) => {
                         type: true,
                         answer: {
                             select: {
+                                id: true,
                                 votes: {
                                     select: {
                                         type: true
@@ -197,6 +199,7 @@ export const getUserVotes = async (payload: GetUserVotesPayload) => {
                         type: true,
                         answer: {
                             select: {
+                                id: true,
                                 votes: {
                                     select: {
                                         type: true
@@ -227,6 +230,7 @@ export const getUserVotes = async (payload: GetUserVotesPayload) => {
                         type: true,
                         answer: {
                             select: {
+                                id: true,
                                 votes: {
                                     select: {
                                         type: true
@@ -307,6 +311,7 @@ export const getUserVotes = async (payload: GetUserVotesPayload) => {
                     type: true,
                     answer: {
                         select: {
+                            id: true,
                             votes: {
                                 select: {
                                     type: true
