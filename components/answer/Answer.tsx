@@ -13,16 +13,12 @@ import { AnswerVote, User, VoteType } from "@prisma/client";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 
 import UserAvatar from "../UserAvatar";
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger
-} from "../ui/HoverCard";
 import { ItemType } from "@/types/user";
 import { saveItem } from "@/actions/user/saveItem";
 import { voteAnswer } from "@/actions/answer/voteAnswer";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { AnswerVotePayload } from "@/lib/validators/vote";
+import Hint from "../Hint";
 
 type PayloadType = "save" | "unsave";
 
@@ -100,11 +96,11 @@ const Answer = ({
             await saveItem(payload);
         },
         onSuccess: (_, type: PayloadType) => {
-            if(!user) return;
-            if(type === "save") {
+            if (!user) return;
+            if (type === "save") {
                 const newSavedItemIds = [...user.savedItemIds, id];
                 user.savedItemIds = newSavedItemIds;
-            } else if(type === "unsave") {
+            } else if (type === "unsave") {
                 const newSavedItemIds = user.savedItemIds.filter((savedId) => savedId !== id);
                 user.savedItemIds = newSavedItemIds;
             }
@@ -115,34 +111,40 @@ const Answer = ({
     });
 
     return (
-        <li className="flex-1 flex gap-4" ref={lastAnswerRef}>
+        <li id={id} className="flex-1 flex gap-4" ref={lastAnswerRef}>
             <div className="flex flex-col items-center gap-3">
-                <HoverCard>
-                    <HoverCardTrigger>
-                        <IoMdArrowDropup
-                            className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                            onClick={() => user ? vote('UP') : setShowAuthModal(true)}
-                        />
-                    </HoverCardTrigger>
-                    <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
-                        This answer is useful
-                    </HoverCardContent>
-                </HoverCard>
+                <Hint
+                    label="This answer is useful"
+                    side="right"
+                    align="center"
+                    sideOffset={18}
+                >
+                    <IoMdArrowDropup
+                        className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
+                        onClick={() => user ? vote('UP') : setShowAuthModal(true)}
+                    />
+                </Hint>
                 <p className="text-xl font-bold text-zinc-900">{votesAmt}</p>
-                <HoverCard>
-                    <HoverCardTrigger>
-                        <IoMdArrowDropdown
-                            className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                            onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
-                        />
-                    </HoverCardTrigger>
-                    <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
-                        This answer is not useful
-                    </HoverCardContent>
-                </HoverCard>
+                <Hint
+                    label="This answer is not useful"
+                    side="right"
+                    align="center"
+                    sideOffset={18}
+                >
+                    <IoMdArrowDropdown
+                        className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
+                        onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
+                    />
+                </Hint>
                 {!!user && (
-                    <HoverCard>
-                    <HoverCardTrigger>
+                    <Hint
+                        label={isSaveLoading ? undefined : isAnswerSaved
+                            ? "Unsave this answer" : "Save this answer"
+                        }
+                        side="right"
+                        align="center"
+                        sideOffset={18}
+                    >
                         {isSaveLoading ? (
                             <Loader2 className="h-5 w-5 animate-spin text-slate-700" />
                         ) : (
@@ -158,16 +160,7 @@ const Answer = ({
                                 />
                             )
                         )}
-                    </HoverCardTrigger>
-                    {!isSaveLoading && (
-                        <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
-                            {isAnswerSaved
-                                ? "Unsave this question"
-                                : "Save this question"
-                            }
-                        </HoverCardContent>
-                    )}
-                </HoverCard>
+                    </Hint>
                 )}
             </div>
             <div className="flex-1">

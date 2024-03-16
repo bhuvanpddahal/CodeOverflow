@@ -15,12 +15,8 @@ import { useMutation } from "@tanstack/react-query";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { QuestionVote, Tag, VoteType } from "@prisma/client";
 
+import Hint from "../Hint";
 import UserAvatar from "../UserAvatar";
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger
-} from "../ui/HoverCard";
 import { Badge } from "../ui/Badge";
 import { ItemType } from "@/types/user";
 import { saveItem } from "@/actions/user/saveItem";
@@ -112,11 +108,11 @@ const DetailedQuestion = ({
             await saveItem(payload);
         },
         onSuccess: (_, type: PayloadType) => {
-            if(!user) return;
-            if(type === "save") {
+            if (!user) return;
+            if (type === "save") {
                 const newSavedItemIds = [...user.savedItemIds, questionId];
                 user.savedItemIds = newSavedItemIds;
-            } else if(type === "unsave") {
+            } else if (type === "unsave") {
                 const newSavedItemIds = user.savedItemIds.filter((id) => id !== questionId);
                 user.savedItemIds = newSavedItemIds;
             }
@@ -129,71 +125,68 @@ const DetailedQuestion = ({
     return (
         <div className="flex gap-4">
             <div className="flex flex-col items-center gap-3">
-                <HoverCard>
-                    <HoverCardTrigger>
-                        <IoMdArrowDropup
-                            className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                            onClick={() => user ? vote('UP') : setShowAuthModal(true)}
-                        />
-                    </HoverCardTrigger>
-                    <HoverCardContent className="text-sm text-zinc-700 w-[260px] px-3 py-2">
-                        This question shows research effort; it is useful and clear
-                    </HoverCardContent>
-                </HoverCard>
+                <Hint
+                    label="This question shows research effort; it is useful and clear"
+                    side="right"
+                    align="center"
+                    sideOffset={18}
+                >
+                    <IoMdArrowDropup
+                        className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
+                        onClick={() => user ? vote('UP') : setShowAuthModal(true)}
+                    />
+                </Hint>
                 <p className="text-xl font-bold text-zinc-900">{votesAmt}</p>
-                <HoverCard>
-                    <HoverCardTrigger>
-                        <IoMdArrowDropdown
-                            className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
-                            onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
-                        />
-                    </HoverCardTrigger>
-                    <HoverCardContent className="text-sm text-zinc-700 w-[260px] px-3 py-2">
-                        This question does not show any research effort; it is unclear or not useful
-                    </HoverCardContent>
-                </HoverCard>
+                <Hint
+                    label="This question does not show any research effort; it is unclear or not useful"
+                    side="right"
+                    align="center"
+                    sideOffset={18}
+                >
+                    <IoMdArrowDropdown
+                        className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
+                        onClick={() => user ? vote('DOWN') : setShowAuthModal(true)}
+                    />
+                </Hint>
                 {user?.id === askerId && (
-                    <HoverCard>
-                        <HoverCardTrigger>
-                            <Link href={`${questionId}/edit`}>
-                                <LiaEdit
-                                    className="h-6 w-6 text-zinc-400 cursor-pointer hover:text-blue-600"
-                                />
-                            </Link>
-                        </HoverCardTrigger>
-                        <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
-                            Edit this question
-                        </HoverCardContent>
-                    </HoverCard>
+                    <Hint
+                        label="Edit this question"
+                        side="right"
+                        align="center"
+                        sideOffset={18}
+                    >
+                        <Link href={`${questionId}/edit`}>
+                            <LiaEdit
+                                className="h-6 w-6 text-zinc-400 cursor-pointer hover:text-blue-600"
+                            />
+                        </Link>
+                    </Hint>
                 )}
                 {!!user && (
-                    <HoverCard>
-                        <HoverCardTrigger>
-                            {isSaveLoading ? (
-                                <Loader2 className="h-5 w-5 animate-spin text-slate-700" />
+                    <Hint
+                        label={isSaveLoading ? undefined : isQuestionSaved
+                            ? "Unsave this question" : "Save this question"
+                        }
+                        side="right"
+                        align="center"
+                        sideOffset={18}
+                    >
+                        {isSaveLoading ? (
+                            <Loader2 className="h-5 w-5 animate-spin text-slate-700" />
+                        ) : (
+                            isQuestionSaved ? (
+                                <IoBookmark
+                                    className="h-5 w-5 text-amber-500 hover:text-amber-600 cursor-pointer"
+                                    onClick={() => save("unsave")}
+                                />
                             ) : (
-                                isQuestionSaved ? (
-                                    <IoBookmark
-                                        className="h-5 w-5 text-amber-500 hover:text-amber-600 cursor-pointer"
-                                        onClick={() => save("unsave")}
-                                    />
-                                ) : (
-                                    <IoBookmarkOutline
-                                        className="h-5 w-5 text-zinc-400 hover:text-blue-600 cursor-pointer"
-                                        onClick={() => save("save")}
-                                    />
-                                )
-                            )}
-                        </HoverCardTrigger>
-                        {!isSaveLoading && (
-                            <HoverCardContent className="text-sm text-zinc-700 w-fit px-3 py-2">
-                                {isQuestionSaved
-                                    ? "Unsave this question"
-                                    : "Save this question"
-                                }
-                            </HoverCardContent>
+                                <IoBookmarkOutline
+                                    className="h-5 w-5 text-zinc-400 hover:text-blue-600 cursor-pointer"
+                                    onClick={() => save("save")}
+                                />
+                            )
                         )}
-                    </HoverCard>
+                    </Hint>
                 )}
             </div>
             <div className="flex-1">

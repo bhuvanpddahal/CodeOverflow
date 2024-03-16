@@ -1,3 +1,4 @@
+import moment from "moment";
 import Link from "next/link";
 import {
     IoMdArrowDropdown,
@@ -8,9 +9,8 @@ import {
     RiChatCheckFill
 } from "react-icons/ri";
 
-import { Badge } from "@/components/ui/Badge";
 import { VoteType } from "@/types/user";
-import moment from "moment";
+import { Badge } from "@/components/ui/Badge";
 
 interface PostVoteProps {
     type: VoteType;
@@ -50,17 +50,17 @@ const PostVote = ({
     }, 0);
 
     return (
-        <li className={`p-4 ${isLast ? "" : "border-b border-zinc-300"} flex gap-3`}>
-            <div className="flex flex-col items-center gap-2">
+        <li className={`p-4 ${isLast ? "" : "border-b border-zinc-300"} flex flex-col lg:flex-row gap-3`}>
+            <div className="flex flex-row lg:flex-col items-center gap-2">
                 {type === "UP" ? (
                     <IoMdArrowDropup
                         title="up voted"
-                        className="h-9 w-9 border border-slate-400 text-slate-800 rounded-full"
+                        className="h-9 w-9 border border-slate-300 text-slate-800 rounded-full"
                     />
                 ) : (
                     <IoMdArrowDropdown
                         title="down voted"
-                        className="h-9 w-9 border border-slate-400 text-slate-800 rounded-full"
+                        className="h-9 w-9 border border-slate-300 text-slate-800 rounded-full"
                     />
                 )}
                 {postType === "ANSWER" ? (

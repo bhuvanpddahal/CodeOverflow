@@ -80,7 +80,7 @@ const AnswersContent = ({
                                 <span className="text-sm text-zinc-700" title={`Score of ${votesAmt}`}>
                                     {votesAmt === 1 ? "1 vote" : `${votesAmt} votes`}
                                 </span>
-                                <Link href={`/questions/${answer.question.id}`} className="text-blue-700 line-clamp-1 mb-1.5 hover:text-blue-800">
+                                <Link href={`/questions/${answer.question.id}#${answer.id}`} className="text-blue-700 line-clamp-1 mb-1.5 hover:text-blue-800">
                                     {answer.question.title}
                                 </Link>
                                 <div className="flex items-center justify-between gap-3 flex-wrap">

@@ -34,6 +34,7 @@ export const getUserAnswers = async (payload: GetUserAnswersPayload) => {
             take: limit,
             skip: (page - 1) * limit,
             select: {
+                id: true,
                 question: {
                     select: {
                         id: true,

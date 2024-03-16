@@ -34,6 +34,7 @@ export type ProfileData = ActivitySummaryData & {
 
 export type AnswersData = {
     answers: {
+        id: string,
         question: {
             id: string,
             title: string,
