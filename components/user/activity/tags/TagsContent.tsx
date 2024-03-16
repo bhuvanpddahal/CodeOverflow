@@ -55,7 +55,7 @@ const TagsContent = ({
         <div className="flex-1">
             <div className="flex items-end justify-between flex-wrap gap-1.5 mb-2">
                 <h3 className="text-lg sm:text-xl text-zinc-800 -mb-1.5 sm:-mb-1">
-                    {data.tags.length} {data.tags.length === 1 ? "Tag" : "Tags"}
+                    {data.tags.length === 1 ? "1 Tag" : `${data.tags.length} Tags`}
                 </h3>
                 <PostTabsLink
                     tabs={userSummaryTagsTabs}

@@ -78,9 +78,15 @@ const QuestionsContent = ({
                         return (
                             <li key={index} className={`p-4 ${isLast ? "" : "border-b border-zinc-300"}`}>
                                 <div className="flex gap-3">
-                                    <span className="text-sm text-zinc-700" title={`Score of ${votesAmt}`}>{votesAmt} votes</span>
-                                    <span className="text-sm text-emerald-700" title={`${question.answers.length} answers`}>{question.answers.length} answers</span>
-                                    <span className="text-sm text-amber-700" title={`${question.views.length} views`}>{question.views.length} views</span>
+                                    <span className="text-sm text-zinc-700" title={`Score of ${votesAmt}`}>
+                                        {votesAmt === 1 ? "1 vote" : `${votesAmt} votes`}
+                                    </span>
+                                    <span className="text-sm text-emerald-700" title={question.answers.length === 1 ? "1 answer" : `${question.answers.length} answers`}>
+                                        {question.answers.length === 1 ? "1 answer" : `${question.answers.length} answers`}
+                                    </span>
+                                    <span className="text-sm text-amber-700" title={question.views.length === 1 ? "1 view" : `${question.views.length} views`}>
+                                        {question.views.length === 1 ? "1 view" : `${question.views.length} views`}
+                                    </span>
                                 </div>
                                 <Link href={`/questions/${question.id}`} className="text-blue-700 line-clamp-1 mb-1.5 hover:text-blue-800">
                                     {question.title}
@@ -88,7 +94,7 @@ const QuestionsContent = ({
                                 <div className="flex items-center justify-between gap-3 flex-wrap">
                                     <div className="space-x-1.5">
                                         {question.tags.map((tag) => (
-                                            <Link href={`/questions/tagged/${tag.name}`}>
+                                            <Link key={tag.name} href={`/questions/tagged/${tag.name}`}>
                                                 <Badge variant="secondary">{tag.name}</Badge>
                                             </Link>
                                         ))}

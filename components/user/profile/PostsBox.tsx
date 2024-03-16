@@ -15,6 +15,8 @@ type Post = AnswerType | QuestionType;
 interface PostsBoxProps {
     title: string;
     posts: Post[];
+    profileName: string;
+    isCurrentUser: boolean;
 }
 
 interface QuestionProps {
@@ -53,7 +55,9 @@ const Answer = ({ questionId, questionTitle, answeredAt, isLast }: AnswerProps) 
 
 const PostsBox = ({
     title,
-    posts
+    posts,
+    profileName,
+    isCurrentUser
 }: PostsBoxProps) => {
     return (
         <div>
@@ -82,7 +86,7 @@ const PostsBox = ({
                 </ul>
             ) : (
                 <p className="border border-zinc-300 text-[15px] p-4 rounded-md text-center">
-                    You have not answered any questions
+                    {isCurrentUser ? "You have" : `${profileName} has`} not posted anything
                 </p>
             )}
         </div>

@@ -77,7 +77,9 @@ const AnswersContent = ({
     
                         return (
                             <li key={index} className={`p-4 ${isLast ? "" : "border-b border-zinc-300"}`}>
-                                <span className="text-sm text-zinc-700" title={`Score of ${votesAmt}`}>{votesAmt} votes</span>
+                                <span className="text-sm text-zinc-700" title={`Score of ${votesAmt}`}>
+                                    {votesAmt === 1 ? "1 vote" : `${votesAmt} votes`}
+                                </span>
                                 <Link href={`/questions/${answer.question.id}`} className="text-blue-700 line-clamp-1 mb-1.5 hover:text-blue-800">
                                     {answer.question.title}
                                 </Link>

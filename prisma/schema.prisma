@@ -11,33 +11,35 @@ datasource db {
 }
 
 model User {
-    id            String    @id @default(auto()) @map("_id") @db.ObjectId
-    name          String
-    email         String    @unique
-    username      String    @unique @default(uuid())
-    about         String?
-    location      String?
-    image         String?
-    password      String?
-    websiteLink   String?
-    twitterLink   String?
-    githubLink    String?
-    emailVerified DateTime?
-    watchedTagIds String[]  @db.ObjectId
-    ignoredTagIds String[]  @db.ObjectId
-    createdAt     DateTime  @default(now())
-    updatedAt     DateTime  @updatedAt
+    id                String    @id @default(auto()) @map("_id") @db.ObjectId
+    name              String
+    email             String    @unique
+    username          String    @unique @default(uuid())
+    about             String?
+    location          String?
+    image             String?
+    password          String?
+    websiteLink       String?
+    twitterLink       String?
+    githubLink        String?
+    emailVerified     DateTime?
+    watchedTagIds     String[]  @db.ObjectId
+    ignoredTagIds     String[]  @db.ObjectId
+    viewedQuestionIds String[]  @db.ObjectId
+    createdAt         DateTime  @default(now())
+    updatedAt         DateTime  @updatedAt
 
     accounts      Account[]
-    questions     Question[]
+    questions     Question[]     @relation("asker")
     answers       Answer[]
     questionVotes QuestionVote[]
     answerVotes   AnswerVote[]
+    saves         Save[]
 
-    createdTags Tag[]  @relation("creator")
-    watchedTags Tag[]  @relation("watchers", fields: [watchedTagIds], references: [id])
-    ignoredTags Tag[]  @relation("ignorers", fields: [ignoredTagIds], references: [id])
-    saves       Save[]
+    createdTags     Tag[]      @relation("creator")
+    watchedTags     Tag[]      @relation("watchers", fields: [watchedTagIds], references: [id])
+    ignoredTags     Tag[]      @relation("ignorers", fields: [ignoredTagIds], references: [id])
+    viewedQuestions Question[] @relation("viewers", fields: [viewedQuestionIds], references: [id])
 }
 
 model Account {
@@ -69,6 +71,7 @@ model QuestionVote {
     type       VoteType
     voterId    String   @db.ObjectId
     questionId String   @db.ObjectId
+    votedAt    DateTime @default(now())
 
     voter    User     @relation(fields: [voterId], references: [id], onDelete: Cascade)
     question Question @relation(fields: [questionId], references: [id])
@@ -81,9 +84,10 @@ model AnswerVote {
     type     VoteType
     voterId  String   @db.ObjectId
     answerId String   @db.ObjectId
+    votedAt  DateTime @default(now())
 
-    voter  User    @relation(fields: [voterId], references: [id], onDelete: Cascade)
-    answer Answer? @relation(fields: [answerId], references: [id])
+    voter  User   @relation(fields: [voterId], references: [id], onDelete: Cascade)
+    answer Answer @relation(fields: [answerId], references: [id])
 
     @@unique([voterId, answerId])
 }
@@ -95,15 +99,16 @@ model Question {
     details     String
     expectation String
     tagIds      String[] @db.ObjectId
-    views       String[] @default([])
+    views       String[] @db.ObjectId
     votesIds    String[]
     askedAt     DateTime @default(now())
     updatedAt   DateTime @default(now())
 
-    asker   User           @relation(fields: [askerId], references: [id], onDelete: Cascade)
+    asker   User           @relation("asker", fields: [askerId], references: [id], onDelete: Cascade)
     answers Answer[]
     votes   QuestionVote[]
     tags    Tag[]          @relation(fields: [tagIds], references: [id])
+    viewers User[]         @relation("viewers", fields: [views], references: [id])
     saves   Save[]
 }
 

@@ -53,9 +53,18 @@ export const GetUserSavedItemsValidator = z.object({
     sort: z.enum(["score", "views", "newest"])
 });
 
+export const GetUserVotesValidator = z.object({
+    userId: z.string(),
+    page: z.number(),
+    limit: z.number(),
+    sort: z.enum(["all", "question", "answer"]),
+    date: z.date()
+});
+
 export type GetUserPayload = z.infer<typeof GetUserValidator>;
 export type GetUserProfilePayload = z.infer<typeof GetUserProfileValidator>;
 export type GetUsersPayload = z.infer<typeof GetUsersValidator>;
 export type ProfilePayload = z.infer<typeof ProfileValidator>;
 export type SaveItemPayload = z.infer<typeof SaveItemValidator>;
 export type GetUserSavedItemsPayload = z.infer<typeof GetUserSavedItemsValidator>;
+export type GetUserVotesPayload = z.infer<typeof GetUserVotesValidator>;

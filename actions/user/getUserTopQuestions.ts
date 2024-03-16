@@ -28,7 +28,11 @@ export const getUserTopQuestions = async (payload: GetUserTopQuestionsPayload) =
         } else if (tab === "newest") {
             orderByCaluse = { askedAt: "desc" };
         } else if (tab === "views") {
-            orderByCaluse = {};
+            orderByCaluse = {
+                viewers: {
+                    _count: "desc"
+                }
+            };
         }
 
         const questions = await db.question.findMany({

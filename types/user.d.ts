@@ -1,4 +1,4 @@
-import { Save, User } from "@prisma/client";
+import { Save, User, VoteType } from "@prisma/client";
 
 export type VoteType = "UP" | "DOWN";
 export type ItemType = "QUESTION" | "ANSWER";
@@ -147,5 +147,49 @@ export type SavedItem = Save & {
 export type AllSavesData = {
     items: SavedItem[],
     totalItems: number,
+    lastPage: number
+};
+
+export type QuestionVotesType = {
+    type: VoteType,
+    postType: "QUESTION",
+    votedAt: Date,
+    question: {
+        id: string,
+        title: string,
+        views: string[],
+        answers: {
+            id: string
+        }[],
+        votes: {
+            type: VoteType
+        }[],
+        tags: {
+            name: string
+        }[]
+    }
+};
+
+export type AnswerVotesType = {
+    type: VoteType,
+    postType: "ANSWER",
+    votedAt: Date,
+    answer: {
+        question: {
+            id: string,
+            title: string,
+            tags: {
+                name: string
+            }[]
+        };
+        votes: {
+            type: VoteType
+        }[]
+    }
+};
+
+export type VotesData = {
+    votes: (QuestionVotesType | AnswerVotesType)[],
+    totalVotes: number,
     lastPage: number
 };

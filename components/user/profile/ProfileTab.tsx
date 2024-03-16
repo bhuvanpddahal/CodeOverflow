@@ -1,20 +1,29 @@
 "use client";
 
+import DOMPurify from "isomorphic-dompurify";
 import { notFound } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
-import SummaryBox from "./PostsBox";
+import PostsBox from "./PostsBox";
 import Loader from "@/components/Loader";
 import { ProfileData } from "@/types/user";
 import { getUserProfile } from "@/actions/user/getUserProfile";
 
 interface ProfileTabProps {
     userId: string;
+    profileName: string
     username: string;
     about: string | null;
+    isCurrentUser: boolean;
 }
 
-const ProfileTab = ({ userId, username, about }: ProfileTabProps) => {
+const ProfileTab = ({
+    userId,
+    profileName,
+    username,
+    about,
+    isCurrentUser
+}: ProfileTabProps) => {
     const fetchProfile = async () => {
         const payload = { id: userId };
         const data = await getUserProfile(payload);
@@ -29,8 +38,8 @@ const ProfileTab = ({ userId, username, about }: ProfileTabProps) => {
         queryFn: fetchProfile
     });
 
-    if(isFetching) return <Loader type="half" />
-    if(!data) return notFound();
+    if (isFetching) return <Loader type="half" />
+    if (!data) return notFound();
 
     const posts = [...data.questions, ...data.answers];
 
@@ -61,14 +70,21 @@ const ProfileTab = ({ userId, username, about }: ProfileTabProps) => {
             <div className="flex-1 space-y-4">
                 <div>
                     <h3 className="text-lg sm:text-xl text-zinc-800 mb-2">About</h3>
-                    <div className={`${about ? "text-zinc-800" : "text-zinc-400"} text-[15px]`}>
-                        {about ? about : "No data provided"}
-                    </div>
+                    {about ? (
+                        <div
+                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(about) }}
+                            className="text-zinc-800 text-[15px]"
+                        />
+                    ) : (
+                        <div className="text-zinc-400 text-[15px]">No about data provided.</div>
+                    )}
                 </div>
 
-                <SummaryBox
+                <PostsBox
                     title="Top posts"
                     posts={posts}
+                    profileName={profileName}
+                    isCurrentUser={isCurrentUser}
                 />
             </div>
         </div>

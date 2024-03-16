@@ -90,7 +90,9 @@ const Users = () => {
                                             >
                                                 {user.name}
                                             </Link>
-                                            <p className="text-[13px] text-zinc-600">France</p>
+                                            {user.location && (
+                                                <p className="text-[13px] text-zinc-600">{user.location}</p>
+                                            )}
                                             <div className="text-[13px] text-blue-700 hover:text-blue-800">
                                                 git, github, docker
                                             </div>

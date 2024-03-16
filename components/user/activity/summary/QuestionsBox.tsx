@@ -50,7 +50,14 @@ const QuestionsBox = ({
             <div className="flex items-end justify-between flex-wrap gap-1.5 mb-2">
                 <div>
                     <h3 className="text-lg sm:text-xl text-zinc-800 -mb-1.5 sm:-mb-1">Questions</h3>
-                    <Link href={`/users/${username}?tab=questions`} className="text-zinc-500 text-xs sm:text-sm">View all {data.totalQuestions} questions</Link>
+                    {data.totalQuestions > 0 && (
+                        <Link href={`/users/${username}?tab=questions`} className="text-zinc-500 text-xs sm:text-sm">
+                            {data.totalQuestions === 1
+                                ? "View the 1 question"
+                                : `View all ${data.totalQuestions} questions`
+                            }
+                        </Link>
+                    )}
                 </div>
                 <PostTabs
                     tabs={userSummaryQuestionsTabs}

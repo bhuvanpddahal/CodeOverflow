@@ -3,27 +3,32 @@
 import { db } from "@/lib/db";
 import { GetUsersPayload, GetUsersValidator } from "@/lib/validators/user";
 
-export const getUsers= async (payload: GetUsersPayload) => {
+export const getUsers = async (payload: GetUsersPayload) => {
     try {
         const validatedFields = GetUsersValidator.safeParse(payload);
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const { tab, page, limit } = validatedFields.data;
+        let whereClause = {};
         let orderByClause = {};
 
-        if(tab === "mature") {
-            // TODO - Only return the users who have answered at least 10 questions
+        if (tab === "mature") {
+            // Users who have answered at least 10 questions
+            whereClause = {
+
+            };
             orderByClause = {
                 answers: {
                     _count: "desc"
                 }
             };
-        } else if(tab === "new-users") {
+        } else if (tab === "new-users") {
+            // Users that have joined less than 2 months ago
             orderByClause = {
                 createdAt: "desc"
             };
-        } else if(tab === "voters") {
-            // TODO - Only return the users who have voted at least one question
+        } else if (tab === "voters") {
+            // Users who have voted at least 10 posts
             orderByClause = {
                 questionVotes: {
                     _count: "desc"
@@ -32,7 +37,7 @@ export const getUsers= async (payload: GetUsersPayload) => {
         }
 
         const users = await db.user.findMany({
-            where: {},
+            where: whereClause,
             orderBy: orderByClause,
             take: limit,
             skip: (page - 1) * limit,
