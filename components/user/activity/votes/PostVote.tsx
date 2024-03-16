@@ -55,12 +55,12 @@ const PostVote = ({
                 {type === "UP" ? (
                     <IoMdArrowDropup
                         title="up voted"
-                        className="h-9 w-9 border border-orange-300 text-orange-800 rounded-full"
+                        className="h-9 w-9 border border-slate-400 text-slate-800 rounded-full"
                     />
                 ) : (
                     <IoMdArrowDropdown
                         title="down voted"
-                        className="h-9 w-9 border border-orange-300 text-orange-800 rounded-full"
+                        className="h-9 w-9 border border-slate-400 text-slate-800 rounded-full"
                     />
                 )}
                 {postType === "ANSWER" ? (
@@ -91,7 +91,7 @@ const PostVote = ({
                         </span>
                     )}
                 </div>
-                <Link href={`/questions/${questionId}`} className="inline-block text-blue-700 line-clamp-1 -mb-2 hover:text-blue-800">
+                <Link href={`/questions/${questionId}`} className="inline-block text-blue-700 line-clamp-1 -mb-1 hover:text-blue-800">
                     {title}
                 </Link>
                 <div className="flex items-center justify-between gap-3 flex-wrap">

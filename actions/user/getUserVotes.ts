@@ -12,12 +12,9 @@ export const getUserVotes = async (payload: GetUserVotesPayload) => {
         const validatedFields = GetUserVotesValidator.safeParse(payload);
         if (!validatedFields.success) throw new Error("Invalid fields");
 
-        const { userId, sort, page, limit, date } = validatedFields.data;
+        const { userId, sort, page, limit } = validatedFields.data;
         let whereClause = {
-            voterId: userId,
-            votedAt: {
-                lt: date
-            }
+            voterId: userId
         };
         let votes: (QuestionVotesType | AnswerVotesType)[] = [];
         let totalVotes = 0, lastPage = 0;
@@ -25,65 +22,264 @@ export const getUserVotes = async (payload: GetUserVotesPayload) => {
         const ANSWER = "ANSWER";
 
         if (sort === "all") {
-            const answerVotes = await db.answerVote.findMany({
-                where: whereClause,
-                take: limit,
-                select: {
-                    type: true,
-                    answer: {
-                        select: {
-                            votes: {
-                                select: {
-                                    type: true
+            const postSkip = ((page - 1) * limit) / 2;
+            const answerVotesCount = await db.answerVote.count({
+                where: { voterId: userId }
+            });
+            const questionVotesCount = await db.questionVote.count({
+                where: { voterId: userId }
+            });
+            let answerVotes: (Omit<AnswerVotesType, "postType">)[] = [];
+            let questionVotes: (Omit<QuestionVotesType, "postType">)[] = [];
+
+            if (answerVotesCount <= postSkip) {
+                const totalSkippedQuestionVotes = postSkip * 2 - answerVotesCount;
+                questionVotes = await db.questionVote.findMany({
+                    where: whereClause,
+                    take: limit,
+                    skip: totalSkippedQuestionVotes,
+                    select: {
+                        type: true,
+                        question: {
+                            select: {
+                                id: true,
+                                votes: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                answers: {
+                                    select: {
+                                        id: true
+                                    }
+                                },
+                                views: true,
+                                title: true,
+                                tags: {
+                                    select: {
+                                        name: true
+                                    }
                                 }
-                            },
-                            question: {
-                                select: {
-                                    id: true,
-                                    title: true,
-                                    tags: {
-                                        select: {
-                                            name: true
+                            }
+                        },
+                        votedAt: true
+                    }
+                });
+            } else if (questionVotesCount <= postSkip) {
+                const totalSkippedAnswerVotes = postSkip * 2 - answerVotesCount;
+                answerVotes = await db.answerVote.findMany({
+                    where: whereClause,
+                    take: limit,
+                    skip: totalSkippedAnswerVotes,
+                    select: {
+                        type: true,
+                        answer: {
+                            select: {
+                                votes: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                question: {
+                                    select: {
+                                        id: true,
+                                        title: true,
+                                        tags: {
+                                            select: {
+                                                name: true
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    },
-                    votedAt: true
-                }
-            });
-
-            const questionVotes = await db.questionVote.findMany({
-                where: whereClause,
-                take: limit,
-                select: {
-                    type: true,
-                    question: {
-                        select: {
-                            id: true,
-                            votes: {
-                                select: {
-                                    type: true
-                                }
-                            },
-                            answers: {
-                                select: {
-                                    id: true
-                                }
-                            },
-                            views: true,
-                            title: true,
-                            tags: {
-                                select: {
-                                    name: true
+                        },
+                        votedAt: true
+                    }
+                });
+            } else if (answerVotesCount - postSkip < limit / 2) {
+                answerVotes = await db.answerVote.findMany({
+                    where: whereClause,
+                    take: limit,
+                    skip: postSkip,
+                    select: {
+                        type: true,
+                        answer: {
+                            select: {
+                                votes: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                question: {
+                                    select: {
+                                        id: true,
+                                        title: true,
+                                        tags: {
+                                            select: {
+                                                name: true
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    },
-                    votedAt: true
-                }
-            });
+                        },
+                        votedAt: true
+                    }
+                });
+                questionVotes = await db.questionVote.findMany({
+                    where: whereClause,
+                    take: limit + postSkip - answerVotesCount,
+                    skip: postSkip,
+                    select: {
+                        type: true,
+                        question: {
+                            select: {
+                                id: true,
+                                votes: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                answers: {
+                                    select: {
+                                        id: true
+                                    }
+                                },
+                                views: true,
+                                title: true,
+                                tags: {
+                                    select: {
+                                        name: true
+                                    }
+                                }
+                            }
+                        },
+                        votedAt: true
+                    }
+                });
+            } else if (questionVotesCount - postSkip < limit / 2) {
+                questionVotes = await db.questionVote.findMany({
+                    where: whereClause,
+                    take: limit,
+                    skip: postSkip,
+                    select: {
+                        type: true,
+                        question: {
+                            select: {
+                                id: true,
+                                votes: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                answers: {
+                                    select: {
+                                        id: true
+                                    }
+                                },
+                                views: true,
+                                title: true,
+                                tags: {
+                                    select: {
+                                        name: true
+                                    }
+                                }
+                            }
+                        },
+                        votedAt: true
+                    }
+                });
+                answerVotes = await db.answerVote.findMany({
+                    where: whereClause,
+                    take: limit + postSkip - questionVotesCount,
+                    skip: postSkip,
+                    select: {
+                        type: true,
+                        answer: {
+                            select: {
+                                votes: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                question: {
+                                    select: {
+                                        id: true,
+                                        title: true,
+                                        tags: {
+                                            select: {
+                                                name: true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        votedAt: true
+                    }
+                });
+            } else {
+                answerVotes = await db.answerVote.findMany({
+                    where: whereClause,
+                    take: limit,
+                    skip: postSkip,
+                    select: {
+                        type: true,
+                        answer: {
+                            select: {
+                                votes: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                question: {
+                                    select: {
+                                        id: true,
+                                        title: true,
+                                        tags: {
+                                            select: {
+                                                name: true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        votedAt: true
+                    }
+                });
+                questionVotes = await db.questionVote.findMany({
+                    where: whereClause,
+                    take: limit,
+                    skip: postSkip,
+                    select: {
+                        type: true,
+                        question: {
+                            select: {
+                                id: true,
+                                votes: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                answers: {
+                                    select: {
+                                        id: true
+                                    }
+                                },
+                                views: true,
+                                title: true,
+                                tags: {
+                                    select: {
+                                        name: true
+                                    }
+                                }
+                            }
+                        },
+                        votedAt: true
+                    }
+                });
+            }
 
             // Adding the respective postTypes to differentiate the votes
             const finalAnswerVotes: AnswerVotesType[] = answerVotes.map((vote) => ({ ...vote, postType: ANSWER }));
@@ -97,22 +293,16 @@ export const getUserVotes = async (payload: GetUserVotesPayload) => {
             // Grab only the latest 10 votes
             votes = allVotes.slice(0, 11);
 
-            const answerVotesCount = await db.answerVote.count({
-                where: { voterId: userId }
-            });
-            const questionVotesCount = await db.questionVote.count({
-                where: { voterId: userId }
-            });
-
             totalVotes = answerVotesCount + questionVotesCount;
             lastPage = Math.ceil(totalVotes / limit);
         } else if (sort === "answer") {
             const answerVotes = await db.answerVote.findMany({
                 where: whereClause,
-                take: limit,
                 orderBy: {
                     votedAt: "desc"
                 },
+                take: limit,
+                skip: (page - 1) * limit,
                 select: {
                     type: true,
                     answer: {
@@ -154,6 +344,7 @@ export const getUserVotes = async (payload: GetUserVotesPayload) => {
                     votedAt: "desc"
                 },
                 take: limit,
+                skip: (page - 1) * limit,
                 select: {
                     type: true,
                     question: {

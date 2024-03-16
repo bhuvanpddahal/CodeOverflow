@@ -29,7 +29,7 @@ const VotesContent = ({
     const sort = searchParams.get("sort") || "all";
 
     const fetchVotes = async () => {
-        const payload = { userId, sort: sort as Sort, page: Number(page), limit: USERS_VOTES_PER_PAGE, date: new Date() };
+        const payload = { userId, sort: sort as Sort, page: Number(page), limit: USERS_VOTES_PER_PAGE };
         const data = await getUserVotes(payload);
         return data as VotesData;
     };

@@ -57,8 +57,7 @@ export const GetUserVotesValidator = z.object({
     userId: z.string(),
     page: z.number(),
     limit: z.number(),
-    sort: z.enum(["all", "question", "answer"]),
-    date: z.date()
+    sort: z.enum(["all", "question", "answer"])
 });
 
 export type GetUserPayload = z.infer<typeof GetUserValidator>;
