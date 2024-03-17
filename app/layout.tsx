@@ -1,8 +1,10 @@
 import "./globals.css";
-import { Figtree } from "next/font/google";
+
 import type { Metadata } from "next";
+import { Figtree } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/Toaster";
@@ -29,8 +31,11 @@ export default async function RootLayout({
             <body className={figtree.className}>
                 <Providers session={session}>
                     <Navbar />
-                    {children}
+                    <div className="container">
+                        {children}
+                    </div>
                     <Toaster />
+                    <Footer />
                 </Providers>
             </body>
         </html>

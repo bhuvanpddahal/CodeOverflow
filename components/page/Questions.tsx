@@ -10,13 +10,13 @@ import QuestionsPage from "../question/Questions";
 import { buttonVariants } from "../ui/Button";
 import { QuestionData } from "@/types/question";
 import { InfiniteQueryFnProps } from "@/types/util";
-import { QUESTIONS_PER_PAGE, homeTabs } from "@/constants";
 import { getQuestions } from "@/actions/question/getQuestions";
+import { QUESTIONS_PER_PAGE, questionsTabs } from "@/constants";
 
 type Tab = "newest" | "unanswered" | "score";
 
 const isValidTab = (value: string) => {
-    const isValid = homeTabs.find((tab) => tab.value === value);
+    const isValid = questionsTabs.find((tab) => tab.value === value);
     if(!!isValid) return true;
     return false;
 };
@@ -60,13 +60,13 @@ const Questions = () => {
             <section className="flex-1">
                 <div className="pl-4">
                     <header className="flex items-enter justify-between">
-                        <h1 className="text-xl sm:text-2xl font-medium text-zinc-800">Top Questions</h1>
+                        <h1 className="text-xl sm:text-2xl font-medium text-zinc-800">All Questions</h1>
                         <Link href="/questions/ask" className={buttonVariants()}>Ask Question</Link>
                     </header>
                     <div className="flex justify-end my-4">
                         <TabsBox
-                            route="/home"
-                            tabs={homeTabs}
+                            route="/questions"
+                            tabs={questionsTabs}
                             value={tab}
                         />
                     </div>

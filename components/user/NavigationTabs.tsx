@@ -26,7 +26,7 @@ const NavigationTabs = ({
             {isCurrentUser && (
                 <>
                     <li>
-                        <Link href={`/users/${username}?tab=saves`} className={`rounded-3xl px-3 py-1.5 ${activeTab === "saves" ? "text-white bg-amber-600 hover:bg-amber-800" : "hover:bg-zinc-200"}`}>
+                        <Link href={`/users/${username}/saves`} className={`rounded-3xl px-3 py-1.5 ${activeTab === "saves" ? "text-white bg-amber-600 hover:bg-amber-800" : "hover:bg-zinc-200"}`}>
                             Saves
                         </Link>
                     </li>

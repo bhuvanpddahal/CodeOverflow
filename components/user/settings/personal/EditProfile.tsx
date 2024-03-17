@@ -29,6 +29,7 @@ import {
 } from "@/lib/validators/user";
 import { Input } from "@/components/ui/Input";
 import { editProfile } from "@/actions/user/editProfile";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { Button, buttonVariants } from "@/components/ui/Button";
 
 interface EditProfileProps {
@@ -58,6 +59,7 @@ const EditProfile = ({
 }: EditProfileProps) => {
     const router = useRouter();
     const editor = useRef(null);
+    const user = useCurrentUser();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [isLoading, startTransition] = useTransition();
@@ -105,6 +107,11 @@ const EditProfile = ({
             }) => {
                 if (data.success) {
                     setSuccess(data.success);
+                    if(user) {
+                        user.image = form.getValues("image");
+                        user.name = form.getValues("name");
+                        user.username = form.getValues("username");
+                    }
                     router.push(`/users/${form.getValues("username")}/edit`);
                 }
                 if (data.error) {

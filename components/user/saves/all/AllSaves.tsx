@@ -5,8 +5,8 @@ import { notFound, useSearchParams } from "next/navigation";
 
 import SavedItem from "./SavedItem";
 import Loader from "@/components/Loader";
-import PaginationBox from "@/components/PaginationBox";
 import PostTabsLink from "../../activity/PostTabsLink";
+import PaginationBox from "@/components/PaginationBox";
 import { Button } from "@/components/ui/Button";
 import {
     SAVED_ITEMS_PER_PAGE,

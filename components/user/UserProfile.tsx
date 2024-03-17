@@ -28,9 +28,9 @@ interface UserProfileProps {
 }
 
 const UserProfile = ({ activeTab, username }: UserProfileProps) => {
+    const currentUser = useCurrentUser();
     const searchParams = useSearchParams();
     const tab = searchParams.get("tab") || activeTab || "activity";
-    const currentUser = useCurrentUser();
 
     const fetchUser = async () => {
         const payload = { username };

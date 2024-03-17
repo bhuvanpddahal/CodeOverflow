@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import Sidebar from "@/components/Sidebar";
 
 const Layout = ({
@@ -12,7 +11,6 @@ const Layout = ({
                 <Sidebar />
                 {children}
             </div>
-            <Footer />
         </>
     )
 };
