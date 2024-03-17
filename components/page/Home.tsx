@@ -13,6 +13,8 @@ import { QuestionData } from "@/types/question";
 import { InfiniteQueryFnProps } from "@/types/util";
 import { getQuestions } from "@/actions/question/getQuestions";
 
+type Tab = "interesting" | "hot" | "week" | "month";
+
 const isValidTab = (value: string) => {
     const isValid = homeTabs.find((tab) => tab.value === value);
     if(!!isValid) return true;
@@ -25,7 +27,7 @@ const Home = () => {
     const tab = searchParams.get("tab") || "interesting";
 
     const fetchQuestions = async ({ pageParam }: InfiniteQueryFnProps) => {
-        const payload = { tab, page: pageParam, limit };
+        const payload = { tab: tab as Tab, page: pageParam, limit };
         const data = await getQuestions(payload);
         return data as QuestionData;
     };
