@@ -12,13 +12,13 @@ export const getTaggedQuestions = async (payload: GetTaggedQuestionsPayload) => 
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const { tagId, tab, page, limit } = validatedFields.data;
-        let orderByCaluse = {};
+        let orderByClause = {};
         let whereClause = {
             tagIds: { has: tagId }
         };
         
         if (tab === "newest") {
-            orderByCaluse = { askedAt: "desc" };
+            orderByClause = { askedAt: "desc" };
         } else if (tab === "unanswered") {
             const newWhereClause = {
                 tagIds: { has: tagId },
@@ -32,14 +32,14 @@ export const getTaggedQuestions = async (payload: GetTaggedQuestionsPayload) => 
             };
             whereClause = newWhereClause;
         } else if(tab === "score") {
-            orderByCaluse = {
+            orderByClause = {
                 votes: { _count:  "desc" }
             };
         }
 
         const questions = await db.question.findMany({
             where: whereClause,
-            orderBy: orderByCaluse,
+            orderBy: orderByClause,
             take: limit,
             skip: (page - 1) * limit,
             include: {

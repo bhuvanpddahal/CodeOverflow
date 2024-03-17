@@ -20,12 +20,14 @@ interface QuestionsProps {
     questions: ExtendedQuestion[] | undefined;
     fetchNextPage: (options?: FetchNextPageOptions | undefined) => Promise<InfiniteQueryObserverResult<InfiniteData<QuestionData, unknown>, Error>>;
     hasNextPage: boolean;
+    showDetails?: boolean;
 }
 
 const Questions = ({
     questions,
     fetchNextPage,
-    hasNextPage
+    hasNextPage,
+    showDetails = false
 }: QuestionsProps) => {
     const user = useCurrentUser();
     const { ref, inView } = useInView();
@@ -66,6 +68,7 @@ const Questions = ({
                                 setWatchedTagIds={setWatchedTagIds}
                                 setIgnoredTagIds={setIgnoredTagIds}
                                 setShowAuthModal={setShowAuthModal}
+                                showDetails={showDetails}
                                 lastQuestionRef={ref}
                             />
                         } else {
@@ -87,6 +90,7 @@ const Questions = ({
                                 setWatchedTagIds={setWatchedTagIds}
                                 setIgnoredTagIds={setIgnoredTagIds}
                                 setShowAuthModal={setShowAuthModal}
+                                showDetails={showDetails}
                             />
                         }
                     })

@@ -20,8 +20,14 @@ export const GetQuestionValidator = z.object({
     questionId: z.string()
 });
 
-export const GetQuestionsValidator = z.object({
+export const GetHomeQuestionsValidator = z.object({
     tab: z.enum(["interesting", "hot", "week", "month"]),
+    page: z.number(),
+    limit: z.number()
+});
+
+export const GetQuestionsValidator = z.object({
+    tab: z.enum(["newest", "unanswered", "score"]),
     page: z.number(),
     limit: z.number()
 });
@@ -47,6 +53,7 @@ export const GetUserTopQuestionsValidator = z.object({
 
 export type QuestionPayload = z.infer<typeof QuestionValidator>;
 export type GetQuestionPayload = z.infer<typeof GetQuestionValidator>;
+export type GetHomeQuestionsPayload = z.infer<typeof GetHomeQuestionsValidator>;
 export type GetQuestionsPayload = z.infer<typeof GetQuestionsValidator>;
 export type GetTaggedQuestionsPayload = z.infer<typeof GetTaggedQuestionsValidator>;
 export type GetUserQuestionsPayload = z.infer<typeof GetUserQuestionsValidator>;

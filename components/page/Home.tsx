@@ -7,11 +7,11 @@ import { notFound, useSearchParams } from "next/navigation";
 import Loader from "../Loader";
 import TabsBox from "../TabsBox";
 import Questions from "../question/Questions";
-import { homeTabs } from "@/constants";
 import { buttonVariants } from "../ui/Button";
 import { QuestionData } from "@/types/question";
 import { InfiniteQueryFnProps } from "@/types/util";
-import { getQuestions } from "@/actions/question/getQuestions";
+import { QUESTIONS_PER_PAGE, homeTabs } from "@/constants";
+import { getHomeQuestions } from "@/actions/question/getHomeQuestions";
 
 type Tab = "interesting" | "hot" | "week" | "month";
 
@@ -22,13 +22,12 @@ const isValidTab = (value: string) => {
 };
 
 const Home = () => {
-    const limit = 3;
     const searchParams = useSearchParams();
     const tab = searchParams.get("tab") || "interesting";
 
     const fetchQuestions = async ({ pageParam }: InfiniteQueryFnProps) => {
-        const payload = { tab: tab as Tab, page: pageParam, limit };
-        const data = await getQuestions(payload);
+        const payload = { tab: tab as Tab, page: pageParam, limit: QUESTIONS_PER_PAGE };
+        const data = await getHomeQuestions(payload);
         return data as QuestionData;
     };
 

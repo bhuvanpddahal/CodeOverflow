@@ -35,20 +35,12 @@ export const questionsTabs = [
         value: "newest"
     },
     {
-        name: "Active",
-        value: "active"
-    },
-    {
-        name: "Bountied",
-        value: "bountied"
-    },
-    {
         name: "Unanswered",
         value: "unanswered"
     },
     {
-        name: "More",
-        value: "more"
+        name: "Score",
+        value: "score"
     }
 ];
 
