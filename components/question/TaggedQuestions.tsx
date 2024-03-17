@@ -23,6 +23,8 @@ import { getTaggedQuestions } from "@/actions/question/getTaggedQuestions";
 import { IgnoreType, IgnoreValues, WatchType, WatchValues } from "@/types/tag";
 import Question from "./Question";
 
+type Tab = "newest" | "unanswered" | "score";
+
 interface TaggedQuestionsProps {
     name: string;
 }
@@ -74,8 +76,7 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
 
     const fetchQuestions = async () => {
         if (tag) {
-            // @ts-ignore
-            const payload = { tagId: tag.id, tab, page: Number(page), limit: QUESTIONS_PER_PAGE };
+            const payload = { tagId: tag.id, tab: tab as Tab, page: Number(page), limit: QUESTIONS_PER_PAGE };
             const data = await getTaggedQuestions(payload);
             return data as TaggedData;
         }

@@ -28,7 +28,7 @@ export const GetQuestionsValidator = z.object({
 
 export const GetTaggedQuestionsValidator = z.object({
     tagId: z.string(),
-    tab: z.string(),
+    tab: z.enum(["newest", "unanswered", "score"]),
     page: z.number(),
     limit: z.number()
 });

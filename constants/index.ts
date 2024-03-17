@@ -73,10 +73,6 @@ export const taggedQuestionsTabs = [
         value: "newest"
     },
     {
-        name: "Bountied",
-        value: "bountied"
-    },
-    {
         name: "Unanswered",
         value: "unanswered"
     },

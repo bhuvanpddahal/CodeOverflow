@@ -19,8 +19,6 @@ export const getTaggedQuestions = async (payload: GetTaggedQuestionsPayload) => 
         
         if (tab === "newest") {
             orderByCaluse = { askedAt: "desc" };
-        } else if (tab === "bountied") {
-            orderByCaluse = { };
         } else if (tab === "unanswered") {
             const newWhereClause = {
                 tagIds: { has: tagId },
