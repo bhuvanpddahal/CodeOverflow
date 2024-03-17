@@ -14,6 +14,7 @@ import { usePathname } from "next/navigation";
 import { PiBagSimpleFill } from "react-icons/pi";
 import { RiQuestionnaireFill } from "react-icons/ri";
 
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { useOnClickOutside } from "@/hooks/use-on-click-outside";
 
 interface MobileSidebarProps {
@@ -22,6 +23,7 @@ interface MobileSidebarProps {
 }
 
 const MobileSidebar = ({ setShowSidebar, showMenu }: MobileSidebarProps) => {
+    const user = useCurrentUser();
     const pathname = usePathname();
     const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -53,12 +55,14 @@ const MobileSidebar = ({ setShowSidebar, showMenu }: MobileSidebarProps) => {
             </ul>
 
             <ul className="text-[15px] mt-4">
-                <li>
-                    <Link href="/saves" className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-md ${pathname.includes("/saves") ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
-                        <IoBookmark className={`h-5 w-5 ${pathname.includes("/saves") ? "text-zinc-800" : "text-zinc-700"}`} />
-                        Saves
-                    </Link>
-                </li>
+                {!!user && (
+                    <li>
+                        <Link href={`/users/${user.username}/saves`} className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-md ${pathname.includes("/saves") ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
+                            <IoBookmark className={`h-5 w-5 ${pathname.includes("/saves") ? "text-zinc-800" : "text-zinc-700"}`} />
+                            Saves
+                        </Link>
+                    </li>
+                )}
                 <li>
                     <Link href="/users" className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-md ${pathname.includes("/users") ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
                         <ImUsers className={`h-5 w-5 ${pathname.includes("/users") ? "text-zinc-800" : "text-zinc-700"}`} />

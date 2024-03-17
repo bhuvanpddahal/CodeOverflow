@@ -16,10 +16,6 @@ export const homeTabs = [
         value: "interesting"
     },
     {
-        name: "Bountied",
-        value: "bountied"
-    },
-    {
         name: "Hot",
         value: "hot"
     },

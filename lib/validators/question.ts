@@ -21,7 +21,7 @@ export const GetQuestionValidator = z.object({
 });
 
 export const GetQuestionsValidator = z.object({
-    tab: z.string(),
+    tab: z.enum(["interesting", "hot", "week", "month"]),
     page: z.number(),
     limit: z.number()
 });
