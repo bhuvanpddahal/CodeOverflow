@@ -31,9 +31,7 @@ export default async function RootLayout({
             <body className={figtree.className}>
                 <Providers session={session}>
                     <Navbar />
-                    <div className="container">
-                        {children}
-                    </div>
+                    {children}
                     <Toaster />
                     <Footer />
                 </Providers>
