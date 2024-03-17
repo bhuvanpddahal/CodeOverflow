@@ -7,7 +7,7 @@ const Layout = ({
 }) => {
     return (
         <>
-            <div className="container flex">
+            <div className="container px-0 sm:px-2 md:px-8 flex">
                 <Sidebar />
                 {children}
             </div>

@@ -18,28 +18,33 @@ const Navbar = () => {
     const pathname = usePathname();
     const [showSidebar, setShowSidebar] = useState(false);
     const showMenu = pathname === "/log-in" || pathname === "/sign-up" || pathname === "/questions/ask" || pathname === "/questions/:id/edit";
+
+    const toggleSidebar = () => {
+        setShowSidebar((prev) => !prev);
+    };
     
     return (
-        <nav className="bg-white h-[57px] sticky top-0 py-2 border-b border-zinc-300 z-10">
-            {showSidebar && (
-                <MobileSidebar
-                    setShowSidebar={setShowSidebar}
-                    showMenu={showMenu}
-                />
-            )}
+        <nav className="bg-white h-[57px] sticky top-0 border-b border-zinc-300 z-10">
+            <div className="container h-full pl-0 pr-2 sm:px-4 md:px-8 flex items-center justify-between gap-3">
+                <div className="h-full flex">
+                    <div className={`relative h-full ${showMenu ? "" : "sm:hidden"}`}>
+                        {showSidebar && (
+                            <MobileSidebar
+                                setShowSidebar={setShowSidebar}
+                                showMenu={showMenu}
+                            />
+                        )}
+                        <div className="h-full px-3 flex items-center cursor-pointer hover:bg-zinc-200" onClick={toggleSidebar}>
+                            <MdMenu
+                                className={`h-6 w-6 shrink-0 text-slate-700 ${showSidebar ? 'hidden' : 'block'} ${showMenu ? "" : "sm:hidden"}`}
+                            />
+                            <IoMdClose
+                                className={`h-6 w-6 shrink-0 text-slate-700 ${showSidebar ? 'block' : 'hidden'} ${showMenu ? "" : "sm:hidden"}`}
+                            />
+                        </div>
+                    </div>
 
-            <div className="container px-4 md:px-8 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                    <MdMenu
-                        className={`h-6 w-6 shrink-0 text-slate-700 cursor-pointer ${showSidebar ? 'hidden' : 'block'} ${showMenu ? "" : "sm:hidden"}`}
-                        onClick={() => setShowSidebar(true)}
-                    />
-                    <IoMdClose
-                        className={`h-6 w-6 shrink-0 text-slate-700 cursor-pointer ${showSidebar ? 'block' : 'hidden'} ${showMenu ? "" : "sm:hidden"}`}
-                        onClick={() => setShowSidebar(false)}
-                    />
-
-                    <Link href='/'>
+                    <Link href='/' className="h-full px-2 flex items-center rounded-sm cursor-pointer hover:bg-zinc-200">
                         <img
                             src="/images/logos/main-logo.svg"
                             alt="code-overflow-logo"
@@ -55,7 +60,7 @@ const Navbar = () => {
 
                 <Searchbar />
 
-                <div className="flex gap-2">
+                <div className="h-full flex gap-2">
                     {!!user ? (
                         <UserAccountNav
                             user={user}

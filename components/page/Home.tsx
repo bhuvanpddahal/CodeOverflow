@@ -56,9 +56,9 @@ const Home = () => {
     if (!isValidTab(tab)) return notFound();
 
     return (
-        <div className="flex-1 flex flex-col lg:flex-row gap-4 py-4 pr-4">
+        <div className="flex-1 flex flex-col lg:flex-row gap-4 py-4 sm:pr-4">
             <section className="flex-1">
-                <div className="pl-4">
+                <div className="pl-4 pr-4 sm:pr-0">
                     <header className="flex items-enter justify-between">
                         <h1 className="text-xl sm:text-2xl font-medium text-zinc-800">Top Questions</h1>
                         <Link href="/questions/ask" className={buttonVariants()}>Ask Question</Link>
