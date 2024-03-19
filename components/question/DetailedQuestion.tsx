@@ -12,8 +12,8 @@ import { Loader2 } from "lucide-react";
 import { LiaEdit } from "react-icons/lia";
 import { usePrevious } from "@mantine/hooks";
 import { useMutation } from "@tanstack/react-query";
-import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { QuestionVote, Tag, VoteType } from "@prisma/client";
+import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 
 import Hint from "../Hint";
 import UserAvatar from "../UserAvatar";
@@ -23,6 +23,13 @@ import { saveItem } from "@/actions/user/saveItem";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { QuestionVotePayload } from "@/lib/validators/vote";
 import { voteQuestion } from "@/actions/question/voteQuestion";
+
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+  } from "@/components/ui/Tooltip";
 
 type PayloadType = "save" | "unsave";
 
@@ -129,7 +136,8 @@ const DetailedQuestion = ({
                     label="This question shows research effort; it is useful and clear"
                     side="right"
                     align="start"
-                    sideOffset={18}
+                    sideOffset={12}
+                    width={260}
                 >
                     <IoMdArrowDropup
                         className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
@@ -141,7 +149,8 @@ const DetailedQuestion = ({
                     label="This question does not show any research effort; it is unclear or not useful"
                     side="right"
                     align="center"
-                    sideOffset={18}
+                    sideOffset={12}
+                    width={260}
                 >
                     <IoMdArrowDropdown
                         className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
@@ -163,18 +172,16 @@ const DetailedQuestion = ({
                     </Hint>
                 )}
                 {!!user && (
-                    <Hint
-                        label={isSaveLoading ? undefined : isQuestionSaved
-                            ? "Unsave this question" : "Save this question"
-                        }
-                        side="right"
-                        align="center"
-                        sideOffset={18}
-                    >
-                        {isSaveLoading ? (
-                            <Loader2 className="h-5 w-5 animate-spin text-slate-700" />
-                        ) : (
-                            isQuestionSaved ? (
+                    isSaveLoading ? (
+                        <Loader2 className="h-5 w-5 animate-spin text-slate-700" />
+                    ) : (
+                        <Hint
+                            label={isQuestionSaved ? "Unsave this question" : "Save this question"}
+                            side="right"
+                            align="center"
+                            sideOffset={18}
+                        >
+                            {isQuestionSaved ? (
                                 <IoBookmark
                                     className="h-5 w-5 text-amber-500 hover:text-amber-600 cursor-pointer"
                                     onClick={() => save("unsave")}
@@ -185,8 +192,9 @@ const DetailedQuestion = ({
                                     onClick={() => save("save")}
                                 />
                             )
-                        )}
-                    </Hint>
+                            }
+                        </Hint>
+                    )
                 )}
             </div>
             <div className="flex-1">

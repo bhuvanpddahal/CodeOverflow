@@ -117,7 +117,7 @@ const Answer = ({
                     label="This answer is useful"
                     side="right"
                     align="center"
-                    sideOffset={18}
+                    sideOffset={12}
                 >
                     <IoMdArrowDropup
                         className={`h-9 w-9 border ${currentVote === "UP" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
@@ -129,7 +129,7 @@ const Answer = ({
                     label="This answer is not useful"
                     side="right"
                     align="center"
-                    sideOffset={18}
+                    sideOffset={12}
                 >
                     <IoMdArrowDropdown
                         className={`h-9 w-9 border ${currentVote === "DOWN" ? "border-orange-300 text-orange-800" : "border-zinc-300 text-zinc-800"} rounded-full cursor-pointer hover:bg-orange-100`}
@@ -137,18 +137,16 @@ const Answer = ({
                     />
                 </Hint>
                 {!!user && (
-                    <Hint
-                        label={isSaveLoading ? undefined : isAnswerSaved
-                            ? "Unsave this answer" : "Save this answer"
-                        }
-                        side="right"
-                        align="center"
-                        sideOffset={18}
-                    >
-                        {isSaveLoading ? (
-                            <Loader2 className="h-5 w-5 animate-spin text-slate-700" />
-                        ) : (
-                            isAnswerSaved ? (
+                    isSaveLoading ? (
+                        <Loader2 className="h-5 w-5 animate-spin text-slate-700" />
+                    ) : (
+                        <Hint
+                            label={isAnswerSaved ? "Unsave this answer" : "Save this answer"}
+                            side="right"
+                            align="center"
+                            sideOffset={18}
+                        >
+                            {isAnswerSaved ? (
                                 <IoBookmark
                                     className="h-5 w-5 text-amber-500 hover:text-amber-600 cursor-pointer"
                                     onClick={() => save("unsave")}
@@ -159,8 +157,9 @@ const Answer = ({
                                     onClick={() => save("save")}
                                 />
                             )
-                        )}
-                    </Hint>
+                            }
+                        </Hint>
+                    )
                 )}
             </div>
             <div className="flex-1">

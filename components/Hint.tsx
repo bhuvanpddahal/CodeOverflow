@@ -7,11 +7,12 @@ import {
 
 interface HintProps {
     children: React.ReactNode;
-    label: string | undefined;
+    label: string;
     side?: "top" | "bottom" | "left" | "right";
     align?: "start" | "center" | "end";
     sideOffset?: number;
     alignOffset?: number;
+    width?: number;
 }
 
 const Hint = ({
@@ -20,26 +21,24 @@ const Hint = ({
     side,
     align,
     sideOffset,
-    alignOffset
+    alignOffset,
+    width
 }: HintProps) => {
     return (
         <TooltipProvider>
-            <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-                    {children}
-                </TooltipTrigger>
-                {label && (
-                    <TooltipContent
-                        side={side}
-                        align={align}
-                        sideOffset={sideOffset}
-                        alignOffset={alignOffset}
-                    >
-                        <p className="text-sm text-zinc-700">
-                            {label}
-                        </p>
-                    </TooltipContent>
-                )}
+            <Tooltip>
+                <TooltipTrigger>{children}</TooltipTrigger>
+                <TooltipContent
+                    side={side}
+                    align={align}
+                    sideOffset={sideOffset}
+                    alignOffset={alignOffset}
+                    className={width ? `max-w-[${width}px]` : ""}
+                >
+                    <p>
+                        {label}
+                    </p>
+                </TooltipContent>
             </Tooltip>
         </TooltipProvider>
     )

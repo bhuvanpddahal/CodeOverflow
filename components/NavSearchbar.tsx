@@ -84,7 +84,7 @@ const NavSearchbar = () => {
 
             {input.length > 0 && (
                 <>
-                    <CommandList className="absolute bg-white top-full inset-x-0 shadow-md rounded-b-md">
+                    <CommandList className="absolute bg-white top-full border border-zinc-200 inset-x-0 shadow-md rounded-b-md">
                         {isFetching && <Loader />}
                         {(!isFetching && isFetched && !queryResult?.questions.length && !queryResult?.tags.length && !queryResult?.users.length) && (
                             <div className="text-zinc-400 text-sm text-center py-3">No results found.</div>
@@ -138,7 +138,7 @@ const NavSearchbar = () => {
                                     <CommandItem
                                         key={tag.name}
                                         onSelect={() => {
-                                            router.push(`/tagged/${tag.name}`);
+                                            router.push(`/questions/tagged/${tag.name}`);
                                             router.refresh();
                                         }}
                                         value={tag.name}
