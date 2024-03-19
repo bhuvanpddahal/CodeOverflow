@@ -8,9 +8,9 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Loader from "../Loader";
 import TabsBox from "../TabsBox";
-import Searchbar from "../Searchbar";
 import TagDetails from "../TagDetails";
 import AuthModal from "../auth/AuthModal";
+import MiniSearchbar from "../MiniSearchbar";
 import PaginationBox from "../PaginationBox";
 import {
     HoverCard,
@@ -95,8 +95,8 @@ const Tags = () => {
         isPending: isIgnoreLoading
     } = useMutation({
         mutationFn: async (values: IgnoreValues) => {
-                const payload = { tagId: values.tagId };
-                await ignoreTag(payload);
+            const payload = { tagId: values.tagId };
+            await ignoreTag(payload);
         },
         onSuccess: (_, values: IgnoreValues) => {
             if(!user) return;
@@ -134,7 +134,7 @@ const Tags = () => {
                 </header>
 
                 <div className="flex items-center justify-between mb-3">
-                    <Searchbar
+                    <MiniSearchbar
                         input={input}
                         setInput={setInput}
                         placeholder="Filter by tag name"

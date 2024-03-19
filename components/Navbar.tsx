@@ -6,7 +6,7 @@ import { MdMenu } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { usePathname } from "next/navigation";
 
-import Searchbar from "./NavSearchbar";
+import NavSearchbar from "./NavSearchbar";
 import MobileSidebar from "./MobileSidebar";
 import UserAccountNav from "./UserAccountNav";
 import { cn } from "@/lib/utils";
@@ -58,9 +58,9 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                <Searchbar />
+                <NavSearchbar />
 
-                <div className="h-full flex gap-2">
+                <div className="h-full flex items-center gap-2">
                     {!!user ? (
                         <UserAccountNav
                             user={user}

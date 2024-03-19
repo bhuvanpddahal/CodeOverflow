@@ -7,8 +7,8 @@ import { notFound, useSearchParams } from "next/navigation";
 
 import Loader from "../Loader";
 import TabsBox from "../TabsBox";
-import Searchbar from "../Searchbar";
 import UserAvatar from "../UserAvatar";
+import MiniSearchbar from "../MiniSearchbar";
 import PaginationBox from "../PaginationBox";
 import { UserData } from "@/types/user";
 import { getUsers } from "@/actions/user/getUsers";
@@ -56,7 +56,7 @@ const Users = () => {
             </header>
 
             <div className="flex items-center justify-between mb-8">
-                <Searchbar
+                <MiniSearchbar
                     input={input}
                     setInput={setInput}
                     placeholder="Filter by name"

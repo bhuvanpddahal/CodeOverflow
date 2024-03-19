@@ -23,7 +23,7 @@ const isValidTab = (value: string) => {
 
 const Questions = () => {
     const searchParams = useSearchParams();
-    const tab = searchParams.get("tab") || "interesting";
+    const tab = searchParams.get("tab") || "newest";
 
     const fetchQuestions = async ({ pageParam }: InfiniteQueryFnProps) => {
         const payload = { tab: tab as Tab, page: pageParam, limit: QUESTIONS_PER_PAGE };
@@ -56,9 +56,9 @@ const Questions = () => {
     if (!isValidTab(tab)) return notFound();
 
     return (
-        <div className="flex-1 flex flex-col lg:flex-row gap-4 py-4 pr-4">
+        <div className="flex-1 flex flex-col lg:flex-row gap-4 py-4 sm:pr-4">
             <section className="flex-1">
-                <div className="pl-4">
+                <div className="pl-4 pr-4 sm:pr-0">
                     <header className="flex items-enter justify-between">
                         <h1 className="text-xl sm:text-2xl font-medium text-zinc-800">All Questions</h1>
                         <Link href="/questions/ask" className={buttonVariants()}>Ask Question</Link>
