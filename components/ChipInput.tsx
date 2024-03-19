@@ -148,7 +148,7 @@ const ChipInput = ({
                             </li>
                         ))
                     ) : (
-                        <div className="text-zinc-400 text-sm text-center col-span-4 py-3">No tags found</div>
+                        <div className="text-zinc-400 text-sm text-center col-span-4 py-3">No tags found.</div>
                     )}
                 </ul>
             )}

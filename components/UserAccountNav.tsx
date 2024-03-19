@@ -28,7 +28,7 @@ interface UserAccountNavProps {
 const UserAccountNav = ({ user }: UserAccountNavProps) => {
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className="h-full">
                 <div className="h-full px-1.5 flex items-center rounded-sm cursor-pointer hover:bg-zinc-200">
                     <UserAvatar user={{
                         name: user.name,
@@ -59,7 +59,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href='/settings' className='flex items-center gap-2'>
+                    <Link href={`/users/${user.username}/settings`} className='flex items-center gap-2'>
                         <RiSettings3Line className='h-4 w-4 text-zinc-600' />
                         Settings
                     </Link>

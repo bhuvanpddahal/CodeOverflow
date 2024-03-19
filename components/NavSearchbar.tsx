@@ -11,8 +11,8 @@ import debounce from "lodash.debounce";
 import { ImFire } from "react-icons/im";
 import { MdCake } from "react-icons/md";
 import { IoStar } from "react-icons/io5";
+import { IoMdEye } from "react-icons/io";
 import { useQuery } from "@tanstack/react-query";
-import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { RiQuestionnaireFill } from "react-icons/ri";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -86,10 +86,10 @@ const NavSearchbar = () => {
                 <>
                     <CommandList className="absolute bg-white top-full inset-x-0 shadow-md rounded-b-md">
                         {isFetching && <Loader />}
-                        {(!isFetching && !queryResult?.questions.length && !queryResult?.tags.length && !queryResult?.users.length) && (
-                            <div>No results found.</div>
+                        {(!isFetching && isFetched && !queryResult?.questions.length && !queryResult?.tags.length && !queryResult?.users.length) && (
+                            <div className="text-zinc-400 text-sm text-center py-3">No results found.</div>
                         )}
-                        {(queryResult?.questions.length ?? 0) > 0 && (
+                        {(!isFetching && (queryResult?.questions.length ?? 0) > 0) && (
                             <CommandGroup heading="Questions">
                                 {queryResult?.questions.map((question) => {
                                     const votesAmt = question.votes.reduce((acc, vote) => {
@@ -116,14 +116,14 @@ const NavSearchbar = () => {
                                                     title={question.views.length === 1 ? "1 view" : `${question.views.length} views`}
                                                     className="flex items-center"
                                                 >
-                                                    <IoMdEye className="text-zinc-500 h-4 w-4 mr-0.5" />
+                                                    <IoMdEye className="text-zinc-400 h-4 w-4 mr-0.5" />
                                                     <span className="text-xs">{question.views.length}</span>
                                                 </div>
                                                 <div
                                                     title={votesAmt === 1 || votesAmt === -1 ? `${votesAmt} vote` : `${votesAmt} votes`}
                                                     className="flex items-center"
                                                 >
-                                                    <IoStar className="text-zinc-500 h-4 w-4 mr-0.5" />
+                                                    <IoStar className="text-zinc-400 h-4 w-4 mr-0.5" />
                                                     <span className="text-xs">{votesAmt}</span>
                                                 </div>
                                             </div>
@@ -132,13 +132,13 @@ const NavSearchbar = () => {
                                 })}
                             </CommandGroup>
                         )}
-                        {(queryResult?.tags.length ?? 0) > 0 && (
+                        {(!isFetching && (queryResult?.tags.length ?? 0) > 0) && (
                             <CommandGroup heading="Tags">
                                 {queryResult?.tags.map((tag) => (
                                     <CommandItem
                                         key={tag.name}
                                         onSelect={() => {
-                                            router.push(`/tags/${tag.name}`);
+                                            router.push(`/tagged/${tag.name}`);
                                             router.refresh();
                                         }}
                                         value={tag.name}
@@ -152,14 +152,14 @@ const NavSearchbar = () => {
                                                 title={tag.watcherIds.length === 1 ? "1 watcher" : `${tag.watcherIds.length} watchers`}
                                                 className="flex items-center"
                                             >
-                                                <ImFire className="text-zinc-500 h-4 w-4 mr-0.5" />
+                                                <ImFire className="text-zinc-400 h-4 w-4 mr-0.5" />
                                                 <span className="text-xs">{tag.watcherIds.length}</span>
                                             </div>
                                             <div
                                                 title={tag.questionIds.length === 1 ? "1 question" : `${tag.questionIds.length} questions`}
                                                 className="flex items-center"
                                             >
-                                                <RiQuestionnaireFill className="text-zinc-500 h-4 w-4 mr-0.5" />
+                                                <RiQuestionnaireFill className="text-zinc-400 h-4 w-4 mr-0.5" />
                                                 <span className="text-xs">{tag.questionIds.length}</span>
                                             </div>
                                         </div>
@@ -167,7 +167,7 @@ const NavSearchbar = () => {
                                 ))}
                             </CommandGroup>
                         )}
-                        {(queryResult?.users.length ?? 0) > 0 && (
+                        {(!isFetching && (queryResult?.users.length ?? 0) > 0) && (
                             <CommandGroup heading="Users">
                                 {queryResult?.users.map((user) => (
                                     <CommandItem
@@ -192,7 +192,7 @@ const NavSearchbar = () => {
                                             </div>
                                         </div>
                                         <div title={`Member from ${moment(user.createdAt).startOf('seconds').fromNow()}`} className="flex items-center">
-                                            <MdCake className="h-5 w-5 text-zinc-500 mr-0.5" />
+                                            <MdCake className="h-5 w-5 text-zinc-400 mr-0.5" />
                                             <span className="text-xs">{moment(user.createdAt).calendar()}</span>
                                         </div>
                                     </CommandItem>

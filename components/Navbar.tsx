@@ -22,7 +22,7 @@ const Navbar = () => {
     const toggleSidebar = () => {
         setShowSidebar((prev) => !prev);
     };
-    
+
     return (
         <nav className="bg-white h-[57px] sticky top-0 border-b border-zinc-300 z-10">
             <div className="container h-full pl-0 pr-2 sm:px-4 md:px-8 flex items-center justify-between gap-3">
@@ -60,27 +60,25 @@ const Navbar = () => {
 
                 <NavSearchbar />
 
-                <div className="h-full flex items-center gap-2">
-                    {!!user ? (
-                        <UserAccountNav
-                            user={user}
-                        />
-                    ) : (
-                        <>
-                            <Link href='/log-in' className={cn(buttonVariants({
-                                variant: 'outline',
-                                className: 'whitespace-nowrap'
-                            }))}>
-                                Log in
-                            </Link>
-                            <Link href='/sign-up' className={buttonVariants({
-                                className: 'whitespace-nowrap'
-                            })}>
-                                Sign up
-                            </Link>
-                        </>
-                    )}
-                </div>
+                {!!user ? (
+                    <UserAccountNav
+                        user={user}
+                    />
+                ) : (
+                    <div className="flex items-center gap-2">
+                        <Link href='/log-in' className={cn(buttonVariants({
+                            variant: 'outline',
+                            className: 'whitespace-nowrap'
+                        }))}>
+                            Log in
+                        </Link>
+                        <Link href='/sign-up' className={buttonVariants({
+                            className: 'whitespace-nowrap'
+                        })}>
+                            Sign up
+                        </Link>
+                    </div>
+                )}
             </div>
         </nav>
     )
