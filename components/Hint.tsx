@@ -35,9 +35,7 @@ const Hint = ({
                     alignOffset={alignOffset}
                     className={width ? `max-w-[${width}px]` : ""}
                 >
-                    <p>
-                        {label}
-                    </p>
+                    <p>{label}</p>
                 </TooltipContent>
             </Tooltip>
         </TooltipProvider>

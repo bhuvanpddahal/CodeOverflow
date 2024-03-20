@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { MdMenu } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
@@ -22,6 +22,10 @@ const Navbar = () => {
     const toggleSidebar = () => {
         setShowSidebar((prev) => !prev);
     };
+
+    useEffect(() => {
+        setShowSidebar(false);
+    }, [pathname]);
 
     return (
         <nav className="bg-white h-[57px] sticky top-0 border-b border-zinc-300 z-10">

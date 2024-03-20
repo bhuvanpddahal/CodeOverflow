@@ -6,13 +6,14 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
 import Loader from "../Loader";
+import RightPanel from "../RightPanel";
 import Answers from "../answer/Answers";
 import AuthModal from "../auth/AuthModal";
 import YourAnswer from "../answer/YourAnswer";
 import DetailedQuestion from "./DetailedQuestion";
 import { buttonVariants } from "../ui/Button";
-import { getQuestion } from "@/actions/question/getQuestion";
 import { ExtendedQuestion } from "@/types/question";
+import { getQuestion } from "@/actions/question/getQuestion";
 
 interface QuestionDetailsProps {
     id: string;
@@ -92,9 +93,7 @@ const QuestionDetails = ({ id }: QuestionDetailsProps) => {
                     />
                 </section>
 
-                <section className="w-full lg:w-[300px] border border-zinc-300 rounded-sm text-sm">
-                    Hello world
-                </section>
+                <RightPanel />
             </div>
         </div>
     )

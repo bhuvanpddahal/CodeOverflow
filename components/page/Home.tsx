@@ -6,6 +6,7 @@ import { notFound, useSearchParams } from "next/navigation";
 
 import Loader from "../Loader";
 import TabsBox from "../TabsBox";
+import RightPanel from "../RightPanel";
 import Questions from "../question/Questions";
 import { buttonVariants } from "../ui/Button";
 import { QuestionData } from "@/types/question";
@@ -83,9 +84,7 @@ const Home = () => {
                 )}
             </section>
 
-            <section className="w-full lg:w-[300px] ml-4 lg:ml-0 border border-zinc-300 rounded-sm">
-                Hello world
-            </section>
+            <RightPanel />
         </div>
     )
 };
