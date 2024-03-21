@@ -17,7 +17,11 @@ const Navbar = () => {
     const user = useCurrentUser();
     const pathname = usePathname();
     const [showSidebar, setShowSidebar] = useState(false);
-    const showMenu = pathname === "/log-in" || pathname === "/sign-up" || pathname === "/questions/ask" || pathname === "/questions/:id/edit";
+    const showMenu = pathname === "/log-in" ||
+                    pathname === "/sign-up" ||
+                    pathname === "/questions/ask" ||
+                    pathname === "/questions/:id/edit" ||
+                    (!user?.id && (pathname === "/" || pathname === "/home"));
 
     const toggleSidebar = () => {
         setShowSidebar((prev) => !prev);

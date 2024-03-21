@@ -24,15 +24,17 @@ const Landing = () => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
-        setInterval(() => {
-            const newActiveIndex = (activeIndex + 1) % professions.length;
-            setActiveIndex(newActiveIndex);
+        const intervalId = setInterval(() => {
+            setActiveIndex((prevIndex) => (prevIndex + 1) % professions.length);
         }, 2000);
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
     return (
         <div className="container px-4 sm:px-8 py-8 min-h-screen bg-zinc-100">
-            <div className="bg-zinc-900 p-5 sm:p-8 rounded-2xl mb-10">
+            <div className="bg-zinc-900 p-5 sm:p-8 md:p-10 rounded-2xl mb-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="p-8 bg-orange-100 flex flex-col gap-4 items-center rounded-t-xl rounded-bl-xl">
                         <FcSearch className="h-12 w-12" />
@@ -57,11 +59,9 @@ const Landing = () => {
                 </div>
                 <p className={cn(
                     recursive.className,
-                    "font-semibold text-4xl sm:text-5xl md:text-6xl text-white text-center mt-12 leading-normal"
+                    "font-semibold text-4xl sm:text-5xl md:text-6xl text-white text-center mt-12"
                 )}>
-                    Every <span className="text-orange-600">{professions[activeIndex]}</span> has a
-                    <br />
-                    tab open to Code Overflow
+                    Every <span className="text-orange-600">{professions[activeIndex]}</span> has a tab open to Code Overflow
                 </p>
             </div>
 
@@ -74,7 +74,7 @@ const Landing = () => {
                 <h5 className="text-muted-foreground text-center">Thousands of people around the globe use Code Overflow for technical problems</h5>
                 <ul className="flex justify-center gap-6 flex-wrap mt-6 sm:px-12">
                     <li className="bg-white max-w-sm rounded-md p-5 shadow cursor-pointer hover:shadow-md">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 mb-1">
                             <img
                                 src="/images/logos/favicon.png"
                                 alt="code-overflow-logo"
@@ -85,7 +85,7 @@ const Landing = () => {
                         <p className="text-zinc-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, corrupti.</p>
                     </li>
                     <li className="bg-white max-w-sm rounded-md p-5 shadow cursor-pointer hover:shadow-md">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 mb-1">
                             <img
                                 src="/images/logos/favicon.png"
                                 alt="code-overflow-logo"
@@ -96,7 +96,7 @@ const Landing = () => {
                         <p className="text-zinc-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, corrupti.</p>
                     </li>
                     <li className="bg-white max-w-sm rounded-md p-5 shadow cursor-pointer hover:shadow-md">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 mb-1">
                             <img
                                 src="/images/logos/favicon.png"
                                 alt="code-overflow-logo"
