@@ -6,12 +6,10 @@ const Layout = ({
     children: React.ReactNode
 }) => {
     return (
-        <>
-            <div className="container px-0 sm:px-2 md:px-8 flex">
-                <Sidebar />
-                {children}
-            </div>
-        </>
+        <div className="container px-0 sm:px-2 md:px-8 flex">
+            <Sidebar />
+            {children}
+        </div>
     )
 };
 

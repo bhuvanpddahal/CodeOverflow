@@ -8,14 +8,14 @@ const RightPanel = () => {
                     <h4 className="text-[13px] font-semibold px-3 py-2 border-b border-amber-500">CONTRIBUTE</h4>
                     <ul className="text-sm px-3 py-2 space-y-1">
                         <li>
-                            Want to contribute to this project? Go to our
+                            • Want to contribute to this project? Go to our
                             <Link
                                 href="https://github.com/BhuvanPdDahal/CodeOverflow"
                                 className='text-blue-700 ml-1 hover:text-blue-800'
                             >github repo</Link>.
                         </li>
                         <li>
-                            Have an issue with the project? Create an issue
+                            • Have an issue with the project? Create an issue
                             <Link
                                 href="https://github.com/BhuvanPdDahal/CodeOverflow"
                                 className='text-blue-700 ml-1 hover:text-blue-800'

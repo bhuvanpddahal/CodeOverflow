@@ -28,7 +28,7 @@ const Footer = () => {
                                 <Link href="/">Facebook</Link>
                                 <Link href="/">LinkedIn</Link>
                             </div>
-                            <div className="text-[13px]">Copyright codeoverflow.com 2024. All rights reserved.</div>
+                            <div className="text-[13px]">Copyright © codeoverflow.com 2024. All rights reserved.</div>
                         </div>
                     </li>
                 </ul>
