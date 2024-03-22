@@ -68,8 +68,6 @@ const NavSearchbar = () => {
         setInput('');
     }, [pathname]);
 
-    console.log(queryResult);
-
     return (
         <Command ref={commandRef} className="relative rounded-lg border max-w-lg z-50 overflow-visible">
             <CommandInput

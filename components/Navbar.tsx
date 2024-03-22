@@ -20,12 +20,9 @@ const Navbar = () => {
     const showMenu = pathname === "/log-in" ||
                     pathname === "/sign-up" ||
                     pathname === "/questions/ask" ||
-                    pathname === "/questions/:id/edit" ||
+                    (pathname.startsWith("/questions/") && pathname.endsWith("/edit")) || // /questions/:id/edit
+                    (pathname.startsWith("/") && pathname.endsWith("/verify")) || // /:tokenId/verify
                     (!user?.id && (pathname === "/" || pathname === "/home"));
-
-    const toggleSidebar = () => {
-        setShowSidebar((prev) => !prev);
-    };
 
     useEffect(() => {
         setShowSidebar(false);
@@ -42,14 +39,19 @@ const Navbar = () => {
                                 showMenu={showMenu}
                             />
                         )}
-                        <div className="h-full px-3 flex items-center cursor-pointer hover:bg-zinc-200" onClick={toggleSidebar}>
-                            <MdMenu
-                                className={`h-6 w-6 shrink-0 text-slate-700 ${showSidebar ? 'hidden' : 'block'} ${showMenu ? "" : "sm:hidden"}`}
-                            />
-                            <IoMdClose
-                                className={`h-6 w-6 shrink-0 text-slate-700 ${showSidebar ? 'block' : 'hidden'} ${showMenu ? "" : "sm:hidden"}`}
-                            />
-                        </div>
+                        {showSidebar ? (
+                            <div className="h-full px-3 flex items-center cursor-pointer hover:bg-zinc-200">
+                                <IoMdClose
+                                    className="h-6 w-6 shrink-0 text-slate-700"
+                                />
+                            </div>
+                        ) : (
+                            <div className="h-full px-3 flex items-center cursor-pointer hover:bg-zinc-200" onClick={() => setShowSidebar(true)}>
+                                <MdMenu
+                                    className="h-6 w-6 shrink-0 text-slate-700"
+                                />
+                            </div>
+                        )}
                     </div>
 
                     <Link href='/' className="h-full px-2 flex items-center rounded-sm cursor-pointer hover:bg-zinc-200">

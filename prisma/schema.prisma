@@ -61,6 +61,13 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
+model VerificationToken {
+    id      String   @id @default(auto()) @map("_id") @db.ObjectId
+    email   String   @unique
+    token   String
+    expires DateTime
+}
+
 enum VoteType {
     UP
     DOWN

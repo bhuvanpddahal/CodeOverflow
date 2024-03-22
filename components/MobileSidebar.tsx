@@ -3,7 +3,6 @@
 import {
     Dispatch,
     SetStateAction,
-    useEffect,
     useRef
 } from "react";
 import Link from "next/link";
@@ -33,7 +32,7 @@ const MobileSidebar = ({ setShowSidebar, showMenu }: MobileSidebarProps) => {
     });
     
     return (
-        <div className={`bg-white absolute left-0 top-[57px] h-rem max-w-[210px] w-screen py-3 border-r border-zinc-100 overflow-y-auto shadow-lg ${showMenu ? "" : "sm:hidden"} z-30`}>
+        <div ref={sidebarRef} className={`bg-white absolute left-0 top-[57px] h-rem max-w-[210px] w-screen py-3 overflow-y-auto shadow-lg ${showMenu ? "" : "sm:hidden"} z-30`}>
             <ul className="text-[15px]">
                 <li>
                     <Link href="/home" className={`w-full flex items-center gap-2 px-3 py-1.5 ${(pathname === process.env.NEXT_PUBLIC_APP_URL || pathname.includes("/home")) ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
