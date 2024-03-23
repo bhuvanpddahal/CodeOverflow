@@ -35,8 +35,9 @@ const Landing = () => {
     return (
         <div className="container px-4 sm:px-8 py-8 min-h-screen bg-zinc-100">
             <div className="bg-zinc-900 p-5 sm:p-8 md:p-10 rounded-2xl mb-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="p-8 bg-orange-100 flex flex-col gap-4 items-center rounded-t-xl rounded-bl-xl">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-6">
+                    <div className="relative p-8 bg-orange-100 flex flex-col gap-4 items-center rounded-t-xl rounded-bl-xl">
+                        <div className="absolute top-full right-0 border-[25px] border-transparent border-b-0 border-r-0 border-t-orange-100" />
                         <FcSearch className="h-12 w-12" />
                         <p className="text-center text-lg max-w-[320px]">Find the best answer to your technical question, help others answer theirs</p>
                         <Link href="/questions" className={cn(buttonVariants({
@@ -46,7 +47,8 @@ const Landing = () => {
                             Go to Questions
                         </Link>
                     </div>
-                    <div className="p-8 bg-blue-100 flex flex-col gap-4 items-center rounded-t-xl rounded-br-xl">
+                    <div className="relative p-8 bg-blue-100 flex flex-col gap-4 items-center rounded-t-xl rounded-br-xl">
+                        <div className="absolute top-full left-0 border-[25px] border-transparent border-b-0 border-l-0 border-t-blue-100" />
                         <FcLock className="h-12 w-12" />
                         <p className="text-center text-lg max-w-[320px]">Want to ask a technical question, that you are not finding answer for?</p>
                         <Link href="/sign-up" className={cn(buttonVariants({
