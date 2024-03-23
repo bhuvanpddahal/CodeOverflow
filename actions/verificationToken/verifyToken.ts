@@ -6,6 +6,7 @@ import {
     VerifyTokenPayload,
     VerifyTokenValidator
 } from "@/lib/validators/verification-token";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { getVerificationTokenByEmail } from "@/lib/queries/verification-token";
 
 export const verifyToken = async (payload: VerifyTokenPayload) => {

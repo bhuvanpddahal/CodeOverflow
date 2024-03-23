@@ -7,10 +7,10 @@ import {
     LoginPayload,
     LoginValidator,
 } from "@/lib/validators/auth";
-import { getUserByEmail } from "@/lib/queries/user";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { generateVerificationToken } from "@/lib/token";
 import { sendVerificationEmail } from "@/lib/mail";
+import { getUserByEmail } from "@/lib/queries/user";
+import { generateVerificationToken } from "@/lib/token";
 
 export const logIn = async (payload: LoginPayload) => {
     const validatedFields = LoginValidator.safeParse(payload);
