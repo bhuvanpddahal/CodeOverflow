@@ -112,7 +112,7 @@ const LogInForm = () => {
                         disabled={isLoading}
                         isLoading={isLoading}
                     >
-                        {isLoading ? "Logging in" : "Log in"}
+                        {isLoading ? "Logging in..." : "Log in"}
                     </Button>
                 </form>
             </Form>

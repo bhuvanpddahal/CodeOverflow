@@ -40,13 +40,13 @@ const Navbar = () => {
                             />
                         )}
                         {showSidebar ? (
-                            <div className="h-full px-3 flex items-center cursor-pointer hover:bg-zinc-200">
+                            <div key="close-btn" className="h-full px-3 flex items-center cursor-pointer hover:bg-zinc-200">
                                 <IoMdClose
                                     className="h-6 w-6 shrink-0 text-slate-700"
                                 />
                             </div>
                         ) : (
-                            <div className="h-full px-3 flex items-center cursor-pointer hover:bg-zinc-200" onClick={() => setShowSidebar(true)}>
+                            <div key="menu-btn" className="h-full px-3 flex items-center cursor-pointer hover:bg-zinc-200" onClick={() => setShowSidebar(true)}>
                                 <MdMenu
                                     className="h-6 w-6 shrink-0 text-slate-700"
                                 />
