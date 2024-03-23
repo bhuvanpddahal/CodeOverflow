@@ -34,11 +34,7 @@ const OTPInputForm = ({ email }: OTPInputFormProps) => {
 
         startConfirmTransition(() => {
             verifyToken(payload).then((data) => {
-                if (data.success) {
-                    setSuccess(data.success);
-                    router.push("/home");
-                }
-                if (data.error) {
+                if (data?.error) {
                     setError(data.error);
                 }
             }).catch(() => {
