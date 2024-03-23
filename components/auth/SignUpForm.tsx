@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import FormError from "../FormError";
@@ -23,6 +24,7 @@ import { Input } from "../ui/Input";
 import { signUp } from "@/actions/auth/signUp";
 
 const SignUpForm = () => {
+    const router = useRouter();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [isLoading, startTransition] = useTransition();
@@ -48,6 +50,7 @@ const SignUpForm = () => {
                 if (data?.success) {
                     form.reset();
                     setSuccess(data.success);
+                    router.push(`/${data.tokenId}/verify`);
                 }
             }).catch(() => {
                 setError("Something went wrong");
@@ -129,7 +132,7 @@ const SignUpForm = () => {
                         disabled={isLoading}
                         isLoading={isLoading}
                     >
-                        {isLoading ? "Signing up" : "Sign up"}
+                        {isLoading ? "Signing up..." : "Sign up"}
                     </Button>
                 </form>
             </Form>

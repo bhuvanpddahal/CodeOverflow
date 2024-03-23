@@ -9,6 +9,8 @@ import {
 } from "@/lib/validators/auth";
 import { getUserByEmail } from "@/lib/queries/user";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { generateVerificationToken } from "@/lib/token";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const logIn = async (payload: LoginPayload) => {
     const validatedFields = LoginValidator.safeParse(payload);
@@ -19,8 +21,15 @@ export const logIn = async (payload: LoginPayload) => {
     if(!existingUser || !existingUser.email || !existingUser.password) {
         return { error: "Invalid credentals" };
     }
-
-    // TODO -Send verification email if the account is not verified
+    
+    if(!existingUser.emailVerified) {
+        const verificationToken = await generateVerificationToken(email);
+        await sendVerificationEmail(
+            verificationToken.email,
+            verificationToken.token
+        );
+        return { success: "Verification email sent", tokenId: verificationToken.id };
+    }
 
     try {
         await signIn("credentials", {

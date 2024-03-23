@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import FormError from "../FormError";
@@ -23,6 +24,7 @@ import { Input } from "../ui/Input";
 import { logIn } from "@/actions/auth/logIn";
 
 const LogInForm = () => {
+    const router = useRouter();
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [isLoading, startTransition] = useTransition();
@@ -44,10 +46,11 @@ const LogInForm = () => {
                 if (data?.error) {
                     setError(data.error);
                 }
-                // if (data?.success) {
-                //     form.reset();
-                //     setSuccess(data.success);
-                // }
+                if (data?.success) {
+                    form.reset();
+                    setSuccess(data.success);
+                    router.push(`/${data.tokenId}/verify`);
+                }
             }).catch(() => {
                 setError("Something went wrong");
             });

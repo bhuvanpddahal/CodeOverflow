@@ -6,7 +6,7 @@ interface LoaderProps {
 
 const Loader = ({ type = "mini" }: LoaderProps) => {
     return (
-        <div className={`flex-1 ${type === "full" ? "h-rem" : type === "half" ? "h-half" : ""} py-10 text-zinc-400 text-[15px]`}>
+        <div className={`flex-1 ${type === "full" ? "h-rem" : type === "half" ? "h-half" : ""} py-10 text-[15px]`}>
             <Loader2 className="mx-auto h-6 w-6 animate-spin text-slate-700" />
         </div>
     )

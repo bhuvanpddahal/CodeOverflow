@@ -35,8 +35,8 @@ export const signUp = async (payload: SignupPayload) => {
         const verificationToken = await generateVerificationToken(email);
         await sendVerificationEmail(email, verificationToken.token);
 
-        return { success: "Verfication email sent" };
+        return { success: "Verfication email sent", tokenId: verificationToken.id };
     } catch (error) {
-        return { error: "Could not send verification email" };
+        return { error: "Something went wrong" };
     }
 };
