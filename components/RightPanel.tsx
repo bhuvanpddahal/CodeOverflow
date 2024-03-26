@@ -17,7 +17,7 @@ const RightPanel = () => {
                         <li>
                             • Have an issue with the project? Create an issue
                             <Link
-                                href="https://github.com/BhuvanPdDahal/CodeOverflow"
+                                href="https://github.com/BhuvanPdDahal/CodeOverflow/issues/new"
                                 className='text-blue-700 ml-1 hover:text-blue-800'
                             >here</Link>.
                         </li>

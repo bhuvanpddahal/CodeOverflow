@@ -12,8 +12,8 @@ import {
     InputOTPSlot
 } from "@/components/ui/InputOTP";
 import { Button } from "../ui/Button";
-import { verifyToken } from "@/actions/verificationToken/verifyToken";
-import { sendVerificationEmail } from "@/actions/verificationToken/sendVerificationEmail";
+import { verifyToken } from "@/actions/emailVerification/verifyToken";
+import { sendVerificationEmail } from "@/actions/emailVerification/sendVerificationEmail";
 
 interface OTPInputFormProps {
     email: string;
@@ -31,6 +31,7 @@ const OTPInputForm = ({ email }: OTPInputFormProps) => {
         setError("");
         setSuccess("");
         const payload = { email, token: value };
+        console.log(payload);
 
         startConfirmTransition(() => {
             verifyToken(payload).then((data) => {
@@ -41,7 +42,7 @@ const OTPInputForm = ({ email }: OTPInputFormProps) => {
                 setError("Something went wrong");
             });
         });
-    }, []);
+    }, [email, value]);
 
     const handleResendEmail = useCallback(() => {
         setError("");
@@ -58,7 +59,7 @@ const OTPInputForm = ({ email }: OTPInputFormProps) => {
                 setError("Something went wrong");
             });
         });
-    }, []);
+    }, [email]);
 
     return (
         <>
@@ -66,6 +67,7 @@ const OTPInputForm = ({ email }: OTPInputFormProps) => {
                 maxLength={6}
                 value={value}
                 onChange={(value) => setValue(value)}
+                disabled={isConfirmLoading || isResendLoading}
             >
                 <InputOTPGroup>
                     <InputOTPSlot index={0} />

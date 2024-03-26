@@ -161,6 +161,7 @@ const QuestionForm = ({
                             {isLoading ? loadingBtnText : btnText}
                         </Button>
                         <Button
+                            type='button'
                             variant="destructive"
                             disabled={isLoading}
                             onClick={handleDiscard}

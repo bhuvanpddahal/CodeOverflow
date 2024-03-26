@@ -8,6 +8,7 @@ import {
 } from "@/lib/validators/verification-token";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { getVerificationTokenByEmail } from "@/lib/queries/verification-token";
+import { useSession } from "next-auth/react";
 
 export const verifyToken = async (payload: VerifyTokenPayload) => {
     try {
@@ -15,7 +16,9 @@ export const verifyToken = async (payload: VerifyTokenPayload) => {
         if (!validatedFields.success) throw new Error("Invalid fields");
 
         const { email, token } = validatedFields.data;
+        console.log("Email: ", email, "Token: ", token);
         const verificationToken = await getVerificationTokenByEmail(email);
+        console.log("VerificationToken: ", verificationToken)
 
         if (!verificationToken) {
             return { error: "Token not found" };
@@ -26,6 +29,8 @@ export const verifyToken = async (payload: VerifyTokenPayload) => {
             return { error: "Token has expired" };
         }
 
+        console.log("actual token: ", verificationToken.token, "passed token: ", token);
+
         if (verificationToken.token !== token) {
             return { error: "Token is not matching" };
         }
@@ -34,7 +39,7 @@ export const verifyToken = async (payload: VerifyTokenPayload) => {
             where: { email }
         });
         if (!user) return { error: "User not found" };
-
+        
         await db.user.update({
             where: { email },
             data: {
@@ -52,6 +57,7 @@ export const verifyToken = async (payload: VerifyTokenPayload) => {
             redirectTo: DEFAULT_LOGIN_REDIRECT
         });
     } catch (error) {
+        console.log("This is the error: ", error)
         throw new Error("Something went wrong");
     }
 };

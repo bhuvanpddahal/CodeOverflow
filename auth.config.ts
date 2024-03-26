@@ -19,6 +19,7 @@ export default {
         }),
         Credentials({
             async authorize(credentials) {
+                console.log("Inside credentials signin: ", credentials);
                 const validatedFields = LoginValidator.safeParse(credentials);
                 if(!validatedFields.success) return null;
                 const { email, password } = validatedFields.data;
@@ -26,6 +27,7 @@ export default {
                 if(!user || !user.password) return null;
                 const passwordsMatch = await bcrypt.compare(password, user.password);
                 if(!passwordsMatch) return null;
+                console.log("user is this: ", user);
                 return user;
             }
         })

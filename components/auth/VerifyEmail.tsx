@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../Loader";
 import OTPInputForm from "./OTPInputForm";
 import { VerifyEmailData } from "@/types/verification-token";
-import { getVerificationToken } from "@/actions/verificationToken/getVerificationToken";
+import { getVerificationToken } from "@/actions/emailVerification/getVerificationToken";
 
 interface VerifyEmailProps {
     tokenId: string;

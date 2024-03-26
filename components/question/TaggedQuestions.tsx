@@ -10,6 +10,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Loader from "../Loader";
 import TabsBox from "../TabsBox";
+import Question from "./Question";
+import RightPanel from "../RightPanel";
 import AuthModal from "../auth/AuthModal";
 import PaginationBox from "../PaginationBox";
 import { getTag } from "@/actions/tag/getTag";
@@ -21,7 +23,6 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { QUESTIONS_PER_PAGE, taggedQuestionsTabs } from "@/constants";
 import { getTaggedQuestions } from "@/actions/question/getTaggedQuestions";
 import { IgnoreType, IgnoreValues, WatchType, WatchValues } from "@/types/tag";
-import Question from "./Question";
 
 type Tab = "newest" | "unanswered" | "score";
 
@@ -275,9 +276,7 @@ const TaggedQuestions = ({ name }: TaggedQuestionsProps) => {
                     )}
                 </section>
 
-                <section className="w-full lg:w-[300px] ml-4 lg:ml-0 border border-zinc-300 rounded-sm">
-                    Hello world
-                </section>
+                <RightPanel />
             </div>
         </>
     )
