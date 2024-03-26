@@ -76,7 +76,7 @@ const Users = () => {
                         {data.users.map((user) => {
                             if(user.name.includes(input)) {
                                 return (
-                                    <li className="flex gap-2">
+                                    <li key={user.id} className="flex gap-2">
                                         <Link href={`/users/${user.username}`}>
                                             <UserAvatar user={{
                                                 name: user.name,
@@ -90,12 +90,12 @@ const Users = () => {
                                             >
                                                 {user.name}
                                             </Link>
+                                            <div className="text-[13px] text-zinc-600">
+                                                {user.email}
+                                            </div>
                                             {user.location && (
                                                 <p className="text-[13px] text-zinc-600">{user.location}</p>
                                             )}
-                                            <div className="text-[13px] text-blue-700 hover:text-blue-800">
-                                                git, github, docker
-                                            </div>
                                         </div>
                                     </li>
                                 )

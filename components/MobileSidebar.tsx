@@ -35,7 +35,7 @@ const MobileSidebar = ({ setShowSidebar, showMenu }: MobileSidebarProps) => {
         <div ref={sidebarRef} className={`bg-white absolute left-0 top-[57px] h-rem max-w-[210px] w-screen py-3 overflow-y-auto shadow-lg ${showMenu ? "" : "sm:hidden"} z-30`}>
             <ul className="text-[15px]">
                 <li>
-                    <Link href="/home" className={`w-full flex items-center gap-2 px-3 py-1.5 ${(pathname === process.env.NEXT_PUBLIC_APP_URL || pathname.includes("/home")) ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
+                    <Link href="/home" className={`w-full flex items-center gap-2 px-3 py-1.5 ${(pathname === "/" || pathname.includes("/home")) ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
                         <BiSolidHome className={`h-5 w-5 ${pathname.includes("/home") ? "text-zinc-800" : "text-zinc-700"}`} />
                         Home
                     </Link>

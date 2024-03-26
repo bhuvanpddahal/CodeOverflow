@@ -41,6 +41,14 @@ export const getUsers = async (payload: GetUsersPayload) => {
             orderBy: orderByClause,
             take: limit,
             skip: (page - 1) * limit,
+            select: {
+                id: true,
+                name: true,
+                username: true,
+                email: true,
+                location: true,
+                image: true
+            }
         });
 
         const totalUsers = await db.tag.count({

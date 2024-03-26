@@ -4,7 +4,14 @@ export type VoteType = "UP" | "DOWN";
 export type ItemType = "QUESTION" | "ANSWER";
 
 export type UserData = {
-    users: User[],
+    users: {
+        id: string,
+        name: string,
+        username: string,
+        email: string;
+        location: string | null,
+        image: string | null
+    }[],
     lastPage: number
 };
 
