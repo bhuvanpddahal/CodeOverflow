@@ -57,7 +57,6 @@ const AllSaves = ({
     if (!isValidTab(sort)) return notFound();
     if (isFetching) return <Loader type="half" />
     if (!data) return <div>Something went wrong</div>
-    console.log("Data: ", data);
 
     return (
         <div className="flex-1">
@@ -78,7 +77,7 @@ const AllSaves = ({
                 </div>
             </div>
 
-            {data.items.length ? (
+            {user?.savedItemIds.length ? (
                 <ul className="border border-zinc-300 rounded-md mb-4">
                     {data.items.map((item, index) => (
                         <SavedItem
@@ -93,7 +92,7 @@ const AllSaves = ({
                 <p className="text-center text-zinc-400 text-[15px] py-10">Add items to display</p>
             )}
 
-            {(data.items.length > 0) && (
+            {(user?.savedItemIds && user.savedItemIds.length > 0) && (
                 <PaginationBox
                     location={`/users/${user?.username}/saves?sort=${sort}&`}
                     currentPage={Number(page)}

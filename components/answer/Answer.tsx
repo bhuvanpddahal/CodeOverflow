@@ -144,7 +144,7 @@ const Answer = ({
                             label={isAnswerSaved ? "Unsave this answer" : "Save this answer"}
                             side="right"
                             align="center"
-                            sideOffset={18}
+                            sideOffset={8}
                         >
                             {isAnswerSaved ? (
                                 <IoBookmark
@@ -156,8 +156,7 @@ const Answer = ({
                                     className="h-5 w-5 text-zinc-400 hover:text-blue-600 cursor-pointer"
                                     onClick={() => save("save")}
                                 />
-                            )
-                            }
+                            )}
                         </Hint>
                     )
                 )}

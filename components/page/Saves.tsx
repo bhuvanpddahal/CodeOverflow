@@ -1,6 +1,15 @@
-const Saves = () => {
+import UserProfile from "../user/UserProfile";
+
+interface SavesProps {
+    username: string;
+}
+
+const Saves = ({ username }: SavesProps) => {
     return (
-        <div>Saves</div>
+        <UserProfile
+            activeTab="saves"
+            username={decodeURIComponent(username)}
+        />
     )
 }
 

@@ -1,4 +1,4 @@
-import UserProfile from "@/components/user/UserProfile";
+import Saves from "@/components/page/Saves";
 
 interface PageProps {
     params: {
@@ -8,10 +8,7 @@ interface PageProps {
 
 const Page = ({ params: { username } }: PageProps) => {
     return (
-        <UserProfile
-            activeTab="saves"
-            username={decodeURIComponent(username)}
-        />
+        <Saves username={username} />
     )
 };
 

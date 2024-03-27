@@ -162,7 +162,7 @@ const DetailedQuestion = ({
                         label="Edit this question"
                         side="right"
                         align="center"
-                        sideOffset={18}
+                        sideOffset={8}
                     >
                         <Link href={`${questionId}/edit`}>
                             <LiaEdit
@@ -179,7 +179,7 @@ const DetailedQuestion = ({
                             label={isQuestionSaved ? "Unsave this question" : "Save this question"}
                             side="right"
                             align="center"
-                            sideOffset={18}
+                            sideOffset={8}
                         >
                             {isQuestionSaved ? (
                                 <IoBookmark

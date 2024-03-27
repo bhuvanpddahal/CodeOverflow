@@ -32,7 +32,6 @@ const SavedItem = ({
     isLast
 }: SavedItemProps) => {
     const isSaved = user?.savedItemIds.find((id) => id === item.itemId);
-    console.log("user saved item ids: ", user?.savedItemIds, "isSaved: ", isSaved);
 
     const {
         mutate: save,
@@ -63,7 +62,9 @@ const SavedItem = ({
                     </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='bg-white' align='end'>
-                    <DropdownMenuItem className="cursor-pointer" onClick={() => save()}>Unsave</DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer" onClick={() => save()}>
+                        {isSaveLoading ? "Unsaving..." : "Unsave"}
+                    </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer">Move to...</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
