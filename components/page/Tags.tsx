@@ -130,7 +130,9 @@ const Tags = () => {
             <section className="flex-1 p-4">
                 <header>
                     <h1 className="text-2xl font-medium text-zinc-800">Tags</h1>
-                    <p className="text-[15px] text-zinc-800 my-3 max-w-2xl">A tag is a keyword or label that categorizes your question with other, similar questions. Using the right tags makes it easier for others to find and answer your question.</p>
+                    <p className="text-[15px] text-zinc-800 my-3 max-w-2xl">
+                        A tag is a keyword or label that categorizes your question with other, similar questions. Using the right tags makes it easier for others to find and answer your question.
+                    </p>
                 </header>
 
                 <div className="flex items-center justify-between mb-3">
@@ -200,8 +202,8 @@ const Tags = () => {
                                             </HoverCard>
                                             <p className="text-sm text-zinc-700 my-3 line-clamp-4">{tag.description ? tag.description : ""}</p>
                                             <div className="flex justify-between gap-3 text-[13px] text-zinc-500">
-                                                <span>{tag.questionIds.length} {tag.questionIds.length === 1 ? "question" : "questions"}</span>
-                                                <span>1 asked today, 2 this week</span>
+                                                <span>{tag.questionIds.length === 1 ? "1 question" : `${tag.questionIds.length} questions`}</span>
+                                                <span>{tag.watcherIds.length === 1 ? "1 watcher" : `${tag.watcherIds.length} watchers`}</span>
                                             </div>
                                         </li>
                                     )
