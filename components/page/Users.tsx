@@ -75,6 +75,8 @@ const Users = () => {
                     <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-px mb-3">
                         {data.users.map((user) => {
                             if(user.name.includes(input)) {
+                                const usedTags = user.questions.flatMap((question) => question.tags);
+                                const tags = [...usedTags, ...user.watchedTags, ...user.createdTags].slice(0, 3);
                                 return (
                                     <li key={user.id} className="flex gap-2">
                                         <Link href={`/users/${user.username}`}>
@@ -90,12 +92,19 @@ const Users = () => {
                                             >
                                                 {user.name}
                                             </Link>
-                                            <div className="text-[13px] text-zinc-600">
-                                                {user.email}
-                                            </div>
                                             {user.location && (
                                                 <p className="text-[13px] text-zinc-600">{user.location}</p>
                                             )}
+                                            <ul className="flex gap-1">
+                                                {tags.map((tag, index) => (
+                                                    <li className="text-[13px]">
+                                                        <Link href={`/questions/tagged/${tag.name}`} className="text-blue-700 hover:text-blue-800">
+                                                            {tag.name}
+                                                        </Link>
+                                                        {index === tags.length - 1 ? "" : ","}
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </div>
                                     </li>
                                 )

@@ -45,14 +45,32 @@ export const getUsers = async (payload: GetUsersPayload) => {
                 id: true,
                 name: true,
                 username: true,
-                email: true,
                 location: true,
-                image: true
+                image: true,
+                questions: {
+                    select: {
+                        tags: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                },
+                watchedTags: {
+                    select: {
+                        name: true
+                    }
+                },
+                createdTags: {
+                    select: {
+                        name: true
+                    }
+                }
             }
         });
 
         const totalUsers = await db.tag.count({
-            where: {}
+            where: whereClause
         });
         const lastPage = Math.ceil(totalUsers / limit);
 

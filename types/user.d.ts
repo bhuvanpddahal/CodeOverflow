@@ -8,9 +8,19 @@ export type UserData = {
         id: string,
         name: string,
         username: string,
-        email: string;
         location: string | null,
-        image: string | null
+        image: string | null,
+        questions: {
+            tags: {
+                name: string
+            }[]
+        }[],
+        watchedTags: {
+            name: string
+        }[],
+        createdTags: {
+            name: string
+        }[]
     }[],
     lastPage: number
 };
