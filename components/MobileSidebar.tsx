@@ -64,7 +64,7 @@ const MobileSidebar = ({ setShowSidebar, showMenu }: MobileSidebarProps) => {
                     </li>
                 )}
                 <li>
-                    <Link href="/users" className={`w-full flex items-center gap-2 px-3 py-1.5 ${pathname.includes("/users") ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
+                    <Link href="/users" className={`w-full flex items-center gap-2 px-3 py-1.5 ${(pathname.includes("/users") && !pathname.includes("/saves")) ? "bg-zinc-200 font-semibold" : "hover:bg-zinc-100"}`}>
                         <ImUsers className={`h-5 w-5 ${pathname.includes("/users") ? "text-zinc-800" : "text-zinc-700"}`} />
                         Users
                     </Link>
