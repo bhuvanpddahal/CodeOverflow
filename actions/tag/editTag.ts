@@ -11,7 +11,6 @@ export const editTag = async (payload: EditTagPayload) => {
 
         const session = await auth();
         const { name, description } = validatedFields.data;
-        const trimmedDescription = description.trim();
 
         if (!session?.user || !session.user.id) throw new Error("Unauthorized");
 
@@ -26,7 +25,7 @@ export const editTag = async (payload: EditTagPayload) => {
             where: { name },
             data: {
                 name,
-                description: trimmedDescription ? trimmedDescription : undefined
+                description: description.trim()
             }
         });
 

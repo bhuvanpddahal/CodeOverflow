@@ -67,22 +67,24 @@ const EditTagDialog = ({
                         Make changes to your tag. Click save when you're done.
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={() => edit()} className="space-y-4">
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    edit();
+                }} className="space-y-4">
                     <Input
-                        disabled={isPending}
-                        required
-                        maxLength={16}
                         value={name}
+                        maxLength={16}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Tag name"
-                    />
-                    <Textarea
                         disabled={isPending}
                         required
-                        maxLength={200}
+                    />
+                    <Textarea
                         value={description}
+                        maxLength={200}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Tag description"
+                        disabled={isPending}
                     />
                     <DialogFooter>
                         <DialogClose asChild>
