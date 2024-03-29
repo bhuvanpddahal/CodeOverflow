@@ -52,7 +52,8 @@ export const getUserTags = async (payload: GetUserTagsPayload) => {
             select: {
                 name: true,
                 description: true,
-                questionIds: true
+                questionIds: true,
+                creatorId: true
             }
         });
 

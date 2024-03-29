@@ -74,13 +74,14 @@ const TagsContent = ({
                                 <Badge variant="secondary">{tag.name}</Badge>
                             </Link>
                             <div className="flex items-center gap-3">
-                                {isCurrentUser && (
+                                {(isCurrentUser && tag.creatorId === userId) && (
                                     <EditTagDialog
                                         initialName={tag.name}
                                         initialDescription={tag.description}
                                     >
                                         <MdOutlineEdit
-                                            className="opacity-0 h-12 w-12 p-1 bg-zinc-50 text-zinc-800 rounded-sm group-hover:opacity-100 hover:bg-zinc-100"
+                                            title="Edit this tag"
+                                            className="opacity-0 h-6 w-6 p-1 bg-zinc-50 text-zinc-800 rounded-sm group-hover:opacity-100 hover:bg-zinc-100"
                                         />
                                     </EditTagDialog>
                                 )}
