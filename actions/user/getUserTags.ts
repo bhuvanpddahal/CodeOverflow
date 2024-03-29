@@ -51,6 +51,7 @@ export const getUserTags = async (payload: GetUserTagsPayload) => {
             skip: (page - 1) * limit,
             select: {
                 name: true,
+                description: true,
                 questionIds: true
             }
         });

@@ -115,6 +115,7 @@ export type SummaryQuestionsData = {
 export type TagsData = {
     tags: {
         name: string,
+        description: string | null,
         questionIds: string[]
     }[],
     totalTags: number,

@@ -1,5 +1,6 @@
 "use server";
 
+import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
@@ -18,8 +19,16 @@ export const logIn = async (payload: LoginPayload) => {
     
     const { email, password } = validatedFields.data;
     const existingUser = await getUserByEmail(email);
-    if(!existingUser || !existingUser.email || !existingUser.password) {
-        return { error: "Invalid credentals" };
+    if(!existingUser) {
+        return { error: "Invalid email or password" };
+    }
+    if(!existingUser.password) {
+        return { error: "Try logging in with the same provider that you used during sign up" };
+    }
+    
+    const passwordsMatch = await bcrypt.compare(password, existingUser.password);
+    if(!passwordsMatch) {
+        return { error: "Invalid email or password" };
     }
     
     if(!existingUser.emailVerified) {

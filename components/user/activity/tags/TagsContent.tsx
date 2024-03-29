@@ -1,11 +1,13 @@
 "use client";
 
 import Link from 'next/link';
+import { MdOutlineEdit } from "react-icons/md";
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
 import Loader from '@/components/Loader';
 import PostTabsLink from '../PostTabsLink';
+import EditTagDialog from './EditTagDialog';
 import PaginationBox from '@/components/PaginationBox';
 import {
     USERS_TAGS_PER_PAGE,
@@ -33,7 +35,7 @@ const TagsContent = ({
     const searchParams = useSearchParams();
     const page = searchParams.get("page") || "1";
     const sort = searchParams.get("sort") || "used";
-
+    
     const fetchTags = async () => {
         const payload = { userId, sort: sort as Sort, page: Number(page), limit: USERS_TAGS_PER_PAGE };
         const data = await getUserTags(payload);
@@ -67,13 +69,25 @@ const TagsContent = ({
             <ul className="border border-zinc-300 rounded-md mb-4">
                 {data.tags.length ? (
                     data.tags.map((tag, index) => (
-                        <li key={index} className={`p-4 flex items-center justify-between ${index === data.tags.length - 1 ? "" : "border-b border-zinc-300"}`}>
+                        <li key={index} className={`group p-4 flex items-center justify-between ${index === data.tags.length - 1 ? "" : "border-b border-zinc-300"}`}>
                             <Link href={`/questions/tagged/${tag.name}`}>
                                 <Badge variant="secondary">{tag.name}</Badge>
                             </Link>
-                            <p title={`${tag.questionIds.length} ${tag.questionIds.length === 1 ? "question" : "questions"} tagged with this tag`} className="text-zinc-600 text-sm">
-                                {tag.questionIds.length} {tag.questionIds.length === 1 ? "post" : "posts"}
-                            </p>
+                            <div className="flex items-center gap-3">
+                                {isCurrentUser && (
+                                    <EditTagDialog
+                                        initialName={tag.name}
+                                        initialDescription={tag.description}
+                                    >
+                                        <MdOutlineEdit
+                                            className="opacity-0 h-12 w-12 p-1 bg-zinc-50 text-zinc-800 rounded-sm group-hover:opacity-100 hover:bg-zinc-100"
+                                        />
+                                    </EditTagDialog>
+                                )}
+                                <p title={`${tag.questionIds.length} ${tag.questionIds.length === 1 ? "question" : "questions"} tagged with this tag`} className="text-zinc-600 text-sm">
+                                    {tag.questionIds.length} {tag.questionIds.length === 1 ? "post" : "posts"}
+                                </p>
+                            </div>
                         </li>
                     ))
                 ) : (

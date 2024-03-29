@@ -17,6 +17,7 @@ export const {
     },
     events: {
         async linkAccount({ user }) {
+            console.log("Inside link account: ", user);
             await db.user.update({
                 where: { id: user.id },
                 data: { emailVerified: new Date() }
@@ -25,6 +26,7 @@ export const {
     },
     callbacks: {
         async signIn({ user, account }) {
+            console.log("Inside sign in, user: ", user, "account: ", account);
             // Allow OAuth login without email verification
             if(account?.provider !== "credentials") return true;
             const existingUser = await getUserById(user.id || '');

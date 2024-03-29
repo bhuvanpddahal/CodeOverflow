@@ -59,7 +59,7 @@ const UserAccountNav = ({ user }: UserAccountNavProps) => {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href={`/users/${user.username}/settings`} className='flex items-center gap-2'>
+                    <Link href={`/users/${user.username}/edit`} className='flex items-center gap-2'>
                         <RiSettings3Line className='h-4 w-4 text-zinc-600' />
                         Settings
                     </Link>
