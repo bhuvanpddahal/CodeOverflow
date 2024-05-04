@@ -19,7 +19,7 @@ export default {
         }),
         Credentials({
             async authorize(credentials) {
-                console.log("Inside credentials signin: ", credentials);
+                console.log("inside suthorize:", credentials);
                 const validatedFields = LoginValidator.safeParse(credentials);
                 if(!validatedFields.success) return null;
                 const { email, password } = validatedFields.data;

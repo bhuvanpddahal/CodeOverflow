@@ -8,6 +8,7 @@ import {
 } from "@/lib/validators/verification-token";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { getVerificationTokenByEmail } from "@/lib/queries/verification-token";
+import { AuthError } from "next-auth";
 
 export const verifyToken = async (payload: VerifyTokenPayload) => {
     try {
@@ -52,6 +53,13 @@ export const verifyToken = async (payload: VerifyTokenPayload) => {
             redirectTo: DEFAULT_LOGIN_REDIRECT
         });
     } catch (error) {
-        throw new Error("Something went wrong");
+        if(error instanceof AuthError) {
+            switch (error.type) {
+                case "CredentialsSignin":
+                    return { error: "Invalid credentials" };
+                default:
+                    return { error: "Something went wrong" };
+            }
+        }
     }
 };

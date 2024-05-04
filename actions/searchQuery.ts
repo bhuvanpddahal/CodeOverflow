@@ -11,9 +11,18 @@ export const searchQuery = async (payload: SearchQueryPayload) => {
         const { query } = validatedFields.data;
         if (!query) throw new Error("Invalid query");
 
+        // Escape special characters in the query string to avoid regex injection
+        const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        // Construct the regex pattern for case-insensitive search
+        const regexPattern = new RegExp(escapedQuery, 'i');
+
+        // Convert the regex pattern to a string
+        const regexQuery = regexPattern.source;
+
         const questions = await db.question.findMany({
             where: {
-                title: { contains: query }
+                title: { contains: regexQuery, mode: "insensitive" }
             },
             take: 5,
             select: {
@@ -29,7 +38,7 @@ export const searchQuery = async (payload: SearchQueryPayload) => {
         });
         const tags = await db.tag.findMany({
             where: {
-                name: { contains: query }
+                name: { contains: regexQuery, mode: "insensitive" }
             },
             take: 5,
             select: {
@@ -41,11 +50,11 @@ export const searchQuery = async (payload: SearchQueryPayload) => {
         const users = await db.user.findMany({
             where: {
                 OR: [{
-                    email: { contains: query}
+                    email: { contains: regexQuery, mode: "insensitive" }
                 }, {
-                    name: { contains: query }
+                    name: { contains: regexQuery, mode: "insensitive" }
                 }, {
-                    username: { contains: query }
+                    username: { contains: regexQuery, mode: "insensitive" }
                 }]
             },
             take: 5,

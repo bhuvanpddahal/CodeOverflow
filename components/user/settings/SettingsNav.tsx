@@ -16,11 +16,6 @@ const SettingsNav = ({ username, activeLocation }: SettingsNavProps) => {
                             Edit profile
                         </Link>
                     </li>
-                    <li>
-                        <Link href={`/users/${username}/delete`} className={`block px-4 py-1.5 rounded-3xl ${activeLocation === "activity"? "text-zinc-800 bg-blue-100 hover:bg-blue-50" : "hover:bg-zinc-200"}`}>
-                            Delete profile
-                        </Link>
-                    </li>
                 </ul>
             </li>
         </ul>
