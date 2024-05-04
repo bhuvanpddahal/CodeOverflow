@@ -14,7 +14,7 @@ const AskQuestion = () => {
 
             <QuestionForm
                 mutationFn={createQuestion}
-                redirectUrl="/home?tab=interesting"
+                redirectUrl="/questions?tab=newest"
                 btnText="Submit your question"
                 loadingBtnText="Submitting..."
             />
