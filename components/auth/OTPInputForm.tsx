@@ -31,7 +31,6 @@ const OTPInputForm = ({ email }: OTPInputFormProps) => {
         setError("");
         setSuccess("");
         const payload = { email, token: value };
-        console.log(payload);
 
         startConfirmTransition(() => {
             verifyToken(payload).then((data) => {
