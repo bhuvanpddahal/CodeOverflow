@@ -25,9 +25,18 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const session = await auth();
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
 
     return (
         <html lang="en">
+            <head>
+                <script
+                    defer
+                    data-website-id={process.env.METRIK_WEBSITE_ID}
+                    data-domain={new URL(appUrl).host}
+                    src="https://metrik-one.vercel.app/js/script.js"
+                ></script>
+            </head>
             <body className={figtree.className}>
                 <Providers session={session}>
                     <Navbar />
